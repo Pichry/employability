@@ -7,18 +7,47 @@ interface AdvisorQueueProps {
   onSelectStudent: (studentHash: string) => void
 }
 
+const MOCK_QUEUE: Queue = {
+  advisor_id: 'advisor_001',
+  date: new Date().toISOString().split('T')[0],
+  high_risk: 3,
+  medium_risk: 8,
+  low_risk: 42,
+  total: 53,
+  students: [
+    { student_hash: 'h1', name: 'Alex Chen', risk_segment: 'HIGH', probability: 0.78, due_at: '2026-09-12' },
+    { student_hash: 'h2', name: 'Jordan Smith', risk_segment: 'HIGH', probability: 0.72, due_at: '2026-09-11' },
+    { student_hash: 'h3', name: 'Taylor Morgan', risk_segment: 'HIGH', probability: 0.65, due_at: '2026-09-13' },
+    { student_hash: 'm1', name: 'Casey Rodriguez', risk_segment: 'MEDIUM', probability: 0.54, due_at: '2026-09-15' },
+    { student_hash: 'm2', name: 'Riley Johnson', risk_segment: 'MEDIUM', probability: 0.51, due_at: '2026-09-14' },
+    { student_hash: 'm3', name: 'Morgan Lee', risk_segment: 'MEDIUM', probability: 0.48, due_at: '2026-09-16' },
+    { student_hash: 'm4', name: 'Parker Williams', risk_segment: 'MEDIUM', probability: 0.46, due_at: '2026-09-17' },
+    { student_hash: 'm5', name: 'Quinn Davis', risk_segment: 'MEDIUM', probability: 0.45, due_at: '2026-09-18' },
+    { student_hash: 'm6', name: 'Skyler Brown', risk_segment: 'MEDIUM', probability: 0.42, due_at: '2026-09-19' },
+    { student_hash: 'm7', name: 'River Martinez', risk_segment: 'MEDIUM', probability: 0.40, due_at: '2026-09-20' },
+    { student_hash: 'm8', name: 'Avery Thompson', risk_segment: 'MEDIUM', probability: 0.38, due_at: '2026-09-21' },
+    { student_hash: 'l1', name: 'Blake Anderson', risk_segment: 'LOW', probability: 0.15, due_at: null },
+    { student_hash: 'l2', name: 'Drew Taylor', risk_segment: 'LOW', probability: 0.12, due_at: null },
+    { student_hash: 'l3', name: 'Sam Harris', risk_segment: 'LOW', probability: 0.10, due_at: null },
+  ]
+}
+
 export function AdvisorQueue({ onSelectStudent }: AdvisorQueueProps) {
   const [queue, setQueue] = useState<Queue | null>(null)
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<'all' | 'high' | 'medium' | 'low'>('all')
+  const [usingMockData, setUsingMockData] = useState(false)
 
   useEffect(() => {
     const loadQueue = async () => {
       try {
         const data = await apiClient.getMyQueue()
         setQueue(data)
+        setUsingMockData(false)
       } catch (error) {
-        console.error('Failed to load queue:', error)
+        console.warn('Backend unavailable, using mock data (Phase 0):', error)
+        setQueue(MOCK_QUEUE)
+        setUsingMockData(true)
       } finally {
         setLoading(false)
       }
@@ -75,7 +104,7 @@ export function AdvisorQueue({ onSelectStudent }: AdvisorQueueProps) {
         {filtered.map((student) => {
           const Icon = student.risk_segment === 'HIGH' ? AlertTriangle : student.risk_segment === 'MEDIUM' ? AlertCircle : CheckCircle
           const color = student.risk_segment === 'HIGH' ? 'border-red-300' : student.risk_segment === 'MEDIUM' ? 'border-amber-300' : 'border-green-300'
-          
+
           return (
             <div
               key={student.student_hash}
@@ -99,6 +128,12 @@ export function AdvisorQueue({ onSelectStudent }: AdvisorQueueProps) {
           )
         })}
       </div>
+
+      {usingMockData && (
+        <div className="mt-6 p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700">
+          📋 Using mock data (Phase 0) — Backend API not yet available (Phase 6)
+        </div>
+      )}
     </div>
   )
 }
