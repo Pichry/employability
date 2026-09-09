@@ -1495,7 +1495,13 @@ const interventionData = [
   { name: "Nov", completed: 52, active: 48 },
 ]
 
-function AdvisorDashboard({ onNav }: { onNav: (v: View) => void }) {
+function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: User | null }) {
+  const advisorName = user?.name || "Sarah"
+  const activeCases = CASES.filter(c => c.status === "In Progress").length
+  const newCases = CASES.filter(c => c.status === "New").length
+  const completedThisMonth = CASES.filter(c => c.status === "Resolved").length
+  const highPriorityCount = QUEUE_DATA.filter(s => s.priority === "HIGH").length
+
   return (
     <div className="flex-1 overflow-y-auto p-6 hide-scroll">
       <div className="mb-8 flex items-start justify-between">
@@ -1504,10 +1510,10 @@ function AdvisorDashboard({ onNav }: { onNav: (v: View) => void }) {
             className="font-display font-black text-3xl mb-1"
             style={{ color: C.ivory }}
           >
-            Good morning, Sarah
+            Good morning, {advisorName.split("@")[0]}
           </h1>
           <p className="font-mono text-xs opacity-40" style={{ color: C.sage }}>
-            Department of Information Systems ·{" "}
+            {user?.department || "Department of Information Systems"} ·{" "}
             {new Date().toLocaleDateString("en-ZA", {
               weekday: "long",
               year: "numeric",
@@ -1521,13 +1527,34 @@ function AdvisorDashboard({ onNav }: { onNav: (v: View) => void }) {
             className="font-mono text-xs opacity-40 mb-1"
             style={{ color: C.sage }}
           >
-            YOUR QUEUE THIS WEEK
+            YOUR ACTIVE CASES
           </div>
           <div
             className="font-display font-black text-2xl"
-            style={{ color: C.ember }}
+            style={{ color: C.tealLight }}
           >
-            18
+            {activeCases}
+          </div>
+        </div>
+      </div>
+
+      {/* Weekly Summary Banner */}
+      <div
+        className="rounded-lg border p-4 mb-6"
+        style={{ borderColor: C.tealLight + "33", background: C.tealLight + "08" }}
+      >
+        <div className="grid grid-cols-3 gap-4 text-sm">
+          <div>
+            <div className="font-mono text-xs opacity-50" style={{ color: C.sage }}>NEW THIS WEEK</div>
+            <div className="font-display font-bold text-lg mt-1" style={{ color: C.tealLight }}>{highPriorityCount} students</div>
+          </div>
+          <div>
+            <div className="font-mono text-xs opacity-50" style={{ color: C.sage }}>IN PROGRESS</div>
+            <div className="font-display font-bold text-lg mt-1" style={{ color: C.tealLight }}>{activeCases} cases</div>
+          </div>
+          <div>
+            <div className="font-mono text-xs opacity-50" style={{ color: C.sage }}>THIS MONTH</div>
+            <div className="font-display font-bold text-lg mt-1" style={{ color: C.tealLight }}>{completedThisMonth} completed</div>
           </div>
         </div>
       </div>
@@ -2220,13 +2247,19 @@ const engagementData = [
   { wk: "Wk6", sessions: 1.0 },
 ]
 
-function StudentProfile({ onNav }: { onNav: (v: View) => void }) {
+function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onCreateCase: (data: any) => string }) {
   const [caseCreated, setCaseCreated] = useState(false)
   const [showCaseModal, setShowCaseModal] = useState(false)
   const [newCaseId, setNewCaseId] = useState<string>("")
 
   const handleCaseSubmit = (form: CreateCaseForm) => {
-    const caseNum = `CASE-${String(CASES.length + 1).padStart(3, "0")}`
+    const caseNum = onCreateCase({
+      studentId: "#4F91A20C",
+      studentName: "Alex M.",
+      interventionType: form.interventionType,
+      priority: form.priority,
+      notes: form.notes,
+    })
     setNewCaseId(caseNum)
     setCaseCreated(true)
     setShowCaseModal(false)
@@ -3459,7 +3492,7 @@ const STATUS_COLORS: Record<string, string> = {
   Resolved: C.sage,
 }
 
-function CaseManagement({ onNav }: { onNav: (v: View) => void }) {
+function CaseManagement({ onNav, cases }: { onNav: (v: View) => void; cases: typeof CASES }) {
   return (
     <div className="flex-1 overflow-y-auto p-6 hide-scroll">
       <div className="flex justify-between items-start mb-6">
@@ -3471,7 +3504,7 @@ function CaseManagement({ onNav }: { onNav: (v: View) => void }) {
             Intervention Cases
           </h1>
           <p className="font-mono text-xs opacity-40" style={{ color: C.sage }}>
-            Advisor: Sarah M. · Information Systems
+            Total cases: {cases.length} · Active: {cases.filter(c => c.status === "In Progress").length}
           </p>
         </div>
         <button
@@ -3545,7 +3578,7 @@ function CaseManagement({ onNav }: { onNav: (v: View) => void }) {
             </tr>
           </thead>
           <tbody>
-            {CASES.map((c) => (
+            {cases.map((c) => (
               <tr
                 key={c.id}
                 className="border-b transition-all hover:bg-white hover:bg-opacity-5 cursor-pointer"
@@ -4487,21 +4520,21 @@ const VIEW_TITLES: Record<View, string> = {
   reports: "Institutional Reports",
 }
 
-function AppShell({ view, onNav, user }: { view: View; onNav: (v: View) => void; user: User | null }) {
+function AppShell({ view, onNav, user, cases, onCreateCase }: { view: View; onNav: (v: View) => void; user: User | null; cases: typeof CASES; onCreateCase: (data: any) => string }) {
   const renderContent = () => {
     switch (view) {
       case "dashboard":
-        return <AdvisorDashboard onNav={onNav} />
+        return <AdvisorDashboard onNav={onNav} user={user} />
       case "queue":
         return <StudentQueue onNav={onNav} />
       case "profile":
-        return <StudentProfile onNav={onNav} />
+        return <StudentProfile onNav={onNav} onCreateCase={onCreateCase} />
       case "explainability":
         return <ExplainabilityPanel onNav={onNav} />
       case "whatif":
         return <WhatIfSimulator />
       case "cases":
-        return <CaseManagement onNav={onNav} />
+        return <CaseManagement onNav={onNav} cases={cases} />
       case "analytics":
         return <ProgramAnalytics />
       case "fairness":
@@ -4509,7 +4542,7 @@ function AppShell({ view, onNav, user }: { view: View; onNav: (v: View) => void;
       case "reports":
         return <Reports />
       default:
-        return <AdvisorDashboard onNav={onNav} />
+        return <AdvisorDashboard onNav={onNav} user={user} />
     }
   }
 
@@ -4533,6 +4566,7 @@ function AppShell({ view, onNav, user }: { view: View; onNav: (v: View) => void;
 export default function App() {
   const [view, setView] = useState<View>("landing")
   const [user, setUser] = useState<User | null>(null)
+  const [cases, setCases] = useState(CASES)
 
   const handleNav = useCallback((v: View) => {
     setView(v)
@@ -4543,7 +4577,27 @@ export default function App() {
     setUser(newUser)
   }, [])
 
+  const handleCreateCase = useCallback((caseData: { studentId: string; studentName: string; interventionType: string; priority: string; notes: string }) => {
+    const newCase = {
+      id: `CASE-${String(cases.length + 1).padStart(3, "0")}`,
+      case_number: `CASE-${String(cases.length + 1).padStart(3, "0")}`,
+      student: caseData.studentId,
+      student_name: caseData.studentName,
+      issue: caseData.interventionType,
+      intervention: caseData.interventionType.toLowerCase().includes("internship") ? "Internship placement" :
+                   caseData.interventionType.toLowerCase().includes("portfolio") ? "Portfolio development" :
+                   caseData.interventionType.toLowerCase().includes("mentorship") ? "Mentorship programme" :
+                   caseData.interventionType.toLowerCase().includes("engagement") ? "Engagement boost" :
+                   "Academic recovery",
+      advisor: user?.name || "Sarah M.",
+      status: "New",
+      next: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString("en-ZA", { month: "short", day: "numeric" }),
+    }
+    setCases([newCase as any, ...cases])
+    return newCase.case_number
+  }, [cases, user])
+
   if (view === "landing") return <LandingPage onNav={handleNav} />
   if (view === "login") return <LoginPage onNav={handleNav} onLogin={handleLogin} />
-  return <AppShell view={view} onNav={handleNav} user={user} />
+  return <AppShell view={view} onNav={handleNav} user={user} cases={cases} onCreateCase={handleCreateCase} />
 }
