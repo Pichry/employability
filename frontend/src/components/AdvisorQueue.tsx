@@ -7,12 +7,10 @@ interface AdvisorQueueProps {
 }
 
 const QUEUE: Queue = {
-  advisor_id: 'advisor_001',
-  date: new Date().toISOString().split('T')[0],
+  total: 53,
   high_risk: 3,
   medium_risk: 8,
   low_risk: 42,
-  total: 53,
   students: [
     { student_hash: 'h1', name: 'Alex Chen', risk_segment: 'HIGH', probability: 0.78, due_at: '2026-09-12' },
     { student_hash: 'h2', name: 'Jordan Smith', risk_segment: 'HIGH', probability: 0.72, due_at: '2026-09-11' },
