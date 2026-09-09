@@ -28,7 +28,7 @@ export function RiskGauge({ probability, ci_low, ci_high, risk_segment }: RiskGa
           <p className="text-xs text-gray-600 mt-2">CI {ciLowPct}–{ciHighPct}%</p>
         </div>
         <div className="flex flex-col items-center gap-2">
-          <IconComp className={`w-12 h-12 ${riskColor}`} />
+          <IconComponent className={`w-12 h-12 ${riskColor}`} />
           <span className={`text-sm font-bold ${riskColor}`}>{risk_segment} RISK</span>
         </div>
       </div>
