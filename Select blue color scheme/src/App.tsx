@@ -438,17 +438,17 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
               {
                 label: "Academic Data",
                 sub: "GPA trend · credits · retakes · core course performance",
-                icon: "📊",
+                icon: BarChart2,
               },
               {
                 label: "Engagement Data",
                 sub: "LMS activity · participation · assignment completion",
-                icon: "🔗",
+                icon: Activity,
               },
               {
                 label: "Placement Data",
                 sub: "Internship · WIL exposure · project portfolio · skills",
-                icon: "🎯",
+                icon: Target,
               },
             ].map((d, i) => (
               <div
@@ -459,7 +459,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                   borderColor: "rgba(255,255,255,0.1)",
                 }}
               >
-                <div className="text-2xl mb-3">{d.icon}</div>
+                <d.icon size={32} className="mb-3" style={{ color: C.tealLight }} />
                 <div className="font-mono text-xs tracking-widest mb-2 opacity-50">{`0${i + 1}`}</div>
                 <h3 className="font-display font-bold text-lg mb-2">
                   {d.label}
@@ -759,17 +759,17 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
             {[
               {
                 title: "EXPLAINABLE",
-                icon: "◎",
+                icon: Eye,
                 desc: "Every prediction comes with a plain-language explanation of which factors are driving it and how strongly.",
               },
               {
                 title: "FAIR",
-                icon: "⊜",
+                icon: Scale,
                 desc: "Model performance is audited across student groups. A model that fails the fairness gate cannot be deployed.",
               },
               {
                 title: "HUMAN-LED",
-                icon: "◇",
+                icon: Users,
                 desc: "Advisors review, decide, and record. The AI supports. The human is accountable and in control.",
               },
             ].map((c) => (
@@ -781,9 +781,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                   border: "1px solid rgba(255,255,255,0.08)",
                 }}
               >
-                <div className="text-2xl mb-3" style={{ color: C.ember }}>
-                  {c.icon}
-                </div>
+                <c.icon size={28} className="mb-3" style={{ color: C.ember }} />
                 <div
                   className="font-mono text-xs tracking-widest mb-2 opacity-60"
                   style={{ color: C.sage }}
@@ -1026,14 +1024,14 @@ function LoginPage({ onNav, onLogin }: LoginPageProps) {
   const [pw, setPw] = useState("")
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null)
 
-  const roles: Array<{ id: UserRole; label: string; desc: string; icon: string }> = [
-    { id: "advisor", label: "Career Advisor", desc: "Manage student interventions", icon: "👤" },
-    { id: "head", label: "Academic Head", desc: "Program analytics & insights", icon: "🎓" },
-    { id: "placement", label: "Placement Officer", desc: "Manage internship programs", icon: "💼" },
-    { id: "analyst", label: "Data Analyst", desc: "Build and train models", icon: "📊" },
-    { id: "ethics", label: "QA/Ethics Officer", desc: "Fairness & model approval", icon: "⚖️" },
-    { id: "admin", label: "System Admin", desc: "User & infrastructure management", icon: "⚙️" },
-    { id: "student", label: "Student", desc: "View opportunities (self-service)", icon: "🎯" },
+  const roles: Array<{ id: UserRole; label: string; desc: string; icon: React.ComponentType<{size?: number}> }> = [
+    { id: "advisor", label: "Career Advisor", desc: "Manage student interventions", icon: User },
+    { id: "head", label: "Academic Head", desc: "Program analytics & insights", icon: GraduationCap },
+    { id: "placement", label: "Placement Officer", desc: "Manage internship programs", icon: Briefcase },
+    { id: "analyst", label: "Data Analyst", desc: "Build and train models", icon: BarChart2 },
+    { id: "ethics", label: "QA/Ethics Officer", desc: "Fairness & model approval", icon: Scale },
+    { id: "admin", label: "System Admin", desc: "User & infrastructure management", icon: Settings },
+    { id: "student", label: "Student", desc: "View opportunities (self-service)", icon: Target },
   ]
 
   const handleLogin = (e: React.FormEvent) => {
@@ -1150,7 +1148,7 @@ function LoginPage({ onNav, onLogin }: LoginPageProps) {
                       color: selectedRole === role.id ? C.ivory : C.graphite,
                     }}
                   >
-                    <div className="text-lg mb-1">{role.icon}</div>
+                    <role.icon size={24} className="mb-2" style={{ color: selectedRole === role.id ? C.ember : C.graphite }} />
                     <div className="font-semibold text-xs">{role.label}</div>
                     <div className="text-xs opacity-50 mt-0.5">{role.desc}</div>
                   </button>
@@ -2489,37 +2487,37 @@ function StudentProfile({ onNav }: { onNav: (v: View) => void }) {
             label: "Internship",
             value: "Not completed",
             status: "risk",
-            icon: "◎",
+            icon: Briefcase,
           },
           {
             label: "Projects",
             value: "2 completed",
             status: "warn",
-            icon: "◻",
+            icon: BookOpen,
           },
           {
             label: "Portfolio",
             value: "Needs improvement",
             status: "risk",
-            icon: "◈",
+            icon: Award,
           },
           {
             label: "Skills verified",
             value: "6 skills",
             status: "ok",
-            icon: "✓",
+            icon: CheckCircle,
           },
           {
             label: "Co-curricular",
             value: "None recorded",
             status: "risk",
-            icon: "◇",
+            icon: Star,
           },
           {
             label: "Credit completion",
             value: "78% (84/108)",
             status: "warn",
-            icon: "⊞",
+            icon: Home,
           },
         ].map((item) => (
           <div
@@ -2560,7 +2558,7 @@ function StudentProfile({ onNav }: { onNav: (v: View) => void }) {
                   {item.value}
                 </div>
               </div>
-              <span className="text-lg opacity-40">{item.icon}</span>
+              <item.icon size={20} className="opacity-40" />
             </div>
           </div>
         ))}
