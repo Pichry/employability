@@ -17,7 +17,7 @@ export function RiskGauge({ probability, ci_low, ci_high, risk_segment }: RiskGa
   const bgColor = risk_segment === 'HIGH' ? 'bg-red-50 border-red-200' : risk_segment === 'MEDIUM' ? 'bg-amber-50 border-amber-200' : 'bg-green-50 border-green-200'
   const icon = risk_segment === 'HIGH' ? AlertTriangle : risk_segment === 'MEDIUM' ? AlertCircle : CheckCircle
 
-  const Icon = icon
+  const IconComponent = icon
 
   return (
     <div className={`border rounded-lg p-6 ${bgColor}`}>
@@ -28,7 +28,7 @@ export function RiskGauge({ probability, ci_low, ci_high, risk_segment }: RiskGa
           <p className="text-xs text-gray-600 mt-2">CI {ciLowPct}–{ciHighPct}%</p>
         </div>
         <div className="flex flex-col items-center gap-2">
-          <Icon className={`w-12 h-12 ${riskColor}`} />
+          <IconComp className={`w-12 h-12 ${riskColor}`} />
           <span className={`text-sm font-bold ${riskColor}`}>{risk_segment} RISK</span>
         </div>
       </div>

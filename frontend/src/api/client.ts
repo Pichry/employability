@@ -1,12 +1,7 @@
-/**
- * API client for employability system.
- * Connects to backend at http://localhost:8000/api
- */
-
 import axios, { AxiosInstance } from 'axios'
 import type { StudentDetail, Queue, WhatIfScenario, User } from '../types'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+const API_BASE = (globalThis as any).import?.meta?.env?.VITE_API_URL || 'http://localhost:8000/api'
 
 class EmployabilityClient {
   private client: AxiosInstance

@@ -22,7 +22,7 @@ export function RiskDrivers({ drivers }: RiskDriversProps) {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis type="number" />
           <YAxis dataKey="name" type="category" width={280} tick={{ fontSize: 12 }} />
-          <Tooltip formatter={(value) => value.toFixed(3)} />
+          <Tooltip formatter={(value: any) => typeof value === "number" ? value.toFixed(3) : value} />
           <Bar dataKey="value" fill="#8884d8" radius={[0, 8, 8, 0]}>
             {chartData.map((entry, index) => (
               <Cell
