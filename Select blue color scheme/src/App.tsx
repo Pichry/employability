@@ -19,7 +19,16 @@ import {
 } from "recharts"
 
 /* ─── Types ─── */
+type UserRole = "advisor" | "head" | "analyst" | "ethics" | "admin" | "placement" | "student"
+
 type View = "landing" | "login" | "dashboard" | "queue" | "profile" | "explainability" | "whatif" | "cases" | "analytics" | "fairness" | "reports"
+
+interface User {
+  role: UserRole
+  name: string
+  email: string
+  department?: string
+}
 
 /* ─── Colour palette ─── */
 const C = {
@@ -973,9 +982,38 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
 }
 
 /* ─── Login Page ─── */
-function LoginPage({ onNav }: { onNav: (v: View) => void }) {
+interface LoginPageProps {
+  onNav: (v: View) => void
+  onLogin: (user: User) => void
+}
+
+function LoginPage({ onNav, onLogin }: LoginPageProps) {
   const [email, setEmail] = useState("")
   const [pw, setPw] = useState("")
+  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null)
+
+  const roles: Array<{ id: UserRole; label: string; desc: string; icon: string }> = [
+    { id: "advisor", label: "Career Advisor", desc: "Manage student interventions", icon: "👤" },
+    { id: "head", label: "Academic Head", desc: "Program analytics & insights", icon: "🎓" },
+    { id: "placement", label: "Placement Officer", desc: "Manage internship programs", icon: "💼" },
+    { id: "analyst", label: "Data Analyst", desc: "Build and train models", icon: "📊" },
+    { id: "ethics", label: "QA/Ethics Officer", desc: "Fairness & model approval", icon: "⚖️" },
+    { id: "admin", label: "System Admin", desc: "User & infrastructure management", icon: "⚙️" },
+    { id: "student", label: "Student", desc: "View opportunities (self-service)", icon: "🎯" },
+  ]
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!selectedRole || !email) return
+
+    onLogin({
+      role: selectedRole,
+      name: email.split("@")[0],
+      email,
+      department: selectedRole === "advisor" ? "Information Systems" : undefined,
+    })
+    onNav("dashboard")
+  }
 
   return (
     <div
@@ -1059,13 +1097,33 @@ function LoginPage({ onNav }: { onNav: (v: View) => void }) {
             </p>
           </div>
 
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              onNav("dashboard")
-            }}
-            className="space-y-5"
-          >
+          <form onSubmit={handleLogin} className="space-y-5">
+            {/* Role Selection */}
+            <div>
+              <label className="block font-mono text-xs tracking-widest mb-3 opacity-60" style={{ color: C.graphite }}>
+                SELECT YOUR ROLE
+              </label>
+              <div className="grid grid-cols-2 gap-2 mb-6">
+                {roles.map((role) => (
+                  <button
+                    key={role.id}
+                    type="button"
+                    onClick={() => setSelectedRole(role.id)}
+                    className="p-3 rounded border text-left transition-all hover:border-opacity-60"
+                    style={{
+                      background: selectedRole === role.id ? C.navy : C.ivoryDark,
+                      borderColor: selectedRole === role.id ? C.ember : "rgba(13,27,82,0.15)",
+                      color: selectedRole === role.id ? C.ivory : C.graphite,
+                    }}
+                  >
+                    <div className="text-lg mb-1">{role.icon}</div>
+                    <div className="font-semibold text-xs">{role.label}</div>
+                    <div className="text-xs opacity-50 mt-0.5">{role.desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div>
               <label
                 className="block font-mono text-xs tracking-widest mb-2 opacity-60"
@@ -1148,24 +1206,55 @@ function LoginPage({ onNav }: { onNav: (v: View) => void }) {
 }
 
 /* ─── Sidebar ─── */
-const NAV_ITEMS = [
-  { id: "dashboard", label: "Overview", icon: "⊞" },
-  { id: "queue", label: "Student Queue", icon: "⋮⋮" },
-  { id: "cases", label: "Cases", icon: "◻" },
-  { id: "analytics", label: "Program Analytics", icon: "▲" },
-  { id: "reports", label: "Reports", icon: "☰" },
-]
-const NAV_ADMIN = [
-  { id: "fairness", label: "Fairness & Equity", icon: "⊜" },
-  { id: "whatif", label: "Simulator", icon: "◈" },
-]
+const getNavItems = (role: UserRole) => {
+  const baseItems = [
+    { id: "dashboard", label: "Overview", icon: "⊞" },
+  ]
+
+  const roleItems: Record<UserRole, any[]> = {
+    advisor: [
+      { id: "queue", label: "My Queue", icon: "⋮⋮" },
+      { id: "cases", label: "Cases", icon: "◻" },
+      { id: "analytics", label: "Analytics", icon: "▲" },
+      { id: "whatif", label: "Simulator", icon: "◈" },
+    ],
+    head: [
+      { id: "analytics", label: "Program Analytics", icon: "▲" },
+      { id: "reports", label: "Reports", icon: "☰" },
+    ],
+    placement: [
+      { id: "analytics", label: "Opportunities", icon: "💼" },
+      { id: "cases", label: "Assignments", icon: "◻" },
+    ],
+    analyst: [
+      { id: "analytics", label: "Data Sources", icon: "📊" },
+      { id: "reports", label: "Model Registry", icon: "🧠" },
+    ],
+    ethics: [
+      { id: "fairness", label: "Fairness & Equity", icon: "⊜" },
+      { id: "reports", label: "Audit Log", icon: "📋" },
+    ],
+    admin: [
+      { id: "reports", label: "User Management", icon: "👥" },
+      { id: "analytics", label: "System Health", icon: "⚙️" },
+    ],
+    student: [
+      { id: "analytics", label: "Opportunities", icon: "🎯" },
+      { id: "reports", label: "My Progress", icon: "📈" },
+    ],
+  }
+
+  return [...baseItems, ...(roleItems[role] || [])]
+}
 
 function Sidebar({
   current,
   onNav,
+  user,
 }: {
   current: View
   onNav: (v: View) => void
+  user: User | null
 }) {
   return (
     <aside
@@ -1197,7 +1286,7 @@ function Sidebar({
             className="font-mono text-xs opacity-30"
             style={{ color: C.sage }}
           >
-            Advisor Portal
+            {user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : "Portal"}
           </div>
         </div>
       </div>
@@ -1208,33 +1297,9 @@ function Sidebar({
           className="font-mono text-xs px-2 mb-2 opacity-30"
           style={{ color: C.sage }}
         >
-          MAIN
+          NAVIGATION
         </p>
-        {NAV_ITEMS.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => onNav(item.id as View)}
-            className="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded mb-0.5 text-sm transition-all"
-            style={{
-              background: current === item.id ? C.navy : "transparent",
-              color: current === item.id ? C.ivory : C.sage,
-              fontFamily: "var(--font-body)",
-            }}
-          >
-            <span className="text-base w-5 text-center opacity-70">
-              {item.icon}
-            </span>
-            <span className="font-medium">{item.label}</span>
-          </button>
-        ))}
-
-        <p
-          className="font-mono text-xs px-2 mb-2 mt-6 opacity-30"
-          style={{ color: C.sage }}
-        >
-          ADMIN
-        </p>
-        {NAV_ADMIN.map((item) => (
+        {user && getNavItems(user.role).map((item) => (
           <button
             key={item.id}
             onClick={() => onNav(item.id as View)}
@@ -1254,36 +1319,44 @@ function Sidebar({
       </nav>
 
       {/* User */}
-      <div
-        className="px-5 py-4 border-t"
-        style={{ borderColor: "rgba(255,255,255,0.06)" }}
-      >
-        <div className="flex items-center gap-3">
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-            style={{ background: C.teal, color: C.ivory }}
-          >
-            SM
-          </div>
-          <div>
-            <div className="text-xs font-medium" style={{ color: C.ivory }}>
-              Sarah M.
-            </div>
+      {user && (
+        <div
+          className="px-5 py-4 border-t"
+          style={{ borderColor: "rgba(255,255,255,0.06)" }}
+        >
+          <div className="flex items-center gap-3">
             <div
-              className="font-mono text-xs opacity-40"
-              style={{ color: C.sage }}
+              className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+              style={{ background: C.teal, color: C.ivory }}
             >
-              Career Advisor
+              {user.name.slice(0, 2).toUpperCase()}
+            </div>
+            <div>
+              <div className="text-xs font-medium" style={{ color: C.ivory }}>
+                {user.name}
+              </div>
+              <div
+                className="font-mono text-xs opacity-40"
+                style={{ color: C.sage }}
+              >
+                {user.role === "advisor" && "Career Advisor"}
+                {user.role === "head" && "Academic Head"}
+                {user.role === "placement" && "Placement Officer"}
+                {user.role === "analyst" && "Data Analyst"}
+                {user.role === "ethics" && "QA/Ethics Officer"}
+                {user.role === "admin" && "System Admin"}
+                {user.role === "student" && "Student"}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </aside>
   )
 }
 
 /* ─── Top bar ─── */
-function Topbar({ title, onNav }: { title: string; onNav: (v: View) => void }) {
+function Topbar({ title, onNav, user }: { title: string; onNav: (v: View) => void; user: User | null }) {
   return (
     <header
       className="h-14 flex items-center justify-between px-6 border-b flex-shrink-0"
@@ -4379,7 +4452,7 @@ const VIEW_TITLES: Record<View, string> = {
   reports: "Institutional Reports",
 }
 
-function AppShell({ view, onNav }: { view: View; onNav: (v: View) => void }) {
+function AppShell({ view, onNav, user }: { view: View; onNav: (v: View) => void; user: User | null }) {
   const renderContent = () => {
     switch (view) {
       case "dashboard":
@@ -4407,9 +4480,9 @@ function AppShell({ view, onNav }: { view: View; onNav: (v: View) => void }) {
 
   return (
     <div className="h-full flex flex-col" style={{ background: C.graphite }}>
-      <Topbar title={VIEW_TITLES[view]} onNav={onNav} />
+      <Topbar title={VIEW_TITLES[view]} onNav={onNav} user={user} />
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar current={view} onNav={onNav} />
+        <Sidebar current={view} onNav={onNav} user={user} />
         <main
           className="flex-1 overflow-hidden flex flex-col"
           style={{ background: "#191f1c" }}
@@ -4424,13 +4497,18 @@ function AppShell({ view, onNav }: { view: View; onNav: (v: View) => void }) {
 /* ─── Root ─── */
 export default function App() {
   const [view, setView] = useState<View>("landing")
+  const [user, setUser] = useState<User | null>(null)
 
   const handleNav = useCallback((v: View) => {
     setView(v)
     window.scrollTo(0, 0)
   }, [])
 
+  const handleLogin = useCallback((newUser: User) => {
+    setUser(newUser)
+  }, [])
+
   if (view === "landing") return <LandingPage onNav={handleNav} />
-  if (view === "login") return <LoginPage onNav={handleNav} />
-  return <AppShell view={view} onNav={handleNav} />
+  if (view === "login") return <LoginPage onNav={handleNav} onLogin={handleLogin} />
+  return <AppShell view={view} onNav={handleNav} user={user} />
 }
