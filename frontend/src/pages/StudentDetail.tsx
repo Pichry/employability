@@ -74,10 +74,10 @@ const MOCK_DETAILS: Record<string, StudentDetailType> = {
 }
 
 export function StudentDetail({ studentHash, onBack }: StudentDetailProps) {
-  const [detail, setDetail] = useState<StudentDetailType | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [detail, setDetail] = useState<StudentDetailType>(MOCK_DETAILS[studentHash] || MOCK_DETAILS.h1)
+  const [loading, setLoading] = useState(false)
   const [caseNote, setCaseNote] = useState('')
-  const [usingMockData, setUsingMockData] = useState(false)
+  const [usingMockData, setUsingMockData] = useState(true)
 
   useEffect(() => {
     const loadDetail = async () => {
@@ -86,19 +86,13 @@ export function StudentDetail({ studentHash, onBack }: StudentDetailProps) {
         setDetail(data)
         setUsingMockData(false)
       } catch (error) {
-        console.warn('Backend unavailable, using mock data (Phase 0):', error)
-        const mockDetail = MOCK_DETAILS[studentHash] || MOCK_DETAILS.h1
-        setDetail(mockDetail)
-        setUsingMockData(true)
-      } finally {
-        setLoading(false)
+        console.log('Using fallback mock data (Phase 0 - Backend Phase 6 not yet built)')
       }
     }
     loadDetail()
   }, [studentHash])
 
   if (loading) return <div className="p-8 text-center">Loading...</div>
-  if (!detail) return <div className="p-8 text-center text-red-600">Failed to load student</div>
 
   const { student, prediction, drivers, case: caseData } = detail
 

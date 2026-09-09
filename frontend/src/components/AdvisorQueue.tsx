@@ -33,10 +33,10 @@ const MOCK_QUEUE: Queue = {
 }
 
 export function AdvisorQueue({ onSelectStudent }: AdvisorQueueProps) {
-  const [queue, setQueue] = useState<Queue | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [queue, setQueue] = useState<Queue>(MOCK_QUEUE)
+  const [loading, setLoading] = useState(false)
   const [filter, setFilter] = useState<'all' | 'high' | 'medium' | 'low'>('all')
-  const [usingMockData, setUsingMockData] = useState(false)
+  const [usingMockData, setUsingMockData] = useState(true)
 
   useEffect(() => {
     const loadQueue = async () => {
@@ -45,18 +45,13 @@ export function AdvisorQueue({ onSelectStudent }: AdvisorQueueProps) {
         setQueue(data)
         setUsingMockData(false)
       } catch (error) {
-        console.warn('Backend unavailable, using mock data (Phase 0):', error)
-        setQueue(MOCK_QUEUE)
-        setUsingMockData(true)
-      } finally {
-        setLoading(false)
+        console.log('Using fallback mock data (Phase 0 - Backend Phase 6 not yet built)')
       }
     }
     loadQueue()
   }, [])
 
   if (loading) return <div className="p-4 text-center">Loading queue...</div>
-  if (!queue) return <div className="p-4 text-center text-red-600">Failed to load queue</div>
 
   const filtered = queue.students.filter(s => {
     if (filter === 'all') return true
