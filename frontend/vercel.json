@@ -1,7 +1,10 @@
 {
   "buildCommand": "npm install && npm run build",
   "outputDirectory": "dist",
-  "env": {
-    "VITE_API_URL": "http://localhost:8000/api"
-  }
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

@@ -1,0 +1,12 @@
+backend/
+data/
+db/
+ml/
+tests/
+docs/
+media/
+*.md
+.env
+.env.example
+node_modules/
+.git/
