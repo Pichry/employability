@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import 'tailwindcss';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+:root {
+  --navy: #0D1B52;
+  --navy-mid: #1a2d7a;
+  --navy-light: #2541a8;
+  --teal: #3E6B67;
+  --teal-light: #5a9490;
+  --ivory: #F5F1E8;
+  --ivory-dark: #E7DFD0;
+  --ember: #C96B4B;
+  --ember-light: #e08060;
+  --sage: #A9B8A9;
+  --graphite: #202522;
+  --graphite-mid: #2e3530;
+  --font-display: 'Manrope', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display { font-family: var(--font-display); }
+.font-mono { font-family: var(--font-mono); }
+
+/* Scrollbar hiding */
+.hide-scroll::-webkit-scrollbar { display: none; }
+.hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Particle canvas */
+#particles { position: absolute; inset: 0; pointer-events: none; }
+
+/* Smooth section reveals */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Ember glow pulse */
+@keyframes ember-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes float-up {
+  0% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+  100% { transform: translateY(-60px) rotate(15deg); opacity: 0; }
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(8px, -12px); }
+  66% { transform: translate(-6px, -8px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes counter-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ember-glow { animation: ember-pulse 3s ease-in-out infinite; }
+.drift-slow { animation: drift 8s ease-in-out infinite; }
+
+/* Risk indicator colors */
+.risk-high { color: var(--ember); }
+.risk-med { color: #D4A843; }
+.risk-low { color: var(--teal-light); }
+
+/* Thin scrollbar for sidebar */
+.thin-scroll::-webkit-scrollbar { width: 4px; }
+.thin-scroll::-webkit-scrollbar-track { background: transparent; }
+.thin-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }

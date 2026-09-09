@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Graduate Employability Prediction System — Technical Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E9E8E4;
+  --paper-2:#F2F1EE;
+  --ink:#1A1C22;
+  --ink-soft:#4A4E58;
+  --rule:#C7C5BE;
+  --rule-soft:#D9D7D1;
+  --low:#0E6D6B;
+  --med:#B8871B;
+  --high:#8C2F2A;
+  --blue:#284C7A;
+  --disp:"IBM Plex Sans Condensed","Arial Narrow",Helvetica,sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --wrap:1000px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{max-width:100%}
+
+/* ---------- shell ---------- */
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+.bleed{max-width:1220px;margin:0 auto;padding:0 28px}
+
+/* ---------- type ---------- */
+h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.01em;line-height:1.08;margin:0}
+h1{font-size:clamp(38px,6.4vw,74px);text-transform:uppercase;letter-spacing:-.02em}
+h2{font-size:clamp(27px,3.6vw,40px);text-transform:uppercase}
+h3{font-size:20px;text-transform:uppercase;letter-spacing:.01em;margin:34px 0 10px}
+h4{font-size:15px;font-family:var(--mono);font-weight:600;text-transform:uppercase;letter-spacing:.09em;margin:26px 0 8px}
+p{margin:0 0 16px}
+a{color:var(--blue)}
+strong{font-weight:600}
+.lede{font-size:clamp(19px,2.2vw,23px);line-height:1.5;color:var(--ink)}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
+.mono{font-family:var(--mono)}
+.dim{color:var(--ink-soft)}
+.tiny{font-size:13.5px;line-height:1.5}
+
+/* ---------- masthead ---------- */
+.masthead{border-bottom:2px solid var(--ink);padding:34px 0 0}
+.mast-meta{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);
+  border-bottom:1px solid var(--rule);padding-bottom:12px}
+.mast-title{padding:40px 0 10px}
+.mast-title h1{max-width:15ch}
+.mast-sub{max-width:60ch;padding-bottom:34px}
+
+/* ---------- section frame ---------- */
+section{border-bottom:1px solid var(--rule);padding:56px 0}
+.sec-head{display:grid;grid-template-columns:74px 1fr;gap:22px;align-items:start;margin-bottom:26px}
+.sec-num{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.1em;
+  color:var(--ink);border:1px solid var(--ink);border-radius:2px;
+  padding:6px 0;text-align:center;margin-top:6px}
+.sec-head p{margin:8px 0 0;max-width:62ch}
+.body-col{max-width:70ch}
+.body-col.wide{max-width:none}
+
+/* ---------- utility blocks ---------- */
+.rulebox{border:1px solid var(--rule);background:var(--paper-2);padding:20px 22px;margin:22px 0}
+.rulebox h4{margin-top:0}
+.callout{border-left:3px solid var(--high);padding:4px 0 4px 18px;margin:22px 0}
+.callout.good{border-left-color:var(--low)}
+.callout.note{border-left-color:var(--blue)}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.card{border:1px solid var(--rule);background:var(--paper-2);padding:18px 20px}
+.card h4{margin-top:0}
+.card p{margin-bottom:0;font-size:15.5px;line-height:1.55}
+
+ul,ol{margin:0 0 16px;padding-left:20px}
+li{margin-bottom:7px}
+ul.tight li{margin-bottom:3px}
+.checklist{list-style:none;padding-left:0}
+.checklist li{padding-left:26px;position:relative}
+.checklist li::before{content:"✓";position:absolute;left:0;font-family:var(--mono);color:var(--low);font-weight:600}
+.crosslist{list-style:none;padding-left:0}
+.crosslist li{padding-left:26px;position:relative}
+.crosslist li::before{content:"✕";position:absolute;left:0;font-family:var(--mono);color:var(--high);font-weight:600}
+
+/* ---------- tables ---------- */
+.tbl-scroll{overflow-x:auto;margin:22px 0;border:1px solid var(--rule);background:var(--paper-2)}
+table{border-collapse:collapse;width:100%;font-size:14px;font-family:var(--mono);min-width:620px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+thead th{background:var(--ink);color:var(--paper);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;position:sticky;top:0}
+tbody tr:last-child td{border-bottom:none}
+td.y{color:var(--low);font-weight:600}
+td.n{color:var(--high);font-weight:600}
+td.p{color:var(--med);font-weight:600}
+.tbl-note{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-top:-12px;margin-bottom:24px}
+
+/* ---------- hero pipeline ---------- */
+.hero{background:var(--ink);color:var(--paper);padding:44px 0 48px;border-bottom:2px solid var(--ink)}
+.hero .eyebrow{color:#8E939E}
+.hero-thesis{font-family:var(--disp);font-weight:700;text-transform:uppercase;
+  font-size:clamp(22px,3.1vw,36px);line-height:1.12;max-width:22ch;margin:14px 0 30px}
+.hero-thesis em{font-style:normal;color:var(--med)}
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #3A3E48}
+.pipe-col{padding:16px 16px 18px;border-right:1px solid #3A3E48;position:relative}
+.pipe-col:last-child{border-right:none}
+.pipe-col .eyebrow{display:block;margin-bottom:10px}
+.pipe-row{font-family:var(--mono);font-size:12.5px;line-height:1.75;color:#C9CCD2}
+.pipe-row b{color:var(--paper);font-weight:500}
+.prob{font-family:var(--disp);font-size:46px;font-weight:700;line-height:1;color:var(--med)}
+.prob-lab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8E939E;margin-top:6px}
+.chip{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid currentColor;border-radius:2px;padding:2px 7px;margin:3px 4px 3px 0}
+.chip.high{color:#E08A84}.chip.med{color:#E3BC6A}.chip.low{color:#5FB8B5}
+@media(max-width:820px){.pipe{grid-template-columns:1fr 1fr}
+ .pipe-col{border-bottom:1px solid #3A3E48}
+ .pipe-col:nth-child(2){border-right:none}}
+@media(max-width:520px){.pipe{grid-template-columns:1fr}.pipe-col{border-right:none}}
+
+/* ---------- figures ---------- */
+figure{margin:26px 0;border:1px solid var(--rule);background:var(--paper-2);padding:18px}
+figcaption{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-top:12px;
+  border-top:1px solid var(--rule-soft);padding-top:10px;letter-spacing:.03em}
+.svg-txt{font-family:"IBM Plex Mono",monospace}
+
+/* ---------- module ledger ---------- */
+.mod{display:grid;grid-template-columns:52px 1fr;border-top:1px solid var(--rule-soft)}
+.mod:last-of-type{border-bottom:1px solid var(--rule-soft)}
+.mod-n{font-family:var(--mono);font-size:12px;font-weight:600;padding:14px 0 0;color:var(--ink-soft)}
+.mod-b{padding:12px 0 14px}
+.mod-b b{font-family:var(--disp);font-size:17px;text-transform:uppercase;letter-spacing:.01em;display:block}
+.mod-b span{font-size:15px;color:var(--ink-soft);display:block;margin-top:2px}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--rule);padding:2px 6px;margin-left:8px;white-space:nowrap;color:var(--ink-soft)}
+.tag.core{border-color:var(--low);color:var(--low)}
+.tag.later{border-color:var(--med);color:var(--med)}
+.tag.future{border-color:var(--high);color:var(--high)}
+
+/* ---------- nav ---------- */
+.toc{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--rule)}
+.toc-in{display:flex;gap:0;overflow-x:auto;max-width:1220px;margin:0 auto;padding:0 28px;scrollbar-width:thin}
+.toc a{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);text-decoration:none;padding:11px 13px;white-space:nowrap;border-bottom:2px solid transparent}
+.toc a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+
+footer{padding:44px 0 70px;font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+
+/* ---------- reveal ---------- */
+@media(prefers-reduced-motion:no-preference){
+  .rev{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+  .rev.in{opacity:1;transform:none}
+}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media print{.toc{display:none}section{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<nav class="toc" aria-label="Sections">
+  <div class="toc-in">
+    <a href="#s01">01 Problem</a><a href="#s02">02 What it is</a><a href="#s03">03 Architecture</a>
+    <a href="#s04">04 Competitors</a><a href="#s05">05 Data</a><a href="#s06">06 AI pipeline</a>
+    <a href="#s07">07 Core logic</a><a href="#s08">08 Schema</a><a href="#s09">09 Access</a>
+    <a href="#s10">10 Pages</a><a href="#s11">11 Build order</a><a href="#s12">12 Risks</a>
+  </div>
+</nav>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mast-meta">
+      <span>Second Cluster · Technical Brief</span>
+      <span>Graduate Employability · Predictive Analytics</span>
+      <span>v1.0 — Working Draft</span>
+    </div>
+    <div class="mast-title">
+      <p class="eyebrow">Design &amp; development brainstorm</p>
+      <h1>Graduate Employability Prediction System</h1>
+    </div>
+    <p class="lede mast-sub">A decision-support system that reads what a university already knows about a student and answers one question early enough to matter: <strong>who is likely to leave here without work, and what can we do about it this semester?</strong></p>
+  </div>
+</header>
+
+<!-- ============ HERO PIPELINE ============ -->
+<div class="hero">
+  <div class="bleed">
+    <p class="eyebrow">The whole system in one row</p>
+    <p class="hero-thesis">A transcript row becomes a probability. A probability becomes <em>a person someone calls on Monday.</em></p>
+
+    <div class="pipe">
+      <div class="pipe-col">
+        <span class="eyebrow">1 · Raw record</span>
+        <div class="pipe-row">
+          STU_ID <b>4F91A20C</b><br>
+          Program <b>BSc Info. Systems</b><br>
+          Year <b>3 of 4</b><br>
+          Sem GPA <b>3.4 → 3.1 → 2.6</b><br>
+          Credits <b>84 / 108</b><br>
+          Retakes <b>2</b><br>
+          Internship <b>none</b><br>
+          LMS logins/wk <b>1.2</b>
+        </div>
+      </div>
+      <div class="pipe-col">
+        <span class="eyebrow">2 · Engineered features</span>
+        <div class="pipe-row">
+          gpa_trend <b>−0.40 / sem</b><br>
+          credit_ratio <b>0.78</b><br>
+          on_track <b>false</b><br>
+          retake_rate <b>0.09</b><br>
+          wil_exposure <b>0</b><br>
+          engagement_pct <b>18th</b><br>
+          cocurric_count <b>0</b><br>
+          program_base_rate <b>0.61</b>
+        </div>
+      </div>
+      <div class="pipe-col">
+        <span class="eyebrow">3 · Model output</span>
+        <div class="prob">0.34</div>
+        <div class="prob-lab">P(employed ≤ 12 months)</div>
+        <div class="pipe-row" style="margin-top:12px">
+          CI <b>0.27 – 0.41</b><br>
+          Segment <b>HIGH RISK</b><br>
+          Top drivers (SHAP):<br>
+          <b>−0.19</b> no internship<br>
+          <b>−0.11</b> falling GPA<br>
+          <b>−0.06</b> low engagement
+        </div>
+      </div>
+      <div class="pipe-col">
+        <span class="eyebrow">4 · Action</span>
+        <div class="pipe-row" style="margin-bottom:10px">Routed to <b>advisor, Dept. of IS</b> · due <b>within 14 days</b></div>
+        <span class="chip high">Internship placement</span>
+        <span class="chip med">Academic recovery plan</span>
+        <span class="chip med">CV + interview clinic</span>
+        <span class="chip low">Peer mentor match</span>
+        <div class="pipe-row" style="margin-top:12px">Outcome logged → <b>feeds next retrain</b></div>
+      </div>
+    </div>
+    <p class="tiny mono" style="color:#8E939E;margin-top:14px">Everything in this document exists to make that four-step row happen reliably, fairly, and for 8,000 students at once.</p>
+  </div>
+</div>
+
+<!-- ============ 01 PROBLEM ============ -->
+<section id="s01">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-num">01</div>
+    <div>
+      <p class="eyebrow">Why this exists</p>
+      <h2>The problem is timing, not information</h2>
+      <p>Institutions are not short of data about their students. They are short of a moment at which that data turns into a decision.</p>
+    </div>
+  </div>
+
+  <div class="body-col">
+    <p>Today the sequence runs backwards. A student graduates. Six to twelve months later, a tracer survey goes out. Perhaps 30–40% respond. Someone assembles the results in a spreadsheet, and a report says that employability in a given program was 58%. That report is <em>true</em>, <em>useful for accreditation</em> — and <em>completely useless to the 42%</em>, who left eighteen months ago.</p>
+
+    <p>Meanwhile the warning signs were on file the whole time. The falling GPA was in the registrar's system. The missing internship was in the placement office. The disengagement was in the LMS. No one joined them up, because they live in three databases owned by three offices, none of which has a model that says which combinations matter.</p>
+
+    <div class="rulebox">
+      <h4>Four failures we are fixing</h4>
+      <ul class="tight" style="margin-bottom:0">
+        <li><strong>Retrospective, not predictive.</strong> Outcomes are measured after the intervention window has closed.</li>
+        <li><strong>Fragmented.</strong> Academic, engagement, and placement data never meet in one dataset.</li>
+        <li><strong>Undifferentiated.</strong> Support is offered to whoever walks in, not to whoever needs it most.</li>
+        <li><strong>Unaccountable.</strong> No one can say whether the career workshop, the mentorship scheme, or the internship push actually changed anything.</li>
+      </ul>
+    </div>
+
+    <p>There is a fifth problem, quieter and more dangerous. The moment you rank students by risk, you have built something that can entrench disadvantage. If the model learns that students from certain districts or backgrounds are less employable, and the institution then invests <em>less</em> in them because the model says they are lost causes, the system has automated the very inequity it was meant to expose. That is why fairness monitoring sits in the core of this build and not in an appendix.</p>
+
+    <div class="callout note">
+      <p style="margin:0"><strong>The question the system answers.</strong> Not "what was our employability rate last year?" — that is a report. It is: <strong>"Of the 1,240 students graduating in 14 months, which 180 are on a trajectory toward unemployment, why, and which of the four things we can actually offer them is most likely to change that?"</strong></p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ 02 WHAT IT IS ============ -->
+<section id="s02">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-num">02</div>
+    <div>
+      <p class="eyebrow">Scope</p>
+      <h2>What we are building — and what we are deliberately not</h2>
+      <p>The fastest way to kill this project is to let it become a second student information system. It is an analytics layer that sits beside operational systems and reads from them.</p>
+    </div>
+  </div>
+
+  <div class="body-col wide">
+    <div class="grid2">
+      <div class="card" style="border-left:3px solid var(--low)">
+        <h4 style="color:var(--low)">It IS</h4>
+        <ul class="checklist tiny" style="margin-bottom:0">
+          <li>A read-mostly analytics platform over copies of institutional data</li>
+          <li>A supervised learning system trained on graduates whose outcomes are known</li>
+          <li>A ranked, explained work queue for career advisors and academic heads</li>
+          <li>An intervention tracker that measures whether support actually worked</li>
+          <li>A fairness auditing instrument over its own predictions</li>
+          <li>A curriculum-evidence engine for program review and accreditation</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--high)">
+        <h4 style="color:var(--high)">It is NOT</h4>
+        <ul class="crosslist tiny" style="margin-bottom:0">
+          <li>A student information system — it never becomes the record of truth for grades</li>
+          <li>A job board or recruitment marketplace</li>
+          <li>An automatic decision-maker — no student is ever denied anything by a model score</li>
+          <li>A tool students use to see their own risk score <span class="dim">(see §09 — this is a deliberate choice)</span></li>
+          <li>A real-time system — predictions refresh per term, not per click</li>
+          <li>A replacement for advisors; it decides <em>who to see first</em>, never <em>what to say</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>The 14 modules, honestly sorted</h3>
+    <p class="body-col">Fourteen modules is a product roadmap, not a semester's work. Sorted by whether they are load-bearing, useful, or dependent on data that most institutions do not yet have:</p>
+
+    <div class="mod"><div class="mod-n">M01</div><div class="mod-b"><b>Registration &amp; Authentication <span class="tag core">Core</span></b><span>Identity, MFA, role assignment, session control. Nothing else can be trusted without it.</span></div></div>
+    <div class="mod"><div class="mod-n">M02</div><div class="mod-b"><b>Dashboard <span class="tag core">Core</span></b><span>Role-shaped landing surface. Thin by design — it composes other modules, it owns nothing.</span></div></div>
+    <div class="mod"><div class="mod-n">M03</div><div class="mod-b"><b>Academic Data Integration <span class="tag core">Core</span></b><span>SIS, LMS, placement office, tracer surveys, CSV fallback. The hardest and least glamorous module.</span></div></div>
+    <div class="mod"><div class="mod-n">M04</div><div class="mod-b"><b>Processing &amp; Feature Engineering <span class="tag core">Core</span></b><span>Raw rows → modelling features, with point-in-time correctness. Where the project is won or lost.</span></div></div>
+    <div class="mod"><div class="mod-n">M05</div><div class="mod-b"><b>AI Employability Prediction <span class="tag core">Core</span></b><span>The models, their versions, their scores, their explanations.</span></div></div>
+    <div class="mod"><div class="mod-n">M06</div><div class="mod-b"><b>Risk Profiling &amp; Segmentation <span class="tag core">Core</span></b><span>Turns a continuous probability into a triaged, prioritised queue a human can work through.</span></div></div>
+    <div class="mod"><div class="mod-n">M07</div><div class="mod-b"><b>Intervention Recommendation <span class="tag core">Core</span></b><span>Maps risk drivers to the specific things this institution can actually offer. Closes the loop.</span></div></div>
+    <div class="mod"><div class="mod-n">M11</div><div class="mod-b"><b>Fairness &amp; Equity Monitoring <span class="tag core">Core</span></b><span>Non-negotiable. A risk model without a bias audit should not be deployed on students.</span></div></div>
+    <div class="mod"><div class="mod-n">M14</div><div class="mod-b"><b>User &amp; Security Management <span class="tag core">Core</span></b><span>Scoped permissions, audit trail, encryption, consent. Legally load-bearing.</span></div></div>
+    <div class="mod"><div class="mod-n">M08</div><div class="mod-b"><b>Program Performance Analytics <span class="tag later">Phase 2</span></b><span>Aggregates the same predictions upward for curriculum review. Cheap once M05 exists.</span></div></div>
+    <div class="mod"><div class="mod-n">M12</div><div class="mod-b"><b>Visualisation &amp; Dashboards <span class="tag later">Phase 2</span></b><span>Custom widgets and drill-downs. Ship fixed views first; make them configurable later.</span></div></div>
+    <div class="mod"><div class="mod-n">M13</div><div class="mod-b"><b>Reporting &amp; Export <span class="tag later">Phase 2</span></b><span>PDF/Excel for accreditation and leadership. Deceptively time-consuming — budget for it.</span></div></div>
+    <div class="mod"><div class="mod-n">M09</div><div class="mod-b"><b>Career Services Effectiveness <span class="tag future">Data-blocked</span></b><span>Requires service-utilisation logs most career offices do not keep yet. Partial version only.</span></div></div>
+    <div class="mod"><div class="mod-n">M10</div><div class="mod-b"><b>Employer Feedback Integration <span class="tag future">Data-blocked</span></b><span>Requires an employer survey programme that must be started before it can be analysed.</span></div></div>
+
+    <div class="callout">
+      <p style="margin:0"><strong>Read this twice.</strong> M09 and M10 are not hard to <em>build</em> — they are forms and charts. They are hard to <em>fill</em>. If you present them as delivered features with no real data behind them, an examiner will find the empty tables in ninety seconds. Design them, build the schema, seed a pilot survey, and label them honestly as instrumented-but-not-yet-populated.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ 03 ARCHITECTURE ============ -->
+<section id="s03">
+<div class="bleed">
+  <div class="sec-head">
+    <div class="sec-num">03</div>
+    <div>
+      <p class="eyebrow">System architecture</p>
+      <h2>Six layers, one direction of travel</h2>
+      <p>Data moves upward only. Nothing in the decision layer ever writes back into a source system, which is what keeps the registrar's office willing to give you access.</p>
+    </div>
+  </div>
+
+  <figure>
+  <svg viewBox="0 0 1000 664" role="img" aria-label="Layered system architecture diagram" class="svg-txt">
+    <defs>
+      <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+        <path d="M0,1 L8,4.5 L0,8 z" fill="var(--ink)"/>
+      </marker>
+    </defs>
+
+    <!-- cross-cutting rail -->
+    <rect x="16" y="30" width="104" height="596" fill="var(--ink)" stroke="var(--ink)"/>
+    <text x="68" y="52" text-anchor="middle" font-size="10" letter-spacing="1.4" fill="#8E939E">CROSS-CUT</text>
+    <text x="68" y="96" text-anchor="middle" font-size="12" fill="var(--paper)">M01</text>
+    <text x="68" y="112" text-anchor="middle" font-size="10" fill="#B9BDC5">Identity</text>
+    <text x="68" y="128" text-anchor="middle" font-size="10" fill="#B9BDC5">&amp; MFA</text>
+    <text x="68" y="196" text-anchor="middle" font-size="12" fill="var(--paper)">M14</text>
+    <text x="68" y="212" text-anchor="middle" font-size="10" fill="#B9BDC5">RBAC</text>
+    <text x="68" y="228" text-anchor="middle" font-size="10" fill="#B9BDC5">scoping</text>
+    <text x="68" y="296" text-anchor="middle" font-size="11" fill="var(--paper)">Audit</text>
+    <text x="68" y="312" text-anchor="middle" font-size="10" fill="#B9BDC5">log</text>
+    <text x="68" y="380" text-anchor="middle" font-size="11" fill="var(--paper)">Consent</text>
+    <text x="68" y="396" text-anchor="middle" font-size="10" fill="#B9BDC5">register</text>
+    <text x="68" y="464" text-anchor="middle" font-size="11" fill="var(--paper)">Encrypt</text>
+    <text x="68" y="480" text-anchor="middle" font-size="10" fill="#B9BDC5">at rest</text>
+    <text x="68" y="548" text-anchor="middle" font-size="11" fill="var(--paper)">Job</text>
+    <text x="68" y="564" text-anchor="middle" font-size="10" fill="#B9BDC5">scheduler</text>
+
+    <!-- BAND 1 : sources -->
+    <rect x="136" y="30" width="848" height="86" fill="none" stroke="var(--rule)" stroke-dasharray="3 3"/>
+    <text x="144" y="24" font-size="10" letter-spacing="1.6" fill="var(--ink-soft)">LAYER 1 — SOURCE SYSTEMS (READ-ONLY, OWNED BY OTHER OFFICES)</text>
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="141" y="44" width="128" height="58" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="205" y="68">SIS / Registrar</text><text x="205" y="84" fill="var(--ink-soft)" font-size="9.5">grades · credits</text>
+      <rect x="283" y="44" width="128" height="58" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="347" y="68">LMS</text><text x="347" y="84" fill="var(--ink-soft)" font-size="9.5">logins · submissions</text>
+      <rect x="425" y="44" width="128" height="58" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="489" y="68">Placement office</text><text x="489" y="84" fill="var(--ink-soft)" font-size="9.5">internships</text>
+      <rect x="567" y="44" width="128" height="58" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="631" y="68">Co-curricular</text><text x="631" y="84" fill="var(--ink-soft)" font-size="9.5">clubs · leadership</text>
+      <rect x="709" y="44" width="128" height="58" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="773" y="62">Alumni + tracer</text><text x="773" y="76" fill="var(--high)" font-size="9.5">THE LABELS</text><text x="773" y="90" fill="var(--ink-soft)" font-size="9">employment outcome</text>
+      <rect x="851" y="44" width="128" height="58" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="915" y="68">Employer survey</text><text x="915" y="84" fill="var(--ink-soft)" font-size="9.5">skills gaps</text>
+    </g>
+    <path d="M560,116 L560,128" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+
+    <!-- BAND 2 : ingestion -->
+    <rect x="136" y="132" width="848" height="84" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <text x="144" y="126" font-size="10" letter-spacing="1.6" fill="var(--ink-soft)">LAYER 2 — INGESTION &amp; STAGING · MODULE 03</text>
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="150" y="146" width="150" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="225" y="170">Connectors</text><text x="225" y="186" fill="var(--ink-soft)" font-size="9.5">JDBC · REST · SFTP · CSV</text>
+      <rect x="314" y="146" width="150" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="389" y="170">Schema mapping</text><text x="389" y="186" fill="var(--ink-soft)" font-size="9.5">source → canonical</text>
+      <rect x="478" y="146" width="150" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="553" y="170">Validation</text><text x="553" y="186" fill="var(--ink-soft)" font-size="9.5">nulls · ranges · dupes</text>
+      <rect x="642" y="146" width="150" height="56" fill="var(--paper)" stroke="var(--low)" stroke-width="1.6"/>
+      <text x="717" y="170" fill="var(--low)">Pseudonymisation</text><text x="717" y="186" fill="var(--ink-soft)" font-size="9.5">ID → salted hash</text>
+      <rect x="806" y="146" width="164" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="888" y="170">Raw staging zone</text><text x="888" y="186" fill="var(--ink-soft)" font-size="9.5">immutable, versioned</text>
+    </g>
+    <path d="M560,216 L560,228" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+
+    <!-- BAND 3 : features -->
+    <rect x="136" y="232" width="848" height="84" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <text x="144" y="226" font-size="10" letter-spacing="1.6" fill="var(--ink-soft)">LAYER 3 — FEATURE ENGINEERING · MODULE 04</text>
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="150" y="246" width="180" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="240" y="270">Cleaning &amp; imputation</text><text x="240" y="286" fill="var(--ink-soft)" font-size="9.5">missing-value policy</text>
+      <rect x="344" y="246" width="180" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="434" y="270">Derivation</text><text x="434" y="286" fill="var(--ink-soft)" font-size="9.5">trends · ratios · counts</text>
+      <rect x="538" y="246" width="200" height="56" fill="var(--paper)" stroke="var(--med)" stroke-width="1.6"/>
+      <text x="638" y="270" fill="var(--med)">Point-in-time snapshot</text><text x="638" y="286" fill="var(--ink-soft)" font-size="9.5">as-of date freeze — anti-leakage</text>
+      <rect x="752" y="246" width="218" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="861" y="270">Feature store</text><text x="861" y="286" fill="var(--ink-soft)" font-size="9.5">one row per student per as-of date</text>
+    </g>
+    <path d="M560,316 L560,328" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+
+    <!-- BAND 4 : ML -->
+    <rect x="136" y="332" width="848" height="110" fill="var(--paper-2)" stroke="var(--ink)" stroke-width="1.4"/>
+    <text x="144" y="326" font-size="10" letter-spacing="1.6" fill="var(--ink)">LAYER 4 — MACHINE LEARNING · MODULES 05 + 11</text>
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="150" y="346" width="152" height="42" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="226" y="365">Training pipeline</text><text x="226" y="379" fill="var(--ink-soft)" font-size="9">cohort-wise split</text>
+      <rect x="316" y="346" width="152" height="42" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="392" y="365">Model registry</text><text x="392" y="379" fill="var(--ink-soft)" font-size="9">versions · metrics · cards</text>
+      <rect x="482" y="346" width="152" height="42" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="558" y="365">Batch inference</text><text x="558" y="379" fill="var(--ink-soft)" font-size="9">per term, all students</text>
+      <rect x="648" y="346" width="152" height="42" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="724" y="365">Explainability</text><text x="724" y="379" fill="var(--ink-soft)" font-size="9">SHAP per student</text>
+      <rect x="814" y="346" width="156" height="42" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="892" y="365">What-if engine</text><text x="892" y="379" fill="var(--ink-soft)" font-size="9">counterfactual scoring</text>
+
+      <rect x="150" y="396" width="400" height="34" fill="var(--paper)" stroke="var(--high)" stroke-width="1.6"/>
+      <text x="350" y="417" fill="var(--high)">FAIRNESS GATE — no model reaches Layer 5 without passing</text>
+      <rect x="564" y="396" width="406" height="34" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="767" y="417">Drift &amp; performance monitor · retrain trigger on new tracer data</text>
+    </g>
+    <path d="M560,442 L560,454" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+
+    <!-- BAND 5 : decision -->
+    <rect x="136" y="458" width="848" height="84" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <text x="144" y="452" font-size="10" letter-spacing="1.6" fill="var(--ink-soft)">LAYER 5 — DECISION SERVICES · MODULES 06–10</text>
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="150" y="472" width="156" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="228" y="496">M06 Risk segments</text><text x="228" y="512" fill="var(--ink-soft)" font-size="9.5">triage &amp; priority queue</text>
+      <rect x="320" y="472" width="156" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="398" y="496">M07 Interventions</text><text x="398" y="512" fill="var(--ink-soft)" font-size="9.5">driver → action mapping</text>
+      <rect x="490" y="472" width="156" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="568" y="496">M08 Program analytics</text><text x="568" y="512" fill="var(--ink-soft)" font-size="9.5">curriculum evidence</text>
+      <rect x="660" y="472" width="150" height="56" fill="var(--paper)" stroke="var(--rule)" stroke-dasharray="3 3"/>
+      <text x="735" y="496" fill="var(--ink-soft)">M09 Services impact</text><text x="735" y="512" fill="var(--ink-soft)" font-size="9.5">needs utilisation logs</text>
+      <rect x="824" y="472" width="146" height="56" fill="var(--paper)" stroke="var(--rule)" stroke-dasharray="3 3"/>
+      <text x="897" y="496" fill="var(--ink-soft)">M10 Employer loop</text><text x="897" y="512" fill="var(--ink-soft)" font-size="9.5">needs survey programme</text>
+    </g>
+    <path d="M560,542 L560,554" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+
+    <!-- BAND 6 : presentation -->
+    <rect x="136" y="558" width="848" height="68" fill="var(--ink)" stroke="var(--ink)"/>
+    <text x="144" y="552" font-size="10" letter-spacing="1.6" fill="var(--ink-soft)">LAYER 6 — PRESENTATION · MODULES 02, 12, 13</text>
+    <g font-size="10.5" text-anchor="middle" fill="var(--paper)">
+      <rect x="150" y="570" width="196" height="44" fill="none" stroke="#4A4E58"/>
+      <text x="248" y="590">M02 Role dashboards</text><text x="248" y="605" fill="#8E939E" font-size="9.5">advisor · head · analyst · QA</text>
+      <rect x="360" y="570" width="196" height="44" fill="none" stroke="#4A4E58"/>
+      <text x="458" y="590">M12 Visualisation</text><text x="458" y="605" fill="#8E939E" font-size="9.5">charts · maps · drill-down</text>
+      <rect x="570" y="570" width="196" height="44" fill="none" stroke="#4A4E58"/>
+      <text x="668" y="590">M13 Reporting</text><text x="668" y="605" fill="#8E939E" font-size="9.5">PDF · Excel · scheduled</text>
+      <rect x="780" y="570" width="190" height="44" fill="none" stroke="#4A4E58"/>
+      <text x="875" y="590">Notifications</text><text x="875" y="605" fill="#8E939E" font-size="9.5">alerts · case assignment</text>
+    </g>
+  </svg>
+  <figcaption>Fig. 1 — Layered architecture. Solid boxes are Phase-1 deliverables; dashed boxes are instrumented but data-blocked. The two highlighted controls (pseudonymisation at Layer 2, the fairness gate at Layer 4) are the two places where this system differs most sharply from a generic BI stack.</figcaption>
+  </figure>
+
+  <div class="body-col">
+    <h3>Why the layering matters</h3>
+    <p><strong>The read-only boundary.</strong> Layer 1 is other people's property. You get a nightly export or a read replica; you never hold a write connection to the registrar's database. This single decision converts a political negotiation ("give my system access to student records") into a technical one ("schedule a nightly extract to this staging server"), and it is usually the difference between getting data and not getting it.</p>
+    <p><strong>Pseudonymisation happens early, not late.</strong> Names and national IDs are stripped at Layer 2 and replaced with a salted hash. Everything above Layer 2 — the entire modelling and analytics estate — works on pseudonymous records. Re-identification happens only at the final presentation step, and only for users whose role and scope permit it. An analyst training a model literally cannot see who the students are.</p>
+    <p><strong>The fairness gate is structural, not procedural.</strong> It is not a dashboard someone remembers to check. It is a step in the deployment pipeline: a model version whose disparity metrics exceed threshold cannot be promoted to <span class="mono">active</span> status, and the API that serves predictions only ever serves the active version.</p>
+  </div>
+
+  <h3 class="body-col">Proposed technology stack</h3>
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Layer</th><th>Choice</th><th>Why this and not the obvious alternative</th></tr></thead>
+    <tbody>
+      <tr><td>Frontend</td><td>React + Vite, TypeScript, Recharts</td><td>Recharts over D3 — you need twelve standard charts fast, not bespoke dataviz. Reserve D3 for the geographic map only.</td></tr>
+      <tr><td>API</td><td>FastAPI (Python)</td><td>Keeps API and ML in one language and one dependency tree. Django REST is fine but you will fight the ORM when you want dataframes.</td></tr>
+      <tr><td>Operational DB</td><td>PostgreSQL 15+</td><td>Row-level security is available natively and maps directly onto the department-scoping rules in §09.</td></tr>
+      <tr><td>Analytics store</td><td>Separate Postgres schema, or Parquet on disk</td><td>Do not stand up a warehouse. At 8k students × 6 cohorts you have &lt;100k rows; a table is a warehouse at this scale.</td></tr>
+      <tr><td>ML</td><td>scikit-learn, XGBoost, SHAP, Fairlearn</td><td>No deep learning. Tabular data of this size is gradient-boosting territory, and you need explanations more than you need 2% more AUC.</td></tr>
+      <tr><td>Orchestration</td><td>Celery + Redis, or plain cron</td><td>Airflow is overkill for six scheduled jobs. Choose boring.</td></tr>
+      <tr><td>Model registry</td><td>MLflow, or a <span class="mono">model_version</span> table</td><td>If MLflow costs you a week of setup, the table version is defensible and you keep the week.</td></tr>
+      <tr><td>Auth</td><td>JWT + TOTP MFA; institutional SSO if available</td><td>SSO removes the password-storage risk entirely. Ask before building your own.</td></tr>
+      <tr><td>Deployment</td><td>Docker Compose on an institutional VM</td><td>Student data residency usually rules out cloud. Design for on-premise from day one.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</section>
+
+<!-- ============ 04 COMPETITORS ============ -->
+<section id="s04">
+<div class="bleed">
+  <div class="sec-head">
+    <div class="sec-num">04</div>
+    <div>
+      <p class="eyebrow">Competitive landscape</p>
+      <h2>What already exists, and the gap it leaves</h2>
+      <p>The honest position: nothing here is unprecedented. Every individual capability exists somewhere. The gap is that no single affordable system aims them at <em>employability</em>, in a low-data institution, with fairness auditing attached.</p>
+    </div>
+  </div>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th style="min-width:150px">System</th><th>What it is</th><th>What it predicts</th><th>What it assumes you have</th><th>The gap</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>EAB Navigate360</strong></td><td>Student success &amp; advising platform, US market leader</td>
+        <td>Retention, persistence, on-time graduation</td><td>Mature data warehouse, dedicated staff, six-figure budget</td>
+        <td class="n">Stops at graduation day. Employability is out of scope.</td>
+      </tr>
+      <tr>
+        <td><strong>Civitas Learning</strong></td><td>Predictive student-success analytics</td>
+        <td>Course completion, persistence risk</td><td>Deep SIS/LMS integration, multi-year clean history</td>
+        <td class="n">Same target as EAB — enrolment, not employment.</td>
+      </tr>
+      <tr>
+        <td><strong>Starfish / Ellucian</strong></td><td>Early-alert and advising workflow</td>
+        <td>Nothing statistical — rule-based flags set by instructors</td><td>Faculty willing to raise flags manually</td>
+        <td class="n">Human-triggered, not model-driven. No probability, no ranking.</td>
+      </tr>
+      <tr>
+        <td><strong>Handshake</strong></td><td>Student–employer marketplace</td>
+        <td>Nothing — it matches, it does not forecast</td><td>Employer network density in your region</td>
+        <td class="n">A job board. Never tells you who is falling behind.</td>
+      </tr>
+      <tr>
+        <td><strong>Symplicity CSM</strong></td><td>Career services management &amp; placement tracking</td>
+        <td>Nothing — records outcomes after the fact</td><td>A staffed career office already running events</td>
+        <td class="n">Excellent operational record-keeping, zero prediction.</td>
+      </tr>
+      <tr>
+        <td><strong>12Twenty</strong></td><td>Graduate outcomes reporting &amp; salary benchmarking</td>
+        <td>Nothing — descriptive benchmarking</td><td>High tracer-survey response rates</td>
+        <td class="n">Tells you last year's number, beautifully. Still retrospective.</td>
+      </tr>
+      <tr>
+        <td><strong>Power BI / Tableau on SIS</strong></td><td>Generic BI over academic tables</td>
+        <td>Nothing — charts of what happened</td><td>An analyst to build every view by hand</td>
+        <td class="n">No model, no explanations, no fairness audit, no case workflow.</td>
+      </tr>
+      <tr>
+        <td><strong>Tracer survey + Excel</strong><br><span class="dim">the real incumbent</span></td><td>Annual graduate follow-up survey</td>
+        <td>Nothing — a historical rate</td><td>Almost nothing, which is why it is universal</td>
+        <td class="n">30–40% response rate, 12-month lag, no individual-level action.</td>
+      </tr>
+      <tr style="background:var(--paper)">
+        <td><strong>This system</strong></td><td>Employability prediction + intervention loop</td>
+        <td class="y">P(employed within 6/12 months), pre-graduation</td>
+        <td>An SIS export, a placement spreadsheet, 3 cohorts of tracer data</td>
+        <td class="y">—</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="body-col">Feature-level comparison</h3>
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th style="min-width:230px">Capability</th><th>EAB</th><th>Civitas</th><th>Symplicity</th><th>Handshake</th><th>BI tools</th><th>Tracer+Excel</th><th>Ours</th></tr></thead>
+    <tbody>
+      <tr><td>Predicts employment outcome</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="y">✓</td></tr>
+      <tr><td>Individual-level risk score</td><td class="y">✓</td><td class="y">✓</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="y">✓</td></tr>
+      <tr><td>Per-student explanation of drivers</td><td class="p">partial</td><td class="p">partial</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="y">✓</td></tr>
+      <tr><td>Recommends specific interventions</td><td class="y">✓</td><td class="p">partial</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="y">✓</td></tr>
+      <tr><td>Measures whether intervention worked</td><td class="p">partial</td><td class="p">partial</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="y">✓</td></tr>
+      <tr><td>Built-in algorithmic fairness audit</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="y">✓</td></tr>
+      <tr><td>Curriculum / course contribution analysis</td><td class="n">✕</td><td class="p">partial</td><td class="n">✕</td><td class="n">✕</td><td class="p">manual</td><td class="n">✕</td><td class="y">✓</td></tr>
+      <tr><td>Employer skills-gap feedback loop</td><td class="n">✕</td><td class="n">✕</td><td class="p">partial</td><td class="p">partial</td><td class="n">✕</td><td class="n">✕</td><td class="y">✓</td></tr>
+      <tr><td>Works with CSV-only institutions</td><td class="n">✕</td><td class="n">✕</td><td class="p">partial</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Deployable on-premise, low budget</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="n">✕</td><td class="p">partial</td><td class="y">✓</td><td class="y">✓</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tbl-note">Ratings reflect the publicly described positioning of each product category rather than a hands-on audit; verify against current vendor documentation before citing in a defence.</p>
+
+  <h3 class="body-col">The five defensible claims to uniqueness</h3>
+  <div class="grid3">
+    <div class="card"><h4>01 · Different target</h4><p>Every serious competitor predicts <em>retention</em>. We predict <em>employment</em>. That is not a tweak — it changes the label source (tracer surveys, not enrolment records), the feature set (internships and work-integrated learning matter enormously; they barely matter for retention), and the horizon (12 months past graduation, not next semester).</p></div>
+    <div class="card"><h4>02 · Low-data institutions</h4><p>The incumbents presuppose a data warehouse and a budget. This system's minimum viable input is a registrar's CSV export, a placement spreadsheet, and three years of tracer responses. That is what most universities outside the US and Western Europe actually have.</p></div>
+    <div class="card"><h4>03 · Fairness as a gate</h4><p>Not a dashboard — a deployment blocker. Group-wise metrics are computed on every model version, and a version that breaches the disparity threshold cannot be promoted. No competitor in this table ships that.</p></div>
+    <div class="card"><h4>04 · Closed loop</h4><p>Prediction → recommendation → logged intervention → observed outcome → retraining signal. Competitors either predict or manage cases. Joining them means the system can eventually answer "does the mentorship programme work?" with evidence rather than testimony.</p></div>
+    <div class="card"><h4>05 · Curriculum evidence</h4><p>The same model that scores students, aggregated upward, tells a department which courses and which sequences actually contribute to employability. That converts a student-support tool into an accreditation and program-review instrument for the same build cost.</p></div>
+    <div class="card" style="border-left:3px solid var(--med)"><h4 style="color:var(--med)">The honest caveat</h4><p>Uniqueness here is a <em>combination</em> claim, not an invention claim. Say so explicitly in your defence. Examiners respect "no one has assembled these five things for this context"; they punish "we invented employability prediction."</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ============ 05 DATA ============ -->
+<section id="s05">
+<div class="bleed">
+  <div class="sec-head">
+    <div class="sec-num">05</div>
+    <div>
+      <p class="eyebrow">The data</p>
+      <h2>What goes in, and the one thing that can sink you</h2>
+      <p>Before any model: you need a target variable that exists, and features that were knowable before the target occurred. Most student projects fail on the second condition without noticing.</p>
+    </div>
+  </div>
+
+  <div class="body-col">
+    <h3>Defining the label</h3>
+    <p>"Employable" is not a measurable thing. "Employed" is. Pin the target down before writing a line of code, because it dictates every downstream choice:</p>
+  </div>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Target</th><th>Definition</th><th>Type</th><th>Source</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><span class="mono">employed_12m</span></td><td>In paid work, self-employment, or further study ≥20 hrs/week within 12 months of graduation</td><td>Binary</td><td>Tracer survey + alumni DB</td><td class="y">Primary target</td></tr>
+      <tr><td><span class="mono">employed_6m</span></td><td>Same, at 6 months</td><td>Binary</td><td>Tracer survey</td><td>Secondary — tighter, harder</td></tr>
+      <tr><td><span class="mono">months_to_first_job</span></td><td>Time from graduation to first employment</td><td>Continuous / censored</td><td>Tracer survey</td><td>Survival model, Phase 3</td></tr>
+      <tr><td><span class="mono">field_relevant</span></td><td>Job is related to field of study (self-reported)</td><td>Binary</td><td>Tracer survey</td><td>Quality-of-outcome measure</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="body-col">
+    <div class="callout">
+      <p style="margin:0 0 10px"><strong>The label problem, stated plainly.</strong> You can only train on graduates whose outcome you know. If your institution has three cohorts of tracer data at a 35% response rate and 900 graduates per year, your usable training set is roughly <span class="mono">2700 × 0.35 ≈ 945</span> labelled records. That is workable — but only just, and the 35% who respond are not a random sample of the 100%.</p>
+      <p style="margin:0"><strong>Respondents are biased toward the employed.</strong> People with jobs answer surveys about jobs. Your model will be trained on an optimistic sample and will therefore over-predict employment. Address this explicitly: report the response rate, compare respondent and non-respondent demographics, and consider inverse-propensity weighting. Naming this limitation in your defence is far stronger than hoping no one asks.</p>
+    </div>
+
+    <h3>Feature dictionary</h3>
+    <p>Grouped by hypothesis. Each feature should exist because you believe it carries signal, not because the column was available.</p>
+  </div>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th style="min-width:170px">Feature</th><th>Source</th><th>Type</th><th>Hypothesis / rationale</th><th style="min-width:130px">Leakage risk</th></tr></thead>
+    <tbody>
+      <tr><td colspan="5" style="background:var(--paper);font-weight:600;letter-spacing:.08em">ACADEMIC PERFORMANCE</td></tr>
+      <tr><td>cgpa_current</td><td>SIS</td><td>float</td><td>Baseline competence signal; weak alone, strong in combination</td><td class="y">Low</td></tr>
+      <tr><td>gpa_trend_slope</td><td>SIS</td><td>float</td><td>Direction beats level — a rising 2.8 differs from a falling 2.8</td><td class="y">Low</td></tr>
+      <tr><td>gpa_volatility</td><td>SIS</td><td>float</td><td>Instability may indicate external pressures affecting readiness</td><td class="y">Low</td></tr>
+      <tr><td>core_course_gpa</td><td>SIS</td><td>float</td><td>Performance in discipline-critical courses employers screen on</td><td class="y">Low</td></tr>
+      <tr><td>retake_count / retake_rate</td><td>SIS</td><td>int / float</td><td>Repeated failures compound and delay entry to the market</td><td class="y">Low</td></tr>
+      <tr><td colspan="5" style="background:var(--paper);font-weight:600;letter-spacing:.08em">PROGRESSION</td></tr>
+      <tr><td>credit_completion_ratio</td><td>SIS</td><td>float</td><td>Credits earned ÷ credits attempted; a clean progression signal</td><td class="y">Low</td></tr>
+      <tr><td>on_track_flag</td><td>Derived</td><td>bool</td><td>Whether the student can still finish in nominal time</td><td class="y">Low</td></tr>
+      <tr><td>time_to_degree_projected</td><td>Derived</td><td>float</td><td>Delay correlates with weaker labour-market entry</td><td class="p">Medium — must be projected, not actual</td></tr>
+      <tr><td>semesters_enrolled</td><td>SIS</td><td>int</td><td>Exposure and continuity</td><td class="y">Low</td></tr>
+      <tr><td colspan="5" style="background:var(--paper);font-weight:600;letter-spacing:.08em">WORK-INTEGRATED LEARNING — expected to be the strongest block</td></tr>
+      <tr><td>internship_completed</td><td>Placement office</td><td>bool</td><td>Consistently the single largest employability predictor in the literature</td><td class="y">Low</td></tr>
+      <tr><td>internship_duration_weeks</td><td>Placement office</td><td>int</td><td>Dose–response: longer placements convert to offers more often</td><td class="y">Low</td></tr>
+      <tr><td>internship_host_sector</td><td>Placement office</td><td>categorical</td><td>Sector access shapes network formation</td><td class="y">Low</td></tr>
+      <tr><td>internship_supervisor_rating</td><td>Placement office</td><td>ordinal</td><td>Direct employer assessment of work-readiness</td><td class="p">Medium — confirm it predates graduation</td></tr>
+      <tr><td>capstone_project_grade</td><td>SIS</td><td>float</td><td>Applied capability, closest academic proxy for real work</td><td class="y">Low</td></tr>
+      <tr><td colspan="5" style="background:var(--paper);font-weight:600;letter-spacing:.08em">ENGAGEMENT</td></tr>
+      <tr><td>lms_login_freq</td><td>LMS</td><td>float</td><td>Sustained engagement proxy; useful where attendance is unrecorded</td><td class="y">Low</td></tr>
+      <tr><td>assignment_ontime_rate</td><td>LMS</td><td>float</td><td>Reliability and deadline behaviour — a work-readiness proxy</td><td class="y">Low</td></tr>
+      <tr><td>attendance_rate</td><td>SIS / LMS</td><td>float</td><td>Where recorded, a strong early-warning signal</td><td class="y">Low</td></tr>
+      <tr><td>cocurricular_count</td><td>Student affairs</td><td>int</td><td>Soft-skill development and network formation</td><td class="y">Low</td></tr>
+      <tr><td>leadership_role_flag</td><td>Student affairs</td><td>bool</td><td>Signals initiative; frequently cited by employers</td><td class="y">Low</td></tr>
+      <tr><td colspan="5" style="background:var(--paper);font-weight:600;letter-spacing:.08em">CONTEXT (use with care — see §06 fairness)</td></tr>
+      <tr><td>program_id / faculty_id</td><td>SIS</td><td>categorical</td><td>Field of study drives labour demand more than any personal attribute</td><td class="y">Low</td></tr>
+      <tr><td>program_hist_employ_rate</td><td>Derived</td><td>float</td><td>Base rate for the program; strong but risks fatalism about programs</td><td class="p">Medium — exclude current cohort</td></tr>
+      <tr><td>entry_qualification_score</td><td>SIS</td><td>float</td><td>Prior attainment; partly captures pre-existing advantage</td><td class="y">Low</td></tr>
+      <tr><td>district / province</td><td>SIS</td><td>categorical</td><td class="n">Proxy for opportunity access — a fairness-sensitive attribute</td><td class="n">Bias risk, not leakage</td></tr>
+      <tr><td>gender, age_band</td><td>SIS</td><td>categorical</td><td class="n">Held for auditing only, not necessarily for modelling</td><td class="n">Bias risk, not leakage</td></tr>
+      <tr><td>financial_aid_status</td><td>Finance</td><td>bool</td><td class="n">Socio-economic proxy; predictive but ethically loaded</td><td class="n">Bias risk, not leakage</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="body-col">
+    <div class="rulebox">
+      <h4>The leakage rule — read before writing any feature code</h4>
+      <p style="margin:0 0 10px">Every feature must be computable using only information available <strong>on or before the as-of date</strong> of the prediction. If you predict at the start of the final year, you may not use final-year grades, the final GPA, the graduation date, or anything from the tracer survey.</p>
+      <p class="mono tiny" style="margin:0">Symptom of leakage: your model scores 0.97 AUC.<br>Reality of this problem: a good model scores 0.72–0.82.<br>If you see 0.95+, you have leaked. Go and find it.</p>
+    </div>
+
+    <h3>Sensitive attributes: a specific decision to make and defend</h3>
+    <p>You must decide whether gender, district, and financial-aid status enter the model as features or are held only for auditing. There is no universally right answer, so choose one and justify it:</p>
+    <ul>
+      <li><strong>Exclude them from features, retain for auditing.</strong> Safer, ethically cleaner, easier to defend. Costs some accuracy, and does not actually guarantee fairness — correlated proxies (secondary school, district-linked course choices) leak the information back in anyway.</li>
+      <li><strong>Include them, and audit hard.</strong> Sometimes produces fairer outcomes, because the model can learn that a given GPA means something different under different circumstances. Harder to defend to a review board.</li>
+    </ul>
+    <p><strong>Recommended for this project:</strong> exclude from features, retain for mandatory group-wise auditing, and state the proxy-leakage caveat explicitly. It is the defensible default, and the audit is what does the real work either way.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ 06 AI PIPELINE ============ -->
+<section id="s06">
+<div class="bleed">
+  <div class="sec-head">
+    <div class="sec-num">06</div>
+    <div>
+      <p class="eyebrow">Machine learning</p>
+      <h2>Two pipelines: one that learns, one that serves</h2>
+      <p>They run on different schedules, with different inputs, and confusing them is the most common architectural mistake in projects like this.</p>
+    </div>
+  </div>
+
+  <figure>
+  <svg viewBox="0 0 1000 560" role="img" aria-label="Training and inference pipeline diagram" class="svg-txt">
+    <defs>
+      <marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+        <path d="M0,1 L8,4.5 L0,8 z" fill="var(--ink-soft)"/>
+      </marker>
+      <marker id="ar3" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+        <path d="M0,1 L8,4.5 L0,8 z" fill="var(--high)"/>
+      </marker>
+    </defs>
+
+    <!-- TRAINING -->
+    <rect x="16" y="34" width="968" height="238" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <text x="26" y="26" font-size="10.5" letter-spacing="1.6" fill="var(--ink)">PIPELINE A — TRAINING · runs once per year, when new tracer data lands</text>
+
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="32" y="52" width="136" height="60" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="100" y="76">Graduated cohorts</text><text x="100" y="92" fill="var(--ink-soft)" font-size="9.5">2021 · 2022 · 2023</text>
+      <path d="M168,82 L196,82" stroke="var(--ink-soft)" marker-end="url(#ar2)"/>
+
+      <rect x="200" y="52" width="150" height="60" fill="var(--paper)" stroke="var(--med)" stroke-width="1.6"/>
+      <text x="275" y="72" fill="var(--med)">Rewind to as-of date</text><text x="275" y="88" fill="var(--ink-soft)" font-size="9.5">features as they looked</text>
+      <text x="275" y="102" fill="var(--ink-soft)" font-size="9.5">18 months before graduation</text>
+      <path d="M350,82 L378,82" stroke="var(--ink-soft)" marker-end="url(#ar2)"/>
+
+      <rect x="382" y="52" width="140" height="60" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="452" y="76">Join labels</text><text x="452" y="92" fill="var(--ink-soft)" font-size="9.5">tracer outcome, 12m</text>
+      <path d="M522,82 L550,82" stroke="var(--ink-soft)" marker-end="url(#ar2)"/>
+
+      <rect x="554" y="52" width="176" height="60" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="642" y="72">Split BY COHORT</text><text x="642" y="88" fill="var(--ink-soft)" font-size="9.5">train 21–22 · test 23</text>
+      <text x="642" y="102" fill="var(--high)" font-size="9">never a random split</text>
+      <path d="M730,82 L758,82" stroke="var(--ink-soft)" marker-end="url(#ar2)"/>
+
+      <rect x="762" y="52" width="190" height="60" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="857" y="72">Handle imbalance</text><text x="857" y="88" fill="var(--ink-soft)" font-size="9.5">class weights · threshold tuning</text>
+      <text x="857" y="102" fill="var(--ink-soft)" font-size="9">(SMOTE only if justified)</text>
+    </g>
+
+    <path d="M857,112 L857,126 L500,126 L500,140" stroke="var(--ink-soft)" fill="none" marker-end="url(#ar2)"/>
+
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="60" y="144" width="200" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="160" y="166">Logistic regression</text><text x="160" y="182" fill="var(--ink-soft)" font-size="9.5">baseline · fully interpretable</text>
+      <rect x="276" y="144" width="200" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="376" y="166">Random forest</text><text x="376" y="182" fill="var(--ink-soft)" font-size="9.5">non-linear · robust to nulls</text>
+      <rect x="492" y="144" width="200" height="56" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.6"/>
+      <text x="592" y="166">Gradient boosting</text><text x="592" y="182" fill="var(--ink-soft)" font-size="9.5">XGBoost — expected winner</text>
+      <rect x="708" y="144" width="232" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="824" y="166">Calibration</text><text x="824" y="182" fill="var(--ink-soft)" font-size="9.5">Platt / isotonic — a score must mean a probability</text>
+    </g>
+
+    <path d="M500,200 L500,214" stroke="var(--ink-soft)" marker-end="url(#ar2)"/>
+
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="60" y="218" width="290" height="42" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="205" y="238">Evaluate: PR-AUC · recall@k · Brier · calibration curve</text>
+      <text x="205" y="252" fill="var(--high)" font-size="9">accuracy is meaningless on imbalanced classes</text>
+      <rect x="366" y="218" width="270" height="42" fill="var(--paper)" stroke="var(--high)" stroke-width="1.8"/>
+      <text x="501" y="238" fill="var(--high)">FAIRNESS GATE</text>
+      <text x="501" y="252" fill="var(--ink-soft)" font-size="9">TPR gap &lt; 0.10 across gender, district, program</text>
+      <rect x="652" y="218" width="288" height="42" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="796" y="238">Register version + model card</text>
+      <text x="796" y="252" fill="var(--ink-soft)" font-size="9">status: candidate → active (QA sign-off required)</text>
+    </g>
+
+    <!-- INFERENCE -->
+    <rect x="16" y="304" width="968" height="140" fill="var(--ink)" stroke="var(--ink)"/>
+    <text x="26" y="296" font-size="10.5" letter-spacing="1.6" fill="var(--ink)">PIPELINE B — INFERENCE · runs every term, on students still enrolled</text>
+
+    <g font-size="10.5" text-anchor="middle" fill="var(--paper)">
+      <rect x="34" y="322" width="140" height="54" fill="none" stroke="#4A4E58"/>
+      <text x="104" y="344">Enrolled students</text><text x="104" y="360" fill="#8E939E" font-size="9.5">year 3 &amp; 4, no label yet</text>
+      <path d="M174,349 L200,349" stroke="#8E939E" marker-end="url(#ar2)"/>
+      <rect x="204" y="322" width="150" height="54" fill="none" stroke="#4A4E58"/>
+      <text x="279" y="344">Same feature code</text><text x="279" y="360" fill="#8E939E" font-size="9.5">one shared library</text>
+      <path d="M354,349 L380,349" stroke="#8E939E" marker-end="url(#ar2)"/>
+      <rect x="384" y="322" width="150" height="54" fill="none" stroke="#4A4E58"/>
+      <text x="459" y="344">Active model only</text><text x="459" y="360" fill="#8E939E" font-size="9.5">version pinned &amp; logged</text>
+      <path d="M534,349 L560,349" stroke="#8E939E" marker-end="url(#ar2)"/>
+      <rect x="564" y="322" width="150" height="54" fill="none" stroke="#4A4E58"/>
+      <text x="639" y="344">Score + SHAP</text><text x="639" y="360" fill="#8E939E" font-size="9.5">probability &amp; drivers</text>
+      <path d="M714,349 L740,349" stroke="#8E939E" marker-end="url(#ar2)"/>
+      <rect x="744" y="322" width="206" height="54" fill="none" stroke="#4A4E58"/>
+      <text x="847" y="344">Persist to prediction table</text><text x="847" y="360" fill="#8E939E" font-size="9.5">immutable, timestamped, auditable</text>
+
+      <rect x="34" y="390" width="916" height="38" fill="none" stroke="#4A4E58"/>
+      <text x="492" y="414" fill="#C9CCD2">Segment into HIGH / MEDIUM / LOW by calibrated thresholds → assign cases to advisors → notify</text>
+    </g>
+
+    <!-- feedback -->
+    <path d="M960,410 L972,410 L972,500 L120,500 L120,470" stroke="var(--high)" fill="none" stroke-dasharray="5 4" marker-end="url(#ar3)"/>
+    <rect x="34" y="470" width="932" height="0" fill="none"/>
+    <text x="500" y="516" text-anchor="middle" font-size="10.5" fill="var(--high)">FEEDBACK LOOP — logged interventions and next year's tracer results become training rows, and the cycle repeats</text>
+    <rect x="60" y="440" width="120" height="30" fill="var(--paper-2)" stroke="var(--high)"/>
+    <text x="120" y="459" text-anchor="middle" font-size="10" fill="var(--high)">Outcomes observed</text>
+    <path d="M120,440 L120,282 L120,272" stroke="var(--high)" fill="none" stroke-dasharray="5 4" marker-end="url(#ar3)"/>
+    <text x="500" y="546" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">Year 1 of operation produces no feedback — the loop only closes when the first predicted cohort graduates and is surveyed.</text>
+  </svg>
+  <figcaption>Fig. 2 — The two pipelines. They share exactly one thing: the feature-engineering code. If training and inference compute features differently, predictions silently degrade — this is called training/serving skew and it is the second most common failure after leakage.</figcaption>
+  </figure>
+
+  <div class="body-col">
+    <h3>Why these models and not a neural network</h3>
+    <p>Three reasons, and they are worth being able to recite. <strong>Size:</strong> with roughly a thousand labelled rows and forty features, a neural network has nothing to learn that gradient boosting will not learn better. <strong>Structure:</strong> this is heterogeneous tabular data with missing values — precisely where tree ensembles dominate and deep learning underperforms. <strong>Explainability:</strong> an advisor will be sitting across from a student, and "the model says 0.34" is not an intervention. "No internship, and your GPA has fallen for three semesters" is.</p>
+
+    <h3>Evaluation: measure the right thing</h3>
+    <p>If 70% of your graduates find work, a model that predicts "employed" for everyone scores 70% accuracy and is worthless. The metrics that matter:</p>
+    <ul>
+      <li><strong>Recall on the at-risk class</strong> — of the students who genuinely struggled, how many did we flag? This is the metric the institution actually cares about. Missing a struggling student is a far worse error than over-flagging a fine one.</li>
+      <li><strong>Precision@k</strong> — if advisors have capacity for 150 cases, how many of our top 150 were genuinely at risk? This maps directly onto real staff capacity.</li>
+      <li><strong>PR-AUC</strong> — threshold-independent performance on the minority class.</li>
+      <li><strong>Calibration (Brier score, reliability curve)</strong> — when the model says 0.30, do roughly 30% of those students actually end up unemployed? Without calibration, your probabilities are just rankings wearing a decimal point.</li>
+    </ul>
+
+    <h3>Fairness, concretely</h3>
+    <p>Fairness is not one number. Compute per group (gender, district, program, entry route) and per model version:</p>
+    <div class="grid2" style="margin:18px 0">
+      <div class="card"><h4>Demographic parity gap</h4><p>Difference in flag rates between groups. Large gaps may be legitimate — if one program truly has weaker outcomes, flagging more of its students is correct. Investigate, don't auto-correct.</p></div>
+      <div class="card"><h4>Equal opportunity gap</h4><p>Difference in true-positive rate. This one is not negotiable: if the model catches 80% of at-risk men and 55% of at-risk women, it is failing women. Threshold: gap &lt; 0.10.</p></div>
+      <div class="card"><h4>Calibration by group</h4><p>Does 0.30 mean the same thing for a rural student as an urban one? If not, the same score triggers different real-world risk, and your thresholds are unfair.</p></div>
+      <div class="card"><h4>Intervention equity</h4><p>The neglected one: audit not just predictions but whether flagged students from different groups actually <em>received</em> support at similar rates. A fair model with unfair follow-through is still an unfair system.</p></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ 07 CORE LOGIC ============ -->
+<section id="s07">
+<div class="bleed">
+  <div class="sec-head">
+    <div class="sec-num">07</div>
+    <div>
+      <p class="eyebrow">Core logic</p>
+      <h2>How a term actually runs</h2>
+      <p>The system has one heartbeat: the academic term. Everything else is triggered by it. If you can narrate this cycle from memory, you understand the project.</p>
+    </div>
+  </div>
+
+  <figure>
+  <svg viewBox="0 0 1000 512" role="img" aria-label="Sequence diagram of one term cycle" class="svg-txt">
+    <defs>
+      <marker id="sq" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+        <path d="M0,1 L7,4 L0,7 z" fill="var(--ink)"/>
+      </marker>
+      <marker id="sqr" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+        <path d="M0,1 L7,4 L0,7 z" fill="var(--high)"/>
+      </marker>
+    </defs>
+
+    <!-- lanes -->
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="30" y="20" width="130" height="34" fill="var(--ink)"/><text x="95" y="41" fill="var(--paper)">SCHEDULER</text>
+      <rect x="212" y="20" width="150" height="34" fill="var(--ink)"/><text x="287" y="41" fill="var(--paper)">DATA PIPELINE</text>
+      <rect x="414" y="20" width="150" height="34" fill="var(--ink)"/><text x="489" y="41" fill="var(--paper)">ML SERVICE</text>
+      <rect x="616" y="20" width="150" height="34" fill="var(--ink)"/><text x="691" y="41" fill="var(--paper)">ADVISOR</text>
+      <rect x="818" y="20" width="152" height="34" fill="var(--ink)"/><text x="894" y="41" fill="var(--paper)">STUDENT</text>
+    </g>
+    <g stroke="var(--rule)" stroke-dasharray="3 4">
+      <line x1="95" y1="54" x2="95" y2="452"/><line x1="287" y1="54" x2="287" y2="452"/>
+      <line x1="489" y1="54" x2="489" y2="452"/><line x1="691" y1="54" x2="691" y2="452"/>
+      <line x1="894" y1="54" x2="894" y2="452"/>
+    </g>
+
+    <g font-size="10" fill="var(--ink)">
+      <!-- 1 -->
+      <line x1="95" y1="82" x2="280" y2="82" stroke="var(--ink)" marker-end="url(#sq)"/>
+      <text x="104" y="76">1 · Term closes → trigger nightly extract</text>
+      <!-- 2 self -->
+      <path d="M287,104 L347,104 L347,126 L294,126" fill="none" stroke="var(--ink)" marker-end="url(#sq)"/>
+      <text x="356" y="110">2 · Pull SIS, LMS, placement · validate · hash IDs</text>
+      <text x="356" y="123" fill="var(--ink-soft)" font-size="9">rejected rows quarantined, never silently dropped</text>
+      <!-- 3 self -->
+      <path d="M287,150 L347,150 L347,172 L294,172" fill="none" stroke="var(--ink)" marker-end="url(#sq)"/>
+      <text x="356" y="156">3 · Compute features as of today · write snapshot</text>
+      <text x="356" y="169" fill="var(--ink-soft)" font-size="9">one row per enrolled student, frozen and versioned</text>
+      <!-- 4 -->
+      <line x1="287" y1="196" x2="482" y2="196" stroke="var(--ink)" marker-end="url(#sq)"/>
+      <text x="296" y="190">4 · Snapshot ready</text>
+      <!-- 5 self -->
+      <path d="M489,218 L549,218 L549,240 L496,240" fill="none" stroke="var(--ink)" marker-end="url(#sq)"/>
+      <text x="558" y="224">5 · Load ACTIVE model → score → SHAP → calibrate</text>
+      <text x="558" y="237" fill="var(--ink-soft)" font-size="9">version id stamped on every prediction row</text>
+      <!-- 6 self -->
+      <path d="M489,264 L549,264 L549,286 L496,286" fill="none" stroke="var(--ink)" marker-end="url(#sq)"/>
+      <text x="558" y="270">6 · Segment HIGH / MED / LOW · rank by priority</text>
+      <text x="558" y="283" fill="var(--ink-soft)" font-size="9">priority = risk × time-to-graduation × modifiability</text>
+      <!-- 7 -->
+      <line x1="489" y1="310" x2="684" y2="310" stroke="var(--ink)" marker-end="url(#sq)"/>
+      <text x="498" y="304">7 · Cases assigned to advisor's queue + notification</text>
+      <!-- 8 -->
+      <line x1="691" y1="336" x2="887" y2="336" stroke="var(--ink)" marker-end="url(#sq)"/>
+      <text x="700" y="330">8 · Advisor reviews drivers, contacts student</text>
+      <text x="700" y="343" fill="var(--ink-soft)" font-size="9">human decides the conversation — model only decides the order</text>
+      <!-- 9 -->
+      <line x1="887" y1="368" x2="698" y2="368" stroke="var(--ink)" marker-end="url(#sq)"/>
+      <text x="700" y="362">9 · Student acts: internship, workshop, recovery plan</text>
+      <!-- 10 -->
+      <line x1="691" y1="394" x2="496" y2="394" stroke="var(--ink)" marker-end="url(#sq)"/>
+      <text x="410" y="388" text-anchor="end">10 · Intervention logged with type, date, outcome</text>
+      <!-- 11 -->
+      <path d="M894,416 L960,416 L960,446 L120,446 L120,436" fill="none" stroke="var(--high)" stroke-dasharray="5 4" marker-end="url(#sqr)"/>
+      <text x="540" y="440" text-anchor="middle" fill="var(--high)" font-size="10">11 · Twelve months after graduation the tracer survey lands — the label arrives, the model retrains, thresholds are re-tuned</text>
+    </g>
+    <text x="500" y="480" text-anchor="middle" font-size="10" fill="var(--ink-soft)">Steps 1–7 are automated and run overnight. Steps 8–10 are human and run all term. Step 11 runs once a year and is what makes the system improve rather than merely repeat.</text>
+  </svg>
+  <figcaption>Fig. 3 — One term cycle. Note where the human sits: the system produces a ranked, explained queue and stops. It never contacts a student, never assigns a grade, never decides eligibility for anything.</figcaption>
+  </figure>
+
+  <div class="body-col">
+    <h3>Three pieces of logic worth specifying precisely</h3>
+
+    <h4>Risk segmentation — thresholds, not tertiles</h4>
+    <p>The tempting implementation is to sort by probability and cut into thirds. Do not. Segment by <em>calibrated probability</em> against fixed thresholds, so that "high risk" means the same thing every term and cohorts stay comparable over time. A reasonable starting point, tuned against advisor capacity:</p>
+    <div class="rulebox">
+      <p class="mono tiny" style="margin:0">
+        HIGH &nbsp;&nbsp;&nbsp;p(employed) &lt; 0.45 &nbsp;→ case created, contact within 14 days<br>
+        MEDIUM &nbsp;0.45 ≤ p &lt; 0.70 &nbsp;→ group intervention, monitored monthly<br>
+        LOW &nbsp;&nbsp;&nbsp;&nbsp;p ≥ 0.70 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ standard services, no case
+      </p>
+    </div>
+    <p>Then check the volume the thresholds produce. If HIGH contains 400 students and you have three advisors, the thresholds are wrong for this institution regardless of what the statistics say. Capacity is a real constraint and should be visible in the admin settings, not hard-coded.</p>
+
+    <h4>Intervention ranking — modifiability, not just magnitude</h4>
+    <p>SHAP tells you which features pushed a prediction down. It does not tell you which of those you can change. Entry qualification score might be the largest negative driver, and it is unchangeable. The recommendation engine must therefore rank by <span class="mono">|shap_value| × modifiability_weight × institutional_capacity</span>, where modifiability is a fixed property of each feature:</p>
+    <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Driver</th><th>Modifiable?</th><th>Mapped intervention</th><th>Owner</th><th>Lead time</th></tr></thead>
+      <tbody>
+        <tr><td>No internship / WIL exposure</td><td class="y">High</td><td>Placement targeting, employer outreach</td><td>Placement office</td><td>1 semester</td></tr>
+        <tr><td>Falling GPA trend</td><td class="y">High</td><td>Academic recovery plan, tutoring</td><td>Academic advisor</td><td>1 semester</td></tr>
+        <tr><td>Low engagement</td><td class="y">High</td><td>Check-in, peer mentor match</td><td>Advisor</td><td>Weeks</td></tr>
+        <tr><td>No co-curricular participation</td><td class="y">High</td><td>Club/leadership placement, skills workshop</td><td>Student affairs</td><td>Weeks</td></tr>
+        <tr><td>Weak capstone / project record</td><td class="p">Medium</td><td>Portfolio-building support</td><td>Academic dept</td><td>1–2 semesters</td></tr>
+        <tr><td>Repeated core-course failures</td><td class="p">Medium</td><td>Targeted remediation before final year</td><td>Academic dept</td><td>1–2 semesters</td></tr>
+        <tr><td>Program base rate</td><td class="n">None (individual)</td><td>Escalate to curriculum review — not a student action</td><td>Academic head</td><td>Years</td></tr>
+        <tr><td>Entry qualification</td><td class="n">None</td><td class="n">No intervention — must never be shown as a student deficiency</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h4>The what-if engine</h4>
+    <p>Counterfactual scoring, and the most persuasive screen in the product. Take the student's feature vector, flip <span class="mono">internship_completed</span> from false to true, re-score, show the delta: <em>"completing a 12-week internship raises this student's predicted employability from 0.34 to 0.58."</em> That is what turns a score into a decision an advisor can defend to a student. Two warnings: this is correlational, not causal, and it must be labelled as an estimate — and you must cap the feature edits to modifiable features only, or someone will inevitably build a screen that says "if this student had been born in a different district."</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ 08 SCHEMA ============ -->
+<section id="s08">
+<div class="bleed">
+  <div class="sec-head">
+    <div class="sec-num">08</div>
+    <div>
+      <p class="eyebrow">Database</p>
+      <h2>Schema — five zones around one hub</h2>
+      <p>Everything hangs off <span class="mono">student</span>, but the student table itself holds almost no personal data. That is deliberate.</p>
+    </div>
+  </div>
+
+  <figure>
+  <svg viewBox="0 0 1000 640" role="img" aria-label="Entity relationship diagram" class="svg-txt">
+    <defs>
+      <marker id="er" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+        <path d="M0,1 L7,4 L0,7 z" fill="var(--blue)"/>
+      </marker>
+    </defs>
+
+    <!-- ZONE 1 ACADEMIC -->
+    <rect x="16" y="30" width="470" height="262" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <text x="24" y="24" font-size="9.5" letter-spacing="1.4" fill="var(--ink-soft)">ZONE A — ACADEMIC RECORD (pseudonymous)</text>
+    <g font-size="9.5">
+      <rect x="24" y="46" width="105" height="40" fill="var(--paper)" stroke="var(--rule)"/><text x="30" y="60" font-size="10">faculty</text><text x="30" y="74" fill="var(--ink-soft)" font-size="8.5">id · name</text>
+      <rect x="141" y="46" width="105" height="40" fill="var(--paper)" stroke="var(--rule)"/><text x="147" y="60" font-size="10">department</text><text x="147" y="74" fill="var(--ink-soft)" font-size="8.5">id · faculty_id</text>
+      <rect x="258" y="46" width="105" height="40" fill="var(--paper)" stroke="var(--rule)"/><text x="264" y="60" font-size="10">program</text><text x="264" y="74" fill="var(--ink-soft)" font-size="8.5">id · dept_id · years</text>
+      <rect x="375" y="46" width="105" height="40" fill="var(--paper)" stroke="var(--rule)"/><text x="381" y="60" font-size="10">term</text><text x="381" y="74" fill="var(--ink-soft)" font-size="8.5">id · year · seq</text>
+
+      <rect x="24" y="102" width="222" height="52" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.8"/>
+      <text x="30" y="118" font-size="11" font-weight="600">student</text>
+      <text x="30" y="132" fill="var(--ink-soft)" font-size="8.5">student_hash (PK) · program_id · cohort_year</text>
+      <text x="30" y="146" fill="var(--high)" font-size="8.5">no name · no national ID · demographics separate</text>
+
+      <rect x="258" y="102" width="105" height="52" fill="var(--paper)" stroke="var(--rule)"/><text x="264" y="118" font-size="10">course</text><text x="264" y="132" fill="var(--ink-soft)" font-size="8.5">code · credits</text><text x="264" y="145" fill="var(--ink-soft)" font-size="8.5">is_core</text>
+      <rect x="375" y="102" width="105" height="52" fill="var(--paper)" stroke="var(--rule)"/><text x="381" y="118" font-size="10">student_demog</text><text x="381" y="132" fill="var(--ink-soft)" font-size="8.5">gender · district</text><text x="381" y="145" fill="var(--high)" font-size="8.5">audit-only table</text>
+
+      <rect x="24" y="170" width="105" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="30" y="185" font-size="10">enrollment</text><text x="30" y="199" fill="var(--ink-soft)" font-size="8.5">student · term</text>
+      <rect x="141" y="170" width="105" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="147" y="185" font-size="10">grade_record</text><text x="147" y="199" fill="var(--ink-soft)" font-size="8.5">course · mark · attempt</text>
+      <rect x="258" y="170" width="105" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="264" y="185" font-size="10">internship</text><text x="264" y="199" fill="var(--ink-soft)" font-size="8.5">weeks · sector · rating</text>
+      <rect x="375" y="170" width="105" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="381" y="185" font-size="10">capstone</text><text x="381" y="199" fill="var(--ink-soft)" font-size="8.5">grade · type</text>
+
+      <rect x="24" y="230" width="105" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="30" y="245" font-size="10">cocurricular</text><text x="30" y="259" fill="var(--ink-soft)" font-size="8.5">activity · role</text>
+      <rect x="141" y="230" width="105" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="147" y="245" font-size="10">lms_engagement</text><text x="147" y="259" fill="var(--ink-soft)" font-size="8.5">logins · ontime_rate</text>
+      <rect x="258" y="230" width="105" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="264" y="245" font-size="10">attendance</text><text x="264" y="259" fill="var(--ink-soft)" font-size="8.5">term · rate</text>
+      <rect x="375" y="230" width="105" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="381" y="245" font-size="10">consent_record</text><text x="381" y="259" fill="var(--ink-soft)" font-size="8.5">scope · granted_at</text>
+    </g>
+
+    <!-- ZONE 2 OUTCOMES -->
+    <rect x="16" y="306" width="470" height="132" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <text x="24" y="300" font-size="9.5" letter-spacing="1.4" fill="var(--ink-soft)">ZONE B — OUTCOMES · the source of all labels</text>
+    <g font-size="9.5">
+      <rect x="24" y="322" width="222" height="48" fill="var(--paper)" stroke="var(--low)" stroke-width="1.8"/>
+      <text x="30" y="338" font-size="11" fill="var(--low)" font-weight="600">graduate_outcome</text>
+      <text x="30" y="352" fill="var(--ink-soft)" font-size="8.5">student_hash · employed_6m · employed_12m</text>
+      <text x="30" y="365" fill="var(--ink-soft)" font-size="8.5">months_to_job · field_relevant · verified_by</text>
+      <rect x="258" y="322" width="222" height="48" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="264" y="338" font-size="10">tracer_survey_response</text>
+      <text x="264" y="352" fill="var(--ink-soft)" font-size="8.5">wave · responded_at · raw answers</text>
+      <text x="264" y="365" fill="var(--ink-soft)" font-size="8.5">response_weight (non-response correction)</text>
+
+      <rect x="24" y="382" width="222" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="30" y="398" font-size="10">employer</text><text x="30" y="412" fill="var(--ink-soft)" font-size="8.5">id · sector · size · partnership_tier</text>
+      <rect x="258" y="382" width="222" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="264" y="398" font-size="10">employer_feedback</text><text x="264" y="412" fill="var(--ink-soft)" font-size="8.5">skill_gap_tags · satisfaction · program_id</text>
+    </g>
+
+    <!-- ZONE 3 ML -->
+    <rect x="506" y="30" width="478" height="262" fill="var(--paper-2)" stroke="var(--ink)" stroke-width="1.3"/>
+    <text x="514" y="24" font-size="9.5" letter-spacing="1.4" fill="var(--ink)">ZONE C — MACHINE LEARNING</text>
+    <g font-size="9.5">
+      <rect x="514" y="46" width="226" height="56" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.8"/>
+      <text x="520" y="62" font-size="11" font-weight="600">feature_snapshot</text>
+      <text x="520" y="76" fill="var(--ink-soft)" font-size="8.5">student_hash · as_of_date · feature_set_version</text>
+      <text x="520" y="89" fill="var(--ink-soft)" font-size="8.5">features JSONB · label (null until known)</text>
+      <text x="520" y="99" fill="var(--med)" font-size="8.5">immutable — never updated in place</text>
+
+      <rect x="752" y="46" width="226" height="56" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="758" y="62" font-size="11">model_version</text>
+      <text x="758" y="76" fill="var(--ink-soft)" font-size="8.5">id · algorithm · trained_at · train_cohorts</text>
+      <text x="758" y="89" fill="var(--ink-soft)" font-size="8.5">status: candidate | active | retired</text>
+      <text x="758" y="99" fill="var(--ink-soft)" font-size="8.5">artifact_path · hyperparams · approved_by</text>
+
+      <rect x="514" y="118" width="226" height="52" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.8"/>
+      <text x="520" y="134" font-size="11" font-weight="600">prediction</text>
+      <text x="520" y="148" fill="var(--ink-soft)" font-size="8.5">snapshot_id · model_version_id · probability</text>
+      <text x="520" y="161" fill="var(--ink-soft)" font-size="8.5">ci_low · ci_high · risk_segment · created_at</text>
+
+      <rect x="752" y="118" width="226" height="52" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="758" y="134" font-size="11">prediction_driver</text>
+      <text x="758" y="148" fill="var(--ink-soft)" font-size="8.5">prediction_id · feature_name · shap_value</text>
+      <text x="758" y="161" fill="var(--ink-soft)" font-size="8.5">direction · rank · modifiable</text>
+
+      <rect x="514" y="186" width="226" height="46" fill="var(--paper)" stroke="var(--high)" stroke-width="1.5"/>
+      <text x="520" y="202" font-size="10" fill="var(--high)">fairness_audit</text>
+      <text x="520" y="216" fill="var(--ink-soft)" font-size="8.5">model_version_id · attribute · group</text>
+      <text x="520" y="228" fill="var(--ink-soft)" font-size="8.5">tpr · fpr · parity_gap · passed (bool)</text>
+      <rect x="752" y="186" width="226" height="46" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="758" y="202" font-size="10">model_metric</text>
+      <text x="758" y="216" fill="var(--ink-soft)" font-size="8.5">pr_auc · recall_at_k · brier · split</text>
+
+      <rect x="514" y="248" width="226" height="36" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="520" y="264" font-size="10">whatif_simulation</text><text x="520" y="277" fill="var(--ink-soft)" font-size="8.5">baseline_p · modified_features · new_p · run_by</text>
+      <rect x="752" y="248" width="226" height="36" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="758" y="264" font-size="10">drift_log</text><text x="758" y="277" fill="var(--ink-soft)" font-size="8.5">feature · psi · flagged_at</text>
+    </g>
+
+    <!-- ZONE 4 INTERVENTION -->
+    <rect x="506" y="306" width="478" height="132" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <text x="514" y="300" font-size="9.5" letter-spacing="1.4" fill="var(--ink-soft)">ZONE D — INTERVENTION &amp; CASEWORK</text>
+    <g font-size="9.5">
+      <rect x="514" y="322" width="226" height="48" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="520" y="338" font-size="10">intervention_type</text>
+      <text x="520" y="352" fill="var(--ink-soft)" font-size="8.5">code · name · owner_role · lead_time_weeks</text>
+      <text x="520" y="365" fill="var(--ink-soft)" font-size="8.5">targets_driver[] · capacity_per_term</text>
+      <rect x="752" y="322" width="226" height="48" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.8"/>
+      <text x="758" y="338" font-size="11" font-weight="600">intervention_case</text>
+      <text x="758" y="352" fill="var(--ink-soft)" font-size="8.5">student_hash · prediction_id · assigned_to</text>
+      <text x="758" y="365" fill="var(--ink-soft)" font-size="8.5">status · opened_at · due_at · priority</text>
+
+      <rect x="514" y="382" width="226" height="44" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="520" y="398" font-size="10">case_action</text><text x="520" y="412" fill="var(--ink-soft)" font-size="8.5">case_id · type_code · delivered_at · attended</text>
+      <rect x="752" y="382" width="226" height="44" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="758" y="398" font-size="10">case_note</text><text x="758" y="412" fill="var(--ink-soft)" font-size="8.5">case_id · author · body · visibility</text>
+    </g>
+
+    <!-- ZONE 5 IDENTITY -->
+    <rect x="16" y="454" width="968" height="136" fill="var(--ink)" stroke="var(--ink)"/>
+    <text x="24" y="448" font-size="9.5" letter-spacing="1.4" fill="var(--ink-soft)">ZONE E — IDENTITY, GOVERNANCE &amp; OPERATIONS</text>
+    <g font-size="9.5" fill="var(--paper)">
+      <rect x="26" y="470" width="148" height="46" fill="none" stroke="#4A4E58"/><text x="32" y="486" font-size="10">app_user</text><text x="32" y="500" fill="#8E939E" font-size="8.5">email · dept_id</text><text x="32" y="511" fill="#8E939E" font-size="8.5">mfa_secret · status</text>
+      <rect x="186" y="470" width="148" height="46" fill="none" stroke="#4A4E58"/><text x="192" y="486" font-size="10">role</text><text x="192" y="500" fill="#8E939E" font-size="8.5">code · description</text>
+      <rect x="346" y="470" width="148" height="46" fill="none" stroke="#4A4E58"/><text x="352" y="486" font-size="10">permission</text><text x="352" y="500" fill="#8E939E" font-size="8.5">resource · action</text>
+      <rect x="506" y="470" width="148" height="46" fill="none" stroke="#4A4E58"/><text x="512" y="486" font-size="10">user_scope</text><text x="512" y="500" fill="#8E939E" font-size="8.5">faculty/dept/program</text><text x="512" y="511" fill="#E3BC6A" font-size="8.5">the row-level filter</text>
+      <rect x="666" y="470" width="148" height="46" fill="none" stroke="#4A4E58"/><text x="672" y="486" font-size="10">session</text><text x="672" y="500" fill="#8E939E" font-size="8.5">token · ip · expires_at</text>
+      <rect x="826" y="470" width="148" height="46" fill="none" stroke="#4A4E58"/><text x="832" y="486" font-size="10">audit_log</text><text x="832" y="500" fill="#8E939E" font-size="8.5">who · what · which student</text><text x="832" y="511" fill="#8E939E" font-size="8.5">append-only</text>
+
+      <rect x="26" y="528" width="148" height="42" fill="none" stroke="#4A4E58"/><text x="32" y="544" font-size="10">data_source</text><text x="32" y="558" fill="#8E939E" font-size="8.5">type · endpoint · health</text>
+      <rect x="186" y="528" width="148" height="42" fill="none" stroke="#4A4E58"/><text x="192" y="544" font-size="10">ingestion_run</text><text x="192" y="558" fill="#8E939E" font-size="8.5">rows_ok · rows_rejected</text>
+      <rect x="346" y="528" width="148" height="42" fill="none" stroke="#4A4E58"/><text x="352" y="544" font-size="10">notification</text><text x="352" y="558" fill="#8E939E" font-size="8.5">user · type · read_at</text>
+      <rect x="506" y="528" width="148" height="42" fill="none" stroke="#4A4E58"/><text x="512" y="544" font-size="10">report_template</text><text x="512" y="558" fill="#8E939E" font-size="8.5">kind · layout</text>
+      <rect x="666" y="528" width="148" height="42" fill="none" stroke="#4A4E58"/><text x="672" y="544" font-size="10">report_run</text><text x="672" y="558" fill="#8E939E" font-size="8.5">params · file · run_by</text>
+      <rect x="826" y="528" width="148" height="42" fill="none" stroke="#4A4E58"/><text x="832" y="544" font-size="10">system_setting</text><text x="832" y="558" fill="#8E939E" font-size="8.5">thresholds · capacity</text>
+    </g>
+
+    <!-- relationships -->
+    <g stroke="var(--blue)" fill="none" marker-end="url(#er)" stroke-width="1.3">
+      <path d="M246,128 L380,128 L380,90 L500,90 L500,74 L510,74"/>
+      <path d="M627,102 L627,114"/>
+      <path d="M740,74 L748,74 L748,110 L744,110 L744,140 L742,140"/>
+      <path d="M740,144 L748,144"/>
+      <path d="M627,170 L627,180"/>
+      <path d="M627,232 L627,240"/>
+      <path d="M865,170 L865,180 L790,180 L790,300 L865,300 L865,318"/>
+      <path d="M135,154 L135,166"/>
+      <path d="M135,274 L135,318"/>
+      <path d="M740,346 L744,346 L744,360 L740,360"/>
+    </g>
+    <g font-size="8" fill="var(--blue)">
+      <text x="392" y="84">1:N snapshots</text>
+      <text x="632" y="112">1:N</text>
+      <text x="752" y="132">scored by</text>
+      <text x="632" y="180">explains</text>
+      <text x="795" y="240">drives case</text>
+      <text x="140" y="164">1:N</text>
+      <text x="140" y="300">1:1 label</text>
+    </g>
+    <text x="500" y="616" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">Blue arrows show the prediction spine: student → feature_snapshot → prediction → driver → case. Everything else supports it.</text>
+  </svg>
+  <figcaption>Fig. 4 — Entity relationship overview. Zone A and B live in the analytics schema on hashed identifiers; Zone E lives in the operational schema and is the only place real identity exists. The join between them is a controlled, audited lookup — not a foreign key.</figcaption>
+  </figure>
+
+  <div class="body-col">
+    <h3>Four design decisions in the schema worth defending</h3>
+    <ol>
+      <li><strong>Predictions are immutable rows, not a column on <span class="mono">student</span>.</strong> Every prediction is a historical fact with a timestamp and a model version. You need this to answer "what did we know in March, and did we act on it?" — which is the question an audit or an ethics board will ask.</li>
+      <li><strong>Features live in a snapshot table with an <span class="mono">as_of_date</span>.</strong> This is what makes point-in-time correctness enforceable rather than aspirational, and it means training and inference read the same structure.</li>
+      <li><strong>Demographics are in a separate table from <span class="mono">student</span>.</strong> A query that builds a feature matrix cannot accidentally include gender because it was sitting in the same row. Access to <span class="mono">student_demog</span> is restricted to the fairness auditing service.</li>
+      <li><strong><span class="mono">user_scope</span> is a table, not a column.</strong> One advisor can cover two departments; one head covers a faculty. Modelling scope as rows makes Postgres row-level security policies straightforward and keeps §09 enforceable in the database rather than only in the API.</li>
+    </ol>
+  </div>
+</div>
+</section>
+
+<!-- ============ 09 ACCESS ============ -->
+<section id="s09">
+<div class="bleed">
+  <div class="sec-head">
+    <div class="sec-num">09</div>
+    <div>
+      <p class="eyebrow">Users &amp; permissions</p>
+      <h2>Who sees what — and, more importantly, who must not</h2>
+      <p>In a system that ranks students by risk, the access model is not an administrative detail. It is the main ethical control surface. Design it as separation of duties, not as a convenience feature.</p>
+    </div>
+  </div>
+
+  <div class="body-col">
+    <p>The organising principle: <strong>the people who can see student names cannot build the model, and the people who build the model cannot see student names.</strong> Nobody has both. This single rule prevents the most likely abuse — an analyst browsing individuals, or an administrator quietly scoring a specific student.</p>
+  </div>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr>
+      <th style="min-width:210px">Resource</th><th>Career<br>advisor</th><th>Academic<br>head</th><th>Placement<br>officer</th><th>Data<br>analyst</th><th>QA / ethics<br>officer</th><th>System<br>admin</th><th>Student<br>(self)</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>Student identity (name, contact)</td><td class="p">Scoped</td><td class="p">Scoped</td><td class="p">Scoped</td><td class="n">None</td><td class="n">None</td><td class="n">None</td><td class="y">Own only</td></tr>
+      <tr><td>Individual risk probability</td><td class="p">Scoped</td><td class="p">Scoped</td><td class="n">None</td><td class="p">Pseudonymous</td><td class="p">Aggregate</td><td class="n">None</td><td class="n">None</td></tr>
+      <tr><td>Individual risk drivers (SHAP)</td><td class="p">Scoped</td><td class="p">Scoped</td><td class="n">None</td><td class="p">Pseudonymous</td><td class="p">Aggregate</td><td class="n">None</td><td class="n">None</td></tr>
+      <tr><td>Recommended interventions</td><td class="y">Scoped</td><td class="p">Scoped</td><td class="p">Assigned only</td><td class="n">None</td><td class="p">Aggregate</td><td class="n">None</td><td class="y">Own only</td></tr>
+      <tr><td>Open / edit intervention case</td><td class="y">Full (scoped)</td><td class="p">Read</td><td class="p">Assigned only</td><td class="n">None</td><td class="p">Read, aggregate</td><td class="n">None</td><td class="n">None</td></tr>
+      <tr><td>Full academic transcript</td><td class="p">Scoped</td><td class="p">Scoped</td><td class="n">None</td><td class="p">Pseudonymous</td><td class="n">None</td><td class="n">None</td><td class="y">Own only</td></tr>
+      <tr><td>Program-level aggregates</td><td class="p">Own dept</td><td class="y">Full faculty</td><td class="p">Aggregate</td><td class="y">Full</td><td class="y">Full</td><td class="n">None</td><td class="n">None</td></tr>
+      <tr><td>Cross-faculty comparison</td><td class="n">None</td><td class="p">Anonymised</td><td class="n">None</td><td class="y">Full</td><td class="y">Full</td><td class="n">None</td><td class="n">None</td></tr>
+      <tr><td>Course contribution analysis</td><td class="n">None</td><td class="y">Own programs</td><td class="n">None</td><td class="y">Full</td><td class="y">Full</td><td class="n">None</td><td class="n">None</td></tr>
+      <tr><td>Raw feature matrix / dataset export</td><td class="n">None</td><td class="n">None</td><td class="n">None</td><td class="y">Pseudonymous</td><td class="n">None</td><td class="n">None</td><td class="n">None</td></tr>
+      <tr><td>Train / evaluate models</td><td class="n">None</td><td class="n">None</td><td class="n">None</td><td class="y">Full</td><td class="n">None</td><td class="n">None</td><td class="n">None</td></tr>
+      <tr><td>Promote model to <span class="mono">active</span></td><td class="n">None</td><td class="n">None</td><td class="n">None</td><td class="p">Propose</td><td class="y">Approve</td><td class="n">None</td><td class="n">None</td></tr>
+      <tr><td>Fairness &amp; bias reports</td><td class="p">Summary</td><td class="p">Own programs</td><td class="n">None</td><td class="y">Full</td><td class="y">Full + sign-off</td><td class="n">None</td><td class="n">None</td></tr>
+      <tr><td>Demographic attributes</td><td class="n">None</td><td class="n">None</td><td class="n">None</td><td class="p">Aggregate only</td><td class="y">Audit purpose</td><td class="n">None</td><td class="y">Own only</td></tr>
+      <tr><td>Audit log</td><td class="n">None</td><td class="n">None</td><td class="n">None</td><td class="n">None</td><td class="y">Full read</td><td class="y">Full read</td><td class="n">None</td></tr>
+      <tr><td>User accounts &amp; roles</td><td class="n">None</td><td class="p">Request</td><td class="n">None</td><td class="n">None</td><td class="p">Read</td><td class="y">Full</td><td class="n">None</td></tr>
+      <tr><td>Risk thresholds &amp; system settings</td><td class="n">None</td><td class="n">None</td><td class="n">None</td><td class="p">Propose</td><td class="y">Approve</td><td class="p">Apply</td><td class="n">None</td></tr>
+      <tr><td>Bulk export containing identities</td><td class="n">Blocked</td><td class="n">Blocked</td><td class="n">Blocked</td><td class="n">Blocked</td><td class="n">Blocked</td><td class="n">Blocked</td><td class="n">Blocked</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tbl-note">Scoped = limited to the user's assigned departments or programs via <span class="mono">user_scope</span>, enforced at the database row level. Pseudonymous = hashed identifiers, no re-identification path.</p>
+
+  <div class="grid2">
+    <div class="card"><h4>Career advisor</h4>
+      <p class="tiny"><strong>Exists to:</strong> work a prioritised queue of students in their departments and log what was done.</p>
+      <ul class="checklist tiny" style="margin:10px 0 8px"><li>See named students in scope, with risk and drivers</li><li>Open, update and close cases</li><li>Run what-if scenarios on modifiable features</li></ul>
+      <ul class="crosslist tiny" style="margin-bottom:0"><li>Cannot see other departments</li><li>Cannot see demographic attributes or the demographic composition of their queue</li><li>Cannot export lists containing names</li><li>Cannot change a risk score or override a prediction — only annotate it</li></ul>
+    </div>
+    <div class="card"><h4>Academic head</h4>
+      <p class="tiny"><strong>Exists to:</strong> use aggregate evidence to change curriculum and program design.</p>
+      <ul class="checklist tiny" style="margin:10px 0 8px"><li>Program and cohort analytics for their faculty</li><li>Course-level contribution to employability</li><li>Read-only view of cases in their programs</li></ul>
+      <ul class="crosslist tiny" style="margin-bottom:0"><li>Cannot open or edit cases — that is advisory work</li><li>Cannot see named students in other faculties</li><li>Cannot see individual staff-attributable teaching-quality scores <span class="dim">(build this and you will create an industrial-relations problem, not an insight)</span></li></ul>
+    </div>
+    <div class="card"><h4>Data analyst</h4>
+      <p class="tiny"><strong>Exists to:</strong> build, evaluate and maintain the models.</p>
+      <ul class="checklist tiny" style="margin:10px 0 8px"><li>Full pseudonymous feature matrix across all programs</li><li>Train, tune, evaluate, propose model versions</li><li>Generate fairness diagnostics</li></ul>
+      <ul class="crosslist tiny" style="margin-bottom:0"><li>Cannot see any student's name, contact detail or identifier</li><li>Cannot promote a model alone — requires QA approval</li><li>Cannot open cases or contact students</li><li>Cannot query demographics at individual level</li></ul>
+    </div>
+    <div class="card"><h4>QA / ethics officer</h4>
+      <p class="tiny"><strong>Exists to:</strong> hold the veto. This role is the reason the system can be defended publicly.</p>
+      <ul class="checklist tiny" style="margin:10px 0 8px"><li>Full fairness dashboards and model cards</li><li>Approve or reject model promotion</li><li>Read the entire audit log</li><li>Approve threshold changes</li></ul>
+      <ul class="crosslist tiny" style="margin-bottom:0"><li>Cannot see individual students by name</li><li>Cannot modify any data, model or case</li><li>Cannot be the same person as the data analyst — if it is, the control is theatre</li></ul>
+    </div>
+    <div class="card"><h4>System administrator</h4>
+      <p class="tiny"><strong>Exists to:</strong> manage accounts, integrations and uptime. Deliberately blind to content.</p>
+      <ul class="checklist tiny" style="margin:10px 0 8px"><li>Create users, assign roles and scopes</li><li>Configure data sources and schedules</li><li>Monitor jobs, sessions and system health</li></ul>
+      <ul class="crosslist tiny" style="margin-bottom:0"><li>Cannot view any student record, prediction or case</li><li>Cannot grant themselves an analytical role — role escalation requires a second approver</li><li>Every admin action is written to the append-only audit log</li></ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--med)"><h4 style="color:var(--med)">Student — the hard question</h4>
+      <p class="tiny">The specification does not list students as users. That is a decision worth making explicitly, because someone will ask.</p>
+      <p class="tiny" style="margin-bottom:8px"><strong>Recommendation: students never see their own probability or risk tier.</strong> A number that says "0.34 chance of employment" is a self-fulfilling prophecy for an eighteen-year-old, and the label sticks harder than the support does.</p>
+      <p class="tiny" style="margin-bottom:0"><strong>What they should see:</strong> a personal opportunities page — recommended internships, workshops, mentoring — framed as offers, never as a warning. Same underlying engine, no score exposed. Plus, on request, the right to know that predictive analytics is used, and the right to opt out of being scored.</p>
+    </div>
+  </div>
+
+  <div class="body-col">
+    <div class="callout note">
+      <p style="margin:0"><strong>Enforcement, three layers deep.</strong> UI hiding is not access control. Enforce at every layer: (1) React routes and components gate on role, so users are not confused; (2) the API re-checks permission and scope on every request, because the UI can be bypassed with curl; (3) Postgres row-level security policies filter by <span class="mono">user_scope</span>, so even a SQL injection or a rogue query cannot cross a departmental boundary. Then log every single read of an individual student record to <span class="mono">audit_log</span> — who, what, when, why.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ 10 PAGES ============ -->
+<section id="s10">
+<div class="bleed">
+  <div class="sec-head">
+    <div class="sec-num">10</div>
+    <div>
+      <p class="eyebrow">Interface</p>
+      <h2>The screens, and the one that matters most</h2>
+      <p>Roughly 34 screens. Six of them carry the product; the rest are supporting infrastructure. Build the six first.</p>
+    </div>
+  </div>
+
+  <figure>
+  <svg viewBox="0 0 1000 470" role="img" aria-label="Wireframe of the student detail screen" class="svg-txt">
+    <!-- frame -->
+    <rect x="16" y="20" width="968" height="430" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.4"/>
+    <rect x="16" y="20" width="968" height="34" fill="var(--ink)"/>
+    <text x="30" y="42" font-size="11" fill="var(--paper)">Employability · Student detail</text>
+    <text x="900" y="42" font-size="10" fill="#8E939E">Advisor · Dept of IS</text>
+
+    <!-- left sidebar -->
+    <rect x="16" y="54" width="150" height="396" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <g font-size="10" fill="var(--ink-soft)">
+      <text x="30" y="78">Dashboard</text><text x="30" y="102" fill="var(--ink)">My queue  (38)</text>
+      <text x="30" y="126">Risk explorer</text><text x="30" y="150">Cases</text><text x="30" y="174">Program analytics</text>
+      <text x="30" y="198">Reports</text><text x="30" y="238" fill="var(--rule)">— scoped to IS —</text>
+    </g>
+
+    <!-- header block -->
+    <rect x="180" y="68" width="500" height="66" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <text x="194" y="90" font-size="13">MUKAMANA, A. · BSc Information Systems · Year 3</text>
+    <text x="194" y="108" font-size="9.5" fill="var(--ink-soft)">Cohort 2027 · 84/108 credits · CGPA 2.61 · No internship on record</text>
+    <text x="194" y="126" font-size="9.5" fill="var(--ink-soft)">Last contact: none · Case status: OPEN · Due in 9 days</text>
+
+    <!-- risk gauge -->
+    <rect x="694" y="68" width="276" height="66" fill="var(--paper-2)" stroke="var(--high)" stroke-width="1.6"/>
+    <text x="708" y="88" font-size="9.5" fill="var(--ink-soft)" letter-spacing="1.2">PREDICTED EMPLOYABILITY · 12 MONTHS</text>
+    <text x="708" y="122" font-size="30" fill="var(--high)">0.34</text>
+    <text x="790" y="112" font-size="9.5" fill="var(--ink-soft)">CI 0.27–0.41</text>
+    <text x="790" y="126" font-size="9.5" fill="var(--high)">HIGH RISK</text>
+    <rect x="880" y="100" width="80" height="22" fill="var(--paper)" stroke="var(--rule)"/><text x="920" y="115" font-size="9" text-anchor="middle">model v4.2</text>
+
+    <!-- drivers -->
+    <text x="180" y="160" font-size="9.5" fill="var(--ink-soft)" letter-spacing="1.2">WHY — CONTRIBUTION TO THIS PREDICTION</text>
+    <g font-size="9.5">
+      <text x="180" y="182">No internship completed</text>
+      <rect x="380" y="173" width="150" height="11" fill="var(--high)"/><text x="538" y="182" fill="var(--high)">−0.19</text>
+      <rect x="586" y="172" width="94" height="14" fill="var(--paper-2)" stroke="var(--low)"/><text x="633" y="182" text-anchor="middle" fill="var(--low)" font-size="8.5">MODIFIABLE</text>
+      <text x="180" y="204">GPA falling 3 semesters</text>
+      <rect x="380" y="195" width="88" height="11" fill="var(--high)"/><text x="538" y="204" fill="var(--high)">−0.11</text>
+      <rect x="586" y="194" width="94" height="14" fill="var(--paper-2)" stroke="var(--low)"/><text x="633" y="204" text-anchor="middle" fill="var(--low)" font-size="8.5">MODIFIABLE</text>
+      <text x="180" y="226">LMS engagement 18th pct</text>
+      <rect x="380" y="217" width="48" height="11" fill="var(--high)"/><text x="538" y="226" fill="var(--high)">−0.06</text>
+      <rect x="586" y="216" width="94" height="14" fill="var(--paper-2)" stroke="var(--low)"/><text x="633" y="226" text-anchor="middle" fill="var(--low)" font-size="8.5">MODIFIABLE</text>
+      <text x="180" y="248">Capstone grade above median</text>
+      <rect x="380" y="239" width="34" height="11" fill="var(--low)"/><text x="538" y="248" fill="var(--low)">+0.04</text>
+      <text x="180" y="270" fill="var(--ink-soft)">Program base rate (BSc IS)</text>
+      <rect x="380" y="261" width="26" height="11" fill="var(--rule)"/><text x="538" y="270" fill="var(--ink-soft)">−0.03</text>
+      <rect x="586" y="260" width="94" height="14" fill="var(--paper-2)" stroke="var(--rule)"/><text x="633" y="270" text-anchor="middle" fill="var(--ink-soft)" font-size="8.5">STRUCTURAL</text>
+    </g>
+
+    <!-- what if -->
+    <rect x="694" y="150" width="276" height="130" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <text x="708" y="170" font-size="9.5" fill="var(--ink-soft)" letter-spacing="1.2">WHAT IF —</text>
+    <g font-size="9.5">
+      <rect x="708" y="180" width="14" height="14" fill="var(--low)"/><text x="730" y="191">Complete 12-week internship</text>
+      <rect x="708" y="202" width="14" height="14" fill="var(--paper)" stroke="var(--rule)"/><text x="730" y="213">Raise CGPA to 2.9</text>
+      <rect x="708" y="224" width="14" height="14" fill="var(--paper)" stroke="var(--rule)"/><text x="730" y="235">Join one student society</text>
+      <text x="708" y="262" font-size="9" fill="var(--ink-soft)">Estimated new probability</text>
+      <text x="880" y="266" font-size="18" fill="var(--low)">0.58</text>
+    </g>
+
+    <!-- recommendations -->
+    <text x="180" y="304" font-size="9.5" fill="var(--ink-soft)" letter-spacing="1.2">RECOMMENDED ACTIONS · RANKED BY EXPECTED GAIN</text>
+    <g font-size="9.5">
+      <rect x="180" y="314" width="500" height="30" fill="var(--paper-2)" stroke="var(--rule)"/>
+      <text x="192" y="333">1 · Priority internship placement — IT sector partners</text>
+      <rect x="600" y="320" width="70" height="18" fill="var(--ink)"/><text x="635" y="333" fill="var(--paper)" font-size="8.5" text-anchor="middle">ASSIGN</text>
+      <rect x="180" y="350" width="500" height="30" fill="var(--paper-2)" stroke="var(--rule)"/>
+      <text x="192" y="369">2 · Academic recovery plan with dept tutor</text>
+      <rect x="600" y="356" width="70" height="18" fill="var(--ink)"/><text x="635" y="369" fill="var(--paper)" font-size="8.5" text-anchor="middle">ASSIGN</text>
+      <rect x="180" y="386" width="500" height="30" fill="var(--paper-2)" stroke="var(--rule)"/>
+      <text x="192" y="405">3 · CV clinic and interview practice — next cohort 14 Sep</text>
+      <rect x="600" y="392" width="70" height="18" fill="var(--ink)"/><text x="635" y="405" fill="var(--paper)" font-size="8.5" text-anchor="middle">ASSIGN</text>
+    </g>
+
+    <!-- case log -->
+    <rect x="694" y="296" width="276" height="120" fill="var(--paper-2)" stroke="var(--rule)"/>
+    <text x="708" y="316" font-size="9.5" fill="var(--ink-soft)" letter-spacing="1.2">CASE LOG</text>
+    <text x="708" y="336" font-size="9.5" fill="var(--ink-soft)">No actions recorded yet.</text>
+    <text x="708" y="352" font-size="9.5" fill="var(--ink-soft)">Log the first contact to start</text>
+    <text x="708" y="366" font-size="9.5" fill="var(--ink-soft)">tracking what worked.</text>
+    <rect x="708" y="380" width="120" height="22" fill="var(--ink)"/><text x="768" y="395" fill="var(--paper)" font-size="9" text-anchor="middle">Log contact</text>
+
+    <text x="180" y="438" font-size="8.5" fill="var(--ink-soft)">Prediction is decision support only. It does not determine eligibility for any programme, award or service. Every view of this page is logged.</text>
+  </svg>
+  <figcaption>Fig. 5 — The advisor's student detail screen. Everything the product is for happens here: a score, the reasons behind it, what can be changed, what to do about it, and a place to record that it was done. If this screen works, the project works.</figcaption>
+  </figure>
+
+  <div class="body-col wide">
+  <h3>Full screen inventory</h3>
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th style="min-width:60px">#</th><th style="min-width:220px">Screen</th><th>Primary role</th><th>Purpose</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td colspan="5" style="background:var(--paper);font-weight:600;letter-spacing:.08em">ACCESS — MODULE 01</td></tr>
+      <tr><td>P01</td><td>Sign in</td><td>All</td><td>Credentials + MFA challenge</td><td class="y">P1</td></tr>
+      <tr><td>P02</td><td>Account request</td><td>Staff</td><td>Request access; approval, not self-registration</td><td class="y">P1</td></tr>
+      <tr><td>P03</td><td>Password reset</td><td>All</td><td>Token-based recovery flow</td><td class="y">P1</td></tr>
+      <tr><td>P04</td><td>MFA setup</td><td>All</td><td>TOTP enrolment and recovery codes</td><td class="y">P1</td></tr>
+      <tr><td>P05</td><td>My profile</td><td>All</td><td>Contact details, sessions, notification preferences</td><td class="p">P2</td></tr>
+      <tr><td colspan="5" style="background:var(--paper);font-weight:600;letter-spacing:.08em">DAILY WORK — MODULES 02, 06, 07</td></tr>
+      <tr><td>P06</td><td>Advisor dashboard</td><td>Advisor</td><td>Queue size, overdue cases, cohort snapshot</td><td class="y">P1</td></tr>
+      <tr><td>P07</td><td><strong>My queue</strong></td><td>Advisor</td><td>Ranked at-risk list, filterable, the daily work surface</td><td class="y">P1</td></tr>
+      <tr><td>P08</td><td><strong>Student detail</strong> <span class="dim">(Fig. 5)</span></td><td>Advisor</td><td>Score, drivers, what-if, recommendations, case log</td><td class="y">P1</td></tr>
+      <tr><td>P09</td><td>Log contact / action</td><td>Advisor</td><td>Record what was done and when</td><td class="y">P1</td></tr>
+      <tr><td>P10</td><td>Case board</td><td>Advisor</td><td>Open / in-progress / closed with due dates</td><td class="p">P2</td></tr>
+      <tr><td>P11</td><td>Risk explorer</td><td>Advisor, head</td><td>Filter cohort by risk, program, driver, year</td><td class="p">P2</td></tr>
+      <tr><td>P12</td><td>What-if simulator</td><td>Advisor</td><td>Counterfactual scoring on modifiable features</td><td class="p">P2</td></tr>
+      <tr><td>P13</td><td>Intervention catalogue</td><td>Advisor, placement</td><td>Available programmes, capacity, lead times</td><td class="p">P2</td></tr>
+      <tr><td colspan="5" style="background:var(--paper);font-weight:600;letter-spacing:.08em">PROGRAM &amp; INSTITUTION — MODULES 08, 09, 10, 12</td></tr>
+      <tr><td>P14</td><td>Head dashboard</td><td>Academic head</td><td>Program employability, trend, cohort comparison</td><td class="p">P2</td></tr>
+      <tr><td>P15</td><td>Program analytics</td><td>Academic head</td><td>Risk distribution, drivers aggregated by program</td><td class="p">P2</td></tr>
+      <tr><td>P16</td><td>Course contribution</td><td>Academic head</td><td>Which courses associate with better outcomes</td><td class="p">P2</td></tr>
+      <tr><td>P17</td><td>Cohort comparison</td><td>Head, analyst</td><td>Year-over-year, program-vs-program</td><td class="p">P2</td></tr>
+      <tr><td>P18</td><td>Geographic view</td><td>Head, QA</td><td>District-level patterns — read as access, not ability</td><td class="p">P3</td></tr>
+      <tr><td>P19</td><td>Career services impact</td><td>Career manager</td><td>Utilisation vs outcomes <span class="dim">(data-blocked)</span></td><td class="n">P3</td></tr>
+      <tr><td>P20</td><td>Employer feedback</td><td>Head, career mgr</td><td>Skills gaps by sector <span class="dim">(data-blocked)</span></td><td class="n">P3</td></tr>
+      <tr><td colspan="5" style="background:var(--paper);font-weight:600;letter-spacing:.08em">DATA &amp; MODELS — MODULES 03, 04, 05, 11</td></tr>
+      <tr><td>P21</td><td>Data sources</td><td>Analyst, admin</td><td>Connection health, last sync, row counts</td><td class="y">P1</td></tr>
+      <tr><td>P22</td><td>Import wizard</td><td>Analyst, admin</td><td>Upload CSV, map columns, preview, commit</td><td class="y">P1</td></tr>
+      <tr><td>P23</td><td>Data quality report</td><td>Analyst</td><td>Missingness, rejected rows, quarantine review</td><td class="y">P1</td></tr>
+      <tr><td>P24</td><td>Feature catalogue</td><td>Analyst</td><td>Definitions, distributions, as-of logic</td><td class="p">P2</td></tr>
+      <tr><td>P25</td><td>Training run</td><td>Analyst</td><td>Configure, launch, compare candidate models</td><td class="y">P1</td></tr>
+      <tr><td>P26</td><td>Model registry</td><td>Analyst, QA</td><td>Versions, metrics, status, promotion request</td><td class="y">P1</td></tr>
+      <tr><td>P27</td><td>Model card</td><td>QA, head</td><td>Plain-language summary of scope and limitations</td><td class="p">P2</td></tr>
+      <tr><td>P28</td><td><strong>Fairness dashboard</strong></td><td>QA, analyst</td><td>Group metrics, disparity gaps, gate status</td><td class="y">P1</td></tr>
+      <tr><td>P29</td><td>Promotion approval</td><td>QA officer</td><td>Approve or reject a candidate model, with reason</td><td class="y">P1</td></tr>
+      <tr><td>P30</td><td>Drift monitor</td><td>Analyst</td><td>Feature drift and performance decay over time</td><td class="n">P3</td></tr>
+      <tr><td colspan="5" style="background:var(--paper);font-weight:600;letter-spacing:.08em">ADMINISTRATION — MODULES 13, 14</td></tr>
+      <tr><td>P31</td><td>Report builder</td><td>Head, QA</td><td>Select template, scope, period, format, generate</td><td class="p">P2</td></tr>
+      <tr><td>P32</td><td>Report archive</td><td>All (scoped)</td><td>Previously generated reports and schedules</td><td class="p">P3</td></tr>
+      <tr><td>P33</td><td>User management</td><td>Admin</td><td>Accounts, roles, scopes, deactivation</td><td class="y">P1</td></tr>
+      <tr><td>P34</td><td>Audit log viewer</td><td>QA, admin</td><td>Who accessed which record, when, and why</td><td class="y">P1</td></tr>
+      <tr><td>P35</td><td>System settings</td><td>Admin, QA</td><td>Risk thresholds, capacity, retention policy</td><td class="p">P2</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tbl-note">P1 = required for a working system · P2 = required for a complete system · P3 = defensible as future work.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ 11 BUILD ORDER ============ -->
+<section id="s11">
+<div class="bleed">
+  <div class="sec-head">
+    <div class="sec-num">11</div>
+    <div>
+      <p class="eyebrow">Execution</p>
+      <h2>Build order — dependency, not enthusiasm</h2>
+      <p>The instinct is to start with the model, because it is the interesting part. Start with the data, because without it the model is a demo on synthetic rows and everyone can tell.</p>
+    </div>
+  </div>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th style="min-width:56px">Phase</th><th style="min-width:180px">Focus</th><th>Weeks</th><th>Deliverable that proves it is done</th><th>Blocks everything after it if skipped</th></tr></thead>
+    <tbody>
+      <tr><td><strong>0</strong></td><td>Problem definition &amp; access</td><td>2</td><td>Signed data-access approval, target variable defined in writing, 3 staff interviews recorded</td><td class="n">Yes — no data, no project</td></tr>
+      <tr><td><strong>1</strong></td><td>Data acquisition &amp; profiling</td><td>3</td><td>Labelled historical dataset in staging, profiling report, response-bias analysis</td><td class="n">Yes</td></tr>
+      <tr><td><strong>2</strong></td><td>Schema &amp; ingestion (M03)</td><td>2</td><td>Postgres schema live, one real source ingesting on schedule, quarantine working</td><td class="n">Yes</td></tr>
+      <tr><td><strong>3</strong></td><td>Feature engineering (M04)</td><td>2</td><td>Point-in-time snapshot table populated; leakage audit written and passed</td><td class="n">Yes</td></tr>
+      <tr><td><strong>4</strong></td><td>Modelling (M05)</td><td>3</td><td>Three models compared on cohort-wise split, calibration curve, SHAP working, PR-AUC ≥ 0.72</td><td class="n">Yes</td></tr>
+      <tr><td><strong>5</strong></td><td>Fairness (M11)</td><td>1.5</td><td>Group metrics computed, gate implemented in the promotion path, first audit signed</td><td class="p">Should not be skipped</td></tr>
+      <tr><td><strong>6</strong></td><td>API + auth + RBAC (M01, M14)</td><td>3</td><td>Endpoints with row-level scoping, audit log firing, a scope-crossing test that fails correctly</td><td class="n">Yes</td></tr>
+      <tr><td><strong>7</strong></td><td>Core UI (M02, M06, M07)</td><td>4</td><td>P06–P09 usable end to end on real data by a real advisor</td><td class="n">Yes</td></tr>
+      <tr><td><strong>8</strong></td><td>Analytics &amp; reporting (M08, M12, M13)</td><td>3</td><td>Program dashboards and PDF export</td><td class="p">No — degrade gracefully</td></tr>
+      <tr><td><strong>9</strong></td><td>Hardening &amp; UAT</td><td>2</td><td>Penetration of role boundaries attempted and blocked; 3 users complete real tasks unaided</td><td class="p">No, but examiners notice</td></tr>
+      <tr><td><strong>10</strong></td><td>Documentation &amp; defence</td><td>2</td><td>SRS, ERD, API docs, model card, limitations chapter, demo script</td><td class="p">No</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tbl-note">Approximately 27 weeks sequentially; 18–20 with two people working in parallel after Phase 3. Phases 0–4 cannot be parallelised — they are a chain.</p>
+
+  <div class="body-col">
+    <h3>The order that kills projects</h3>
+    <p>Building the UI first. It feels productive, it demos well in week four, and then the model arrives in week sixteen and every screen has to change because the actual output shape is nothing like the mock. Build the pipeline, get one real prediction on one real student, and only then design around what the system genuinely produces.</p>
+
+    <h3>The fallback plan you should prepare now</h3>
+    <p>If institutional data access is refused or delayed past Phase 1 — which happens more often than not — you need a rehearsed answer. In order of preference: <strong>(a)</strong> a partner institution or a single cooperative department; <strong>(b)</strong> a public graduate-tracer dataset from a national statistics office, which sacrifices institutional specificity but preserves methodological rigour; <strong>(c)</strong> a documented synthetic dataset generated from published employability statistics, with the generation process itself treated as a contribution and its limitations stated in every result. Option (c) is defensible only if you say clearly and repeatedly that it is synthetic. Passing off synthetic results as real is the one mistake with no recovery.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ 12 RISKS ============ -->
+<section id="s12">
+<div class="bleed">
+  <div class="sec-head">
+    <div class="sec-num">12</div>
+    <div>
+      <p class="eyebrow">Honest limitations</p>
+      <h2>What can go wrong, and what to say about it</h2>
+      <p>A limitations chapter that names real problems is stronger than one that names none. Every item here should appear in your final write-up.</p>
+    </div>
+  </div>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th style="min-width:200px">Risk</th><th>Likelihood</th><th>What it does to you</th><th>Mitigation</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Data access refused or delayed</strong></td><td class="n">High</td><td>Project stalls at Phase 1; no labels, no model</td><td>Start the request in week 1. Prepare the three-tier fallback. Offer to work on a single department first.</td></tr>
+      <tr><td><strong>Too few labelled records</strong></td><td class="n">High</td><td>Model overfits; confidence intervals become embarrassingly wide</td><td>Prefer simple models, use cross-validation honestly, report intervals, do not claim precision you do not have.</td></tr>
+      <tr><td><strong>Tracer non-response bias</strong></td><td class="n">High</td><td>Model trained on the employed; systematically over-optimistic</td><td>Report response rate, compare respondent demographics, apply propensity weighting, state the bias plainly.</td></tr>
+      <tr><td><strong>Target leakage</strong></td><td class="p">Medium</td><td>Spectacular offline metrics, worthless real predictions</td><td>Enforce as-of dates in the snapshot table. Treat any AUC above 0.90 as a bug report, not a result.</td></tr>
+      <tr><td><strong>Labour market drives the outcome, not the student</strong></td><td class="n">High</td><td>An economic shock makes the model wrong for everyone at once</td><td>Include cohort/year effects, monitor drift, retrain annually, and never present the model as a forecast of the economy.</td></tr>
+      <tr><td><strong>Proxy discrimination</strong></td><td class="p">Medium</td><td>Excluded attributes re-enter through correlated features</td><td>Audit on the attributes you excluded. Test whether they are recoverable from your features — if they are, say so.</td></tr>
+      <tr><td><strong>Labelling and self-fulfilling prophecy</strong></td><td class="p">Medium</td><td>Students treated as low-potential become low-potential</td><td>Never expose scores to students. Frame outputs as offers of support. Audit whether flagging changes staff behaviour negatively.</td></tr>
+      <tr><td><strong>Resource reallocation away from the flagged</strong></td><td class="p">Medium</td><td>The model becomes a reason to give up on people</td><td>Policy commitment, written into the deployment agreement: risk flags may only increase support, never reduce it.</td></tr>
+      <tr><td><strong>Advisors ignore the queue</strong></td><td class="n">High</td><td>Technically perfect system, zero adoption</td><td>Co-design with advisors from Phase 0. Fit their existing workflow. Measure queue completion as a system KPI.</td></tr>
+      <tr><td><strong>Correlation read as causation</strong></td><td class="n">High</td><td>Institution mandates internships for everyone and sees no gain</td><td>Label what-if outputs as estimates. Recommend a pilot with a comparison group before any policy change.</td></tr>
+      <tr><td><strong>Scope creep across 14 modules</strong></td><td class="n">High</td><td>Fourteen half-built modules instead of six working ones</td><td>Freeze Phase-1 scope in writing. Ship M09/M10 as instrumented-but-unpopulated, labelled honestly.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="body-col">
+    <div class="callout good">
+      <p style="margin:0 0 10px"><strong>The sentence to build the defence around.</strong> "This system does not predict who deserves support. It predicts who is likely to need it, explains why in terms a person can act on, records what was done, and audits itself for whether it treats groups of students equally."</p>
+      <p style="margin:0">Everything in this document — the pseudonymisation boundary, the fairness gate, the separation of duties, the decision not to show students their own score — exists to make that sentence true rather than merely stated.</p>
+    </div>
+
+    <h3>Where to go next</h3>
+    <p>Three things, in this order. <strong>Confirm the label source</strong> — find out this week whether your institution has tracer-survey data and how many cohorts. That single fact determines whether this is a modelling project or a data-collection project. <strong>Write the target definition</strong> in one paragraph and get someone in career services to agree with it. <strong>Then draw the schema</strong> from §08 in a real migration file and start ingesting one source.</p>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p style="margin-bottom:6px">Graduate Employability Prediction System · Technical brief v1.0 · Working draft</p>
+    <p style="margin:0" class="dim">Competitor positioning is drawn from publicly described product categories and should be verified against current vendor documentation before citation. Performance figures quoted as targets are expectations from comparable published work, not measured results.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var els = document.querySelectorAll('section > .wrap, section > .bleed, figure');
+  els.forEach(function(el){ el.classList.add('rev'); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.04 });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
