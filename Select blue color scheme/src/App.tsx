@@ -17,6 +17,40 @@ import {
   RadialBarChart,
   RadialBar,
 } from "recharts"
+import {
+  Home,
+  Users,
+  ClipboardList,
+  BarChart3,
+  FileText,
+  Scale,
+  Zap,
+  Menu,
+  LogOut,
+  Bell,
+  Search,
+  ChevronRight,
+  CheckCircle,
+  AlertCircle,
+  TrendingUp,
+  TrendingDown,
+  BookOpen,
+  Award,
+  Target,
+  Settings,
+  User,
+  GraduationCap,
+  Briefcase,
+  Brain,
+  BarChart2,
+  Activity,
+  Check,
+  X,
+  Star,
+  Lock,
+  Eye,
+  Plus,
+} from "lucide-react"
 
 /* ─── Types ─── */
 type UserRole = "advisor" | "head" | "analyst" | "ethics" | "admin" | "placement" | "student"
@@ -1208,39 +1242,39 @@ function LoginPage({ onNav, onLogin }: LoginPageProps) {
 /* ─── Sidebar ─── */
 const getNavItems = (role: UserRole) => {
   const baseItems = [
-    { id: "dashboard", label: "Overview", icon: "⊞" },
+    { id: "dashboard", label: "Overview", icon: Home },
   ]
 
   const roleItems: Record<UserRole, any[]> = {
     advisor: [
-      { id: "queue", label: "My Queue", icon: "⋮⋮" },
-      { id: "cases", label: "Cases", icon: "◻" },
-      { id: "analytics", label: "Analytics", icon: "▲" },
-      { id: "whatif", label: "Simulator", icon: "◈" },
+      { id: "queue", label: "My Queue", icon: ClipboardList },
+      { id: "cases", label: "Cases", icon: FileText },
+      { id: "analytics", label: "Analytics", icon: BarChart3 },
+      { id: "whatif", label: "Simulator", icon: Zap },
     ],
     head: [
-      { id: "analytics", label: "Program Analytics", icon: "▲" },
-      { id: "reports", label: "Reports", icon: "☰" },
+      { id: "analytics", label: "Program Analytics", icon: BarChart3 },
+      { id: "reports", label: "Reports", icon: FileText },
     ],
     placement: [
-      { id: "analytics", label: "Opportunities", icon: "💼" },
-      { id: "cases", label: "Assignments", icon: "◻" },
+      { id: "analytics", label: "Opportunities", icon: Target },
+      { id: "cases", label: "Assignments", icon: ClipboardList },
     ],
     analyst: [
-      { id: "analytics", label: "Data Sources", icon: "📊" },
-      { id: "reports", label: "Model Registry", icon: "🧠" },
+      { id: "analytics", label: "Data Sources", icon: BarChart3 },
+      { id: "reports", label: "Model Registry", icon: BookOpen },
     ],
     ethics: [
-      { id: "fairness", label: "Fairness & Equity", icon: "⊜" },
-      { id: "reports", label: "Audit Log", icon: "📋" },
+      { id: "fairness", label: "Fairness & Equity", icon: Scale },
+      { id: "reports", label: "Audit Log", icon: FileText },
     ],
     admin: [
-      { id: "reports", label: "User Management", icon: "👥" },
-      { id: "analytics", label: "System Health", icon: "⚙️" },
+      { id: "reports", label: "User Management", icon: Users },
+      { id: "analytics", label: "System Health", icon: Settings },
     ],
     student: [
-      { id: "analytics", label: "Opportunities", icon: "🎯" },
-      { id: "reports", label: "My Progress", icon: "📈" },
+      { id: "analytics", label: "Opportunities", icon: Target },
+      { id: "reports", label: "My Progress", icon: TrendingUp },
     ],
   }
 
@@ -1310,9 +1344,7 @@ function Sidebar({
               fontFamily: "var(--font-body)",
             }}
           >
-            <span className="text-base w-5 text-center opacity-70">
-              {item.icon}
-            </span>
+            {item.icon && <item.icon className="w-5 h-5 opacity-70" />}
             <span className="font-medium">{item.label}</span>
           </button>
         ))}
@@ -1370,21 +1402,21 @@ function Topbar({ title, onNav, user }: { title: string; onNav: (v: View) => voi
       </div>
       <div className="flex items-center gap-4">
         <div
-          className="px-3 py-1.5 rounded flex items-center gap-2 text-xs"
+          className="px-3 py-1.5 rounded flex items-center gap-2 text-xs cursor-pointer hover:bg-opacity-8 transition-all"
           style={{ background: "rgba(255,255,255,0.04)", color: C.sage }}
         >
-          <span>🔍</span>
+          <Search size={16} />
           <span style={{ fontFamily: "var(--font-mono)" }}>
             Search students...
           </span>
         </div>
         <div className="relative">
-          <span
-            className="text-lg cursor-pointer opacity-60 hover:opacity-100 transition-opacity"
+          <button
+            className="p-1 cursor-pointer opacity-60 hover:opacity-100 transition-opacity"
             style={{ color: C.ivory }}
           >
-            🔔
-          </span>
+            <Bell size={18} />
+          </button>
           <span
             className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full text-xs flex items-center justify-center"
             style={{ background: C.ember, color: C.ivory, fontSize: "9px" }}
@@ -3617,13 +3649,18 @@ function CaseManagement({ onNav }: { onNav: (v: View) => void }) {
           ].map((t, i) => (
             <div key={i} className="flex gap-4">
               <div className="flex flex-col items-center">
-                <div
-                  className="w-3 h-3 rounded-full flex-shrink-0"
-                  style={{
-                    background: t.done ? C.tealLight : "rgba(255,255,255,0.15)",
-                    marginTop: 2,
-                  }}
-                />
+                {t.done ? (
+                  <CheckCircle size={18} style={{ color: C.tealLight, marginTop: 2, flexShrink: 0 }} />
+                ) : (
+                  <div
+                    className="w-4 h-4 rounded-full flex-shrink-0 border"
+                    style={{
+                      background: "rgba(255,255,255,0.05)",
+                      borderColor: "rgba(255,255,255,0.15)",
+                      marginTop: 2,
+                    }}
+                  />
+                )}
                 {i < 4 && (
                   <div
                     className="w-px flex-1 mt-1"
