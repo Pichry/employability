@@ -1,0 +1,8 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.vercel]
+# This is a Node.js frontend project, not a Python project
+# Vercel should not attempt to detect or build a Python framework
+framework = "nextjs"  # Use nextjs to force Node.js handling

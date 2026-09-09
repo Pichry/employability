@@ -1,7 +1,15 @@
 {
+  "version": 2,
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
-  "git": {
-    "deploymentEnabled": true
-  }
+  "framework": null,
+  "env": {
+    "VITE_API_URL": "http://localhost:8000/api"
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
