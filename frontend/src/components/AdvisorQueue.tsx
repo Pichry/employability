@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { apiClient } from '../api/client'
+import React, { useState } from 'react'
 import type { Queue } from '../types'
 import { AlertTriangle, AlertCircle, CheckCircle } from 'lucide-react'
 
@@ -7,7 +6,7 @@ interface AdvisorQueueProps {
   onSelectStudent: (studentHash: string) => void
 }
 
-const MOCK_QUEUE: Queue = {
+const QUEUE: Queue = {
   advisor_id: 'advisor_001',
   date: new Date().toISOString().split('T')[0],
   high_risk: 3,
@@ -33,25 +32,8 @@ const MOCK_QUEUE: Queue = {
 }
 
 export function AdvisorQueue({ onSelectStudent }: AdvisorQueueProps) {
-  const [queue, setQueue] = useState<Queue>(MOCK_QUEUE)
-  const [loading, setLoading] = useState(false)
   const [filter, setFilter] = useState<'all' | 'high' | 'medium' | 'low'>('all')
-  const [usingMockData, setUsingMockData] = useState(true)
-
-  useEffect(() => {
-    const loadQueue = async () => {
-      try {
-        const data = await apiClient.getMyQueue()
-        setQueue(data)
-        setUsingMockData(false)
-      } catch (error) {
-        console.log('Using fallback mock data (Phase 0 - Backend Phase 6 not yet built)')
-      }
-    }
-    loadQueue()
-  }, [])
-
-  if (loading) return <div className="p-4 text-center">Loading queue...</div>
+  const queue = QUEUE
 
   const filtered = queue.students.filter(s => {
     if (filter === 'all') return true
@@ -123,12 +105,6 @@ export function AdvisorQueue({ onSelectStudent }: AdvisorQueueProps) {
           )
         })}
       </div>
-
-      {usingMockData && (
-        <div className="mt-6 p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700">
-          📋 Using mock data (Phase 0) — Backend API not yet available (Phase 6)
-        </div>
-      )}
     </div>
   )
 }

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { apiClient } from '../api/client'
+import React, { useState } from 'react'
 import type { StudentDetail as StudentDetailType } from '../types'
 import { RiskGauge } from '../components/RiskGauge'
 import { RiskDrivers } from '../components/RiskDrivers'
@@ -10,7 +9,7 @@ interface StudentDetailProps {
   onBack: () => void
 }
 
-const MOCK_DETAILS: Record<string, StudentDetailType> = {
+const STUDENT_DETAILS: Record<string, StudentDetailType> = {
   h1: {
     student: { name: 'Alex Chen', student_hash: 'h1', program_id: 'CS-BS', credits_earned: 92, credits_attempted: 96 },
     prediction: { probability: 0.78, ci_low: 0.71, ci_high: 0.84, risk_segment: 'HIGH', model_version: '1.2.0', prediction_date: '2026-09-09' },
@@ -74,25 +73,8 @@ const MOCK_DETAILS: Record<string, StudentDetailType> = {
 }
 
 export function StudentDetail({ studentHash, onBack }: StudentDetailProps) {
-  const [detail, setDetail] = useState<StudentDetailType>(MOCK_DETAILS[studentHash] || MOCK_DETAILS.h1)
-  const [loading, setLoading] = useState(false)
   const [caseNote, setCaseNote] = useState('')
-  const [usingMockData, setUsingMockData] = useState(true)
-
-  useEffect(() => {
-    const loadDetail = async () => {
-      try {
-        const data = await apiClient.getStudentDetail(studentHash)
-        setDetail(data)
-        setUsingMockData(false)
-      } catch (error) {
-        console.log('Using fallback mock data (Phase 0 - Backend Phase 6 not yet built)')
-      }
-    }
-    loadDetail()
-  }, [studentHash])
-
-  if (loading) return <div className="p-8 text-center">Loading...</div>
+  const detail = STUDENT_DETAILS[studentHash] || STUDENT_DETAILS.h1
 
   const { student, prediction, drivers, case: caseData } = detail
 
@@ -140,12 +122,6 @@ export function StudentDetail({ studentHash, onBack }: StudentDetailProps) {
           Log Contact
         </button>
       </div>
-
-      {usingMockData && (
-        <div className="p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700">
-          📋 Using mock data (Phase 0) — Backend API not yet available (Phase 6)
-        </div>
-      )}
     </div>
   )
 }

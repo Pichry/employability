@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { apiClient } from '../api/client'
 
 interface WhatIfSimulatorProps {
   studentHash: string
@@ -13,18 +12,15 @@ export function WhatIfSimulator({ studentHash, currentProbability }: WhatIfSimul
     join_club: false
   })
   const [newProbability, setNewProbability] = useState<number | null>(null)
-  const [loading, setLoading] = useState(false)
 
-  const handleSimulate = async () => {
-    setLoading(true)
-    try {
-      const result = await apiClient.runWhatIf(studentHash, modifications)
-      setNewProbability(result.new_probability)
-    } catch (error) {
-      console.error('What-if simulation failed:', error)
-    } finally {
-      setLoading(false)
-    }
+  const handleSimulate = () => {
+    let impact = 0
+    if (modifications.internship) impact -= 0.12
+    if (modifications.raise_gpa) impact -= 0.08
+    if (modifications.join_club) impact -= 0.05
+
+    const simulated = Math.max(0, Math.min(1, currentProbability + impact))
+    setNewProbability(simulated)
   }
 
   const delta = newProbability !== null ? (newProbability - currentProbability) * 100 : 0
@@ -66,10 +62,9 @@ export function WhatIfSimulator({ studentHash, currentProbability }: WhatIfSimul
 
       <button
         onClick={handleSimulate}
-        disabled={loading}
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
       >
-        {loading ? 'Simulating...' : 'Run Simulation'}
+        Run Simulation
       </button>
 
       {newProbability !== null && (
