@@ -2119,6 +2119,15 @@ const engagementData = [
 
 function StudentProfile({ onNav }: { onNav: (v: View) => void }) {
   const [caseCreated, setCaseCreated] = useState(false)
+  const [showCaseModal, setShowCaseModal] = useState(false)
+  const [newCaseId, setNewCaseId] = useState<string>("")
+
+  const handleCaseSubmit = (form: CreateCaseForm) => {
+    const caseNum = `CASE-${String(CASES.length + 1).padStart(3, "0")}`
+    setNewCaseId(caseNum)
+    setCaseCreated(true)
+    setShowCaseModal(false)
+  }
 
   return (
     <div className="flex-1 overflow-y-auto p-6 hide-scroll">
@@ -2193,7 +2202,7 @@ function StudentProfile({ onNav }: { onNav: (v: View) => void }) {
                 className="font-mono text-xs opacity-50"
                 style={{ color: C.sage }}
               >
-                Case #CASE-006 · Internship Placement Support
+                {newCaseId} · Intervention logged
               </div>
             </div>
           </div>
@@ -2586,7 +2595,7 @@ function StudentProfile({ onNav }: { onNav: (v: View) => void }) {
           ))}
           {!caseCreated && (
             <button
-              onClick={() => setCaseCreated(true)}
+              onClick={() => setShowCaseModal(true)}
               className="w-full mt-2 py-2.5 rounded font-display font-semibold text-sm transition-all hover:opacity-90"
               style={{ background: C.ember, color: C.ivory }}
             >
@@ -2595,6 +2604,15 @@ function StudentProfile({ onNav }: { onNav: (v: View) => void }) {
           )}
         </div>
       </div>
+
+      {showCaseModal && (
+        <CaseCreationModal
+          studentId="#4F91A20C"
+          studentName="Alex M."
+          onClose={() => setShowCaseModal(false)}
+          onSubmit={handleCaseSubmit}
+        />
+      )}
     </div>
   )
 }
@@ -3132,6 +3150,154 @@ function WhatIfSimulator() {
       </div>
     </div>
   )
+}
+
+/* ─── Case Creation Modal ─── */
+interface CreateCaseForm {
+  interventionType: string;
+  priority: string;
+  notes: string;
+}
+
+function CaseCreationModal({
+  studentId,
+  studentName,
+  onClose,
+  onSubmit
+}: {
+  studentId: string;
+  studentName: string;
+  onClose: () => void;
+  onSubmit: (data: CreateCaseForm) => void;
+}) {
+  const [form, setForm] = useState<CreateCaseForm>({
+    interventionType: "internship",
+    priority: "high",
+    notes: ""
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const interventionTypes = [
+    { id: "internship", label: "Internship Placement Support", desc: "Connect to employers and internship programs" },
+    { id: "portfolio", label: "Portfolio Development", desc: "Skills workshop and project mentorship" },
+    { id: "mentorship", label: "Mentorship Programme", desc: "Peer or alumni mentoring" },
+    { id: "academic", label: "Academic Recovery Plan", desc: "Academic support and GPA improvement" },
+    { id: "engagement", label: "Engagement Boost", desc: "Career readiness workshops and skills building" },
+  ];
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!form.interventionType) newErrors.interventionType = "Intervention type required";
+    if (!form.priority) newErrors.priority = "Priority required";
+    if (form.notes.trim().length < 10) newErrors.notes = "Notes must be at least 10 characters";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
+      onSubmit(form);
+      setForm({ interventionType: "internship", priority: "high", notes: "" });
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-graphite rounded-lg border border-opacity-15 w-full max-w-lg max-h-96 overflow-y-auto" style={{ borderColor: "rgba(255,255,255,0.15)" }}>
+        {/* Header */}
+        <div className="sticky top-0 px-6 py-4 border-b bg-graphite" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
+          <div className="flex items-center justify-between">
+            <h2 className="font-display font-bold text-lg" style={{ color: C.ivory }}>Create Intervention Case</h2>
+            <button onClick={onClose} className="text-xl opacity-50 hover:opacity-100" style={{ color: C.sage }}>×</button>
+          </div>
+          <p className="text-xs mt-1 opacity-50" style={{ color: C.sage }}>{studentName} · {studentId}</p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {/* Intervention Type */}
+          <div>
+            <label className="block font-mono text-xs tracking-widest mb-2 opacity-60" style={{ color: C.sage }}>INTERVENTION TYPE</label>
+            <div className="space-y-2">
+              {interventionTypes.map((type) => (
+                <label key={type.id} className="flex items-start gap-3 p-3 rounded border cursor-pointer transition-all" style={{ borderColor: form.interventionType === type.id ? C.ember + "44" : "rgba(255,255,255,0.07)", background: form.interventionType === type.id ? C.ember + "08" : "transparent" }}>
+                  <input
+                    type="radio"
+                    name="interventionType"
+                    value={type.id}
+                    checked={form.interventionType === type.id}
+                    onChange={(e) => setForm({ ...form, interventionType: e.target.value })}
+                    className="mt-0.5"
+                  />
+                  <div className="flex-1">
+                    <div className="font-display font-semibold text-sm" style={{ color: C.ivory }}>{type.label}</div>
+                    <div className="text-xs opacity-50 mt-0.5" style={{ color: C.sage }}>{type.desc}</div>
+                  </div>
+                </label>
+              ))}
+            </div>
+            {errors.interventionType && <p className="text-xs mt-1" style={{ color: C.ember }}>{errors.interventionType}</p>}
+          </div>
+
+          {/* Priority */}
+          <div>
+            <label className="block font-mono text-xs tracking-widest mb-2 opacity-60" style={{ color: C.sage }}>PRIORITY</label>
+            <div className="flex gap-2">
+              {["high", "medium", "low"].map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => setForm({ ...form, priority: p })}
+                  className="flex-1 py-2 rounded border text-xs font-mono transition-all capitalize"
+                  style={{
+                    background: form.priority === p ? C.ember : "transparent",
+                    borderColor: form.priority === p ? C.ember : "rgba(255,255,255,0.15)",
+                    color: form.priority === p ? C.ivory : C.sage,
+                  }}
+                >{p}</button>
+              ))}
+            </div>
+            {errors.priority && <p className="text-xs mt-1" style={{ color: C.ember }}>{errors.priority}</p>}
+          </div>
+
+          {/* Notes */}
+          <div>
+            <label className="block font-mono text-xs tracking-widest mb-2 opacity-60" style={{ color: C.sage }}>NOTES ({form.notes.length}/500)</label>
+            <textarea
+              value={form.notes}
+              onChange={(e) => setForm({ ...form, notes: e.target.value.slice(0, 500) })}
+              placeholder="Why is this intervention needed? What are the goals?"
+              className="w-full p-3 rounded border text-sm outline-none resize-none focus:ring-2"
+              rows={3}
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                borderColor: errors.notes ? C.ember + "66" : "rgba(255,255,255,0.15)",
+                color: C.ivory,
+                fontFamily: "var(--font-body)"
+              }}
+            />
+            {errors.notes && <p className="text-xs mt-1" style={{ color: C.ember }}>{errors.notes}</p>}
+          </div>
+
+          {/* Buttons */}
+          <div className="flex gap-2 pt-4 border-t" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 py-2 rounded border text-sm font-medium transition-all"
+              style={{ borderColor: "rgba(255,255,255,0.15)", color: C.sage }}
+            >Cancel</button>
+            <button
+              type="submit"
+              className="flex-1 py-2 rounded text-sm font-medium transition-all hover:opacity-90"
+              style={{ background: C.ember, color: C.ivory }}
+            >Create Case</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 /* ─── Case Management ─── */
