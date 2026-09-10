@@ -71,12 +71,12 @@ const C = {
   navyLight: "#253db5",
   teal: "#3E6B67",
   tealLight: "#5a9490",
-  ivory: "#F5F1E8",
-  ivoryDark: "#E7DFD0",
+  ivory: "#1a1a1a",
+  ivoryDark: "#333333",
   ember: "#C96B4B",
   emberLight: "#e08060",
-  sage: "#A9B8A9",
-  graphite: "#202522",
+  sage: "#666666",
+  graphite: "#f8f8f8",
   white: "#ffffff",
 }
 
@@ -193,13 +193,13 @@ function StatBadge({ value, label }: { value: string; label: string }) {
     <div className="text-center">
       <div
         className="font-display font-bold text-2xl"
-        style={{ color: C.ivory }}
+        style={{ color: "#F5F1E8" }}
       >
         {value}
       </div>
       <div
         className="text-xs uppercase tracking-widest mt-0.5"
-        style={{ color: C.sage, fontFamily: "var(--font-mono)" }}
+        style={{ color: "#F5F1E8", fontFamily: "var(--font-mono)" }}
       >
         {label}
       </div>
@@ -253,8 +253,8 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
               }}
             />
             <span
-              className="font-display font-bold text-sm tracking-wide"
-              style={{ color: C.ivory }}
+              className="font-display font-bold text-base font-black tracking-widest"
+              style={{ color: "#F5F1E8" }}
             >
               GEPS
             </span>
@@ -266,7 +266,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                   key={item}
                   href="#"
                   className="text-sm transition-colors hover:opacity-100 opacity-70"
-                  style={{ color: C.ivory, fontFamily: "var(--font-body)" }}
+                  style={{ color: "#F5F1E8", fontFamily: "var(--font-body)" }}
                 >
                   {item}
                 </a>
@@ -275,10 +275,10 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
           </div>
           <button
             onClick={() => onNav("login")}
-            className="px-5 py-2 rounded text-sm font-medium transition-all hover:opacity-90"
+            className="px-5 py-2 rounded text-sm font-medium transition-all hover:shadow-xl hover:scale-105"
             style={{
               background: C.ember,
-              color: C.ivory,
+              color: "#F5F1E8",
               fontFamily: "var(--font-display)",
             }}
           >
@@ -350,46 +350,47 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
         <div className="relative max-w-7xl mx-auto px-6 pt-24 pb-32">
           <p
             className="font-mono text-xs tracking-widest mb-6 opacity-60"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             GRADUATE EMPLOYABILITY PREDICTION SYSTEM
           </p>
           <h1
-            className="font-display font-black leading-none mb-6"
+            className="font-display font-black leading-tight mb-8"
             style={{
-              fontSize: "clamp(42px, 6vw, 88px)",
-              color: C.ivory,
-              maxWidth: "14ch",
+              fontSize: "clamp(48px, 8vw, 96px)",
+              color: "#F5F1E8",
+              maxWidth: "16ch",
+              letterSpacing: "-0.02em",
+              fontWeight: 900,
             }}
           >
             GRADUATE
             <br />
             EMPLOYABILITY,
             <br />
-            <span style={{ color: C.ember }}>BEFORE IT'S</span>
+            <span style={{ color: C.ember, fontWeight: 900 }}>BEFORE IT'S</span>
             <br />
             TOO LATE.
           </h1>
           <p
-            className="text-lg leading-relaxed mb-10 max-w-xl opacity-80"
-            style={{ color: C.ivory }}
+            className="text-lg leading-relaxed mb-12 max-w-lg opacity-90"
+            style={{ color: "#F5F1E8", fontWeight: 500 }}
           >
-            Turn fragmented student data into early, explainable employability
-            insights — and give advisors the information they need to act.
+            Early predictions. Clear explanations. Smart interventions. Help students succeed before it's too late.
           </p>
           <div className="flex flex-wrap gap-4">
             <button
               onClick={() => onNav("login")}
-              className="px-8 py-3.5 rounded font-display font-semibold text-sm tracking-wide transition-all hover:opacity-90 hover:translate-y-px"
-              style={{ background: C.ember, color: C.ivory }}
+              className="px-10 py-4 rounded font-display font-black text-base tracking-wide transition-all hover:shadow-lg hover:scale-105"
+              style={{ background: C.ember, color: "#ffffff", boxShadow: "0 10px 30px rgba(201, 107, 75, 0.3)" }}
             >
               Explore the system →
             </button>
             <button
-              className="px-8 py-3.5 rounded font-display font-semibold text-sm tracking-wide transition-all hover:opacity-80"
+              className="px-8 py-3.5 rounded font-display font-semibold text-base font-black tracking-widest transition-all hover:opacity-80"
               style={{
                 border: `1px solid rgba(245,241,232,0.25)`,
-                color: C.ivory,
+                color: "#F5F1E8",
                 background: "transparent",
               }}
             >
@@ -413,7 +414,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
       {/* THE PROBLEM */}
       <section
         className="py-28 reveal"
-        style={{ background: C.graphite, color: C.ivory }}
+        style={{ background: C.graphite, color: "#1a1a1a" }}
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-4xl">
@@ -453,18 +454,19 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
             ].map((d, i) => (
               <div
                 key={i}
-                className="p-6 rounded-lg border transition-all hover:border-opacity-60"
+                className="p-6 rounded-lg border transition-all hover:border-opacity-80 hover:shadow-2xl hover:scale-105 cursor-pointer"
                 style={{
-                  background: "rgba(255,255,255,0.04)",
-                  borderColor: "rgba(255,255,255,0.1)",
+                  background: "#ffffff",
+                  borderColor: "rgba(0,0,0,0.1)",
+                  boxShadow: "0 8px 16px rgba(0,0,0,0.08)",
                 }}
               >
                 <d.icon size={32} className="mb-3" style={{ color: C.tealLight }} />
-                <div className="font-mono text-xs tracking-widest mb-2 opacity-50">{`0${i + 1}`}</div>
-                <h3 className="font-display font-bold text-lg mb-2">
+                <div className="font-mono text-xs tracking-widest mb-2 opacity-60" style={{ color: "#1a1a1a" }}>{`0${i + 1}`}</div>
+                <h3 className="font-display font-bold text-lg mb-2" style={{ color: "#1a1a1a" }}>
                   {d.label}
                 </h3>
-                <p className="text-sm opacity-60 leading-relaxed">{d.sub}</p>
+                <p className="text-sm opacity-60 leading-relaxed" style={{ color: "#1a1a1a" }}>{d.sub}</p>
               </div>
             ))}
           </div>
@@ -494,13 +496,13 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
         <div className="max-w-7xl mx-auto px-6">
           <p
             className="font-mono text-xs tracking-widest mb-4 opacity-50"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             FROM DATA TO ACTION
           </p>
           <h2
             className="font-display font-black mb-16"
-            style={{ fontSize: "clamp(24px, 3.5vw, 44px)", color: C.ivory }}
+            style={{ fontSize: "clamp(24px, 3.5vw, 44px)", color: "#F5F1E8" }}
           >
             Six steps. One story.
           </h2>
@@ -539,30 +541,31 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
             ].map((s, i) => (
               <div
                 key={i}
-                className="flex-1 min-w-40 p-5 border-r last:border-r-0"
+                className="flex-1 min-w-40 p-5 border rounded-lg m-2 transition-all hover:shadow-lg hover:scale-105 cursor-pointer"
                 style={{
-                  borderColor: "rgba(255,255,255,0.08)",
-                  background: i === 2 ? C.ember + "18" : "transparent",
+                  borderColor: i === 2 ? C.ember + "66" : "rgba(255,255,255,0.12)",
+                  background: i === 2 ? C.ember + "22" : "rgba(255,255,255,0.06)",
+                  boxShadow: i === 2 ? `0 8px 20px ${C.ember}30` : "0 4px 12px rgba(0,0,0,0.15)",
                 }}
               >
                 <div
                   className="font-mono text-xs opacity-40 mb-3"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {s.step}
                 </div>
                 <div
                   className="font-display font-bold mb-1 text-sm"
-                  style={{ color: i === 2 ? C.ember : C.ivory }}
+                  style={{ color: i === 2 ? C.ember : "#F5F1E8" }}
                 >
                   {s.label}
                 </div>
-                <div className="text-xs opacity-50" style={{ color: C.sage }}>
+                <div className="text-xs opacity-50" style={{ color: "#F5F1E8" }}>
                   {s.desc}
                 </div>
                 {i < 5 && (
                   <div
-                    className="mt-4 text-xl opacity-30"
+                    className="mt-4 text-xl opacity-30 hidden"
                     style={{ color: C.ember }}
                   >
                     →
@@ -575,11 +578,11 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
       </section>
 
       {/* PRODUCT PREVIEW */}
-      <section className="py-28 reveal" style={{ background: C.ivory }}>
+      <section className="py-28 reveal" style={{ background: C.graphite }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="font-mono text-xs tracking-widest mb-4 opacity-50">
+              <p className="font-mono text-xs tracking-widest mb-4 opacity-50" style={{ color: "#1a1a1a" }}>
                 AI EMPLOYABILITY INSIGHT
               </p>
               <h2
@@ -587,22 +590,22 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                 style={{
                   fontSize: "clamp(24px, 3.5vw, 44px)",
                   lineHeight: 1.08,
-                  color: C.navy,
+                  color: "#1a1a1a",
                 }}
               >
                 One student.
                 <br />
                 Every signal that matters.
               </h2>
-              <p className="text-base leading-relaxed opacity-70 mb-8">
+              <p className="text-base leading-relaxed opacity-70 mb-8" style={{ color: "#1a1a1a" }}>
                 The system combines academic trajectory, engagement, and career
                 readiness into a single explainable employability estimate —
                 surfaced early enough for an advisor to act.
               </p>
               <button
                 onClick={() => onNav("login")}
-                className="px-6 py-3 rounded font-display font-semibold text-sm transition-all hover:opacity-90"
-                style={{ background: C.navy, color: C.ivory }}
+                className="px-6 py-3 rounded font-display font-semibold text-sm transition-all hover:shadow-xl hover:scale-105"
+                style={{ background: C.navy, color: "#F5F1E8" }}
               >
                 View the dashboard →
               </button>
@@ -610,15 +613,15 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
             {/* Mini dashboard preview */}
             <div
               className="rounded-2xl shadow-2xl overflow-hidden"
-              style={{ background: C.graphite }}
+              style={{ background: "#1a1a1a" }}
             >
               <div
                 className="px-5 py-4 border-b"
-                style={{ borderColor: "rgba(255,255,255,0.06)" }}
+                style={{ borderColor: "rgba(255,255,255,0.1)" }}
               >
                 <div
-                  className="text-xs font-mono opacity-40"
-                  style={{ color: C.sage }}
+                  className="text-xs font-mono opacity-50"
+                  style={{ color: "#F5F1E8" }}
                 >
                   STUDENT EMPLOYABILITY PROFILE
                 </div>
@@ -626,12 +629,12 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
               <div className="p-6">
                 <div className="flex items-start justify-between mb-6">
                   <div>
-                    <div className="font-display font-bold text-white text-lg">
+                    <div className="font-display font-bold text-lg" style={{ color: "#F5F1E8" }}>
                       Alex M.
                     </div>
                     <div
-                      className="text-xs opacity-50 mt-0.5"
-                      style={{ color: C.sage }}
+                      className="text-xs opacity-60 mt-0.5"
+                      style={{ color: "#F5F1E8" }}
                     >
                       BSc Information Systems · Year 3 of 4
                     </div>
@@ -644,8 +647,8 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                       34%
                     </div>
                     <div
-                      className="text-xs opacity-50 mt-0.5"
-                      style={{ color: C.sage }}
+                      className="text-xs opacity-60 mt-0.5"
+                      style={{ color: "#F5F1E8" }}
                     >
                       EMPLOYABILITY ESTIMATE
                     </div>
@@ -680,12 +683,12 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                     <div
                       key={sig.label}
                       className="flex justify-between items-center py-2 border-b"
-                      style={{ borderColor: "rgba(255,255,255,0.06)" }}
+                      style={{ borderColor: "rgba(255,255,255,0.1)" }}
                     >
                       <span
-                        className="text-xs opacity-60"
+                        className="text-xs opacity-70"
                         style={{
-                          color: C.sage,
+                          color: "#F5F1E8",
                           fontFamily: "var(--font-mono)",
                         }}
                       >
@@ -715,7 +718,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                   </div>
                   <div
                     className="text-sm font-display font-semibold mt-1"
-                    style={{ color: C.ivory }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     Internship Placement Support
                   </div>
@@ -731,7 +734,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p
             className="font-mono text-xs tracking-widest mb-6 opacity-40"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             HUMAN-IN-THE-LOOP
           </p>
@@ -739,7 +742,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
             className="font-display font-black mb-6"
             style={{
               fontSize: "clamp(28px, 4.5vw, 64px)",
-              color: C.ivory,
+              color: "#F5F1E8",
               lineHeight: 1.05,
             }}
           >
@@ -749,7 +752,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
           </h2>
           <p
             className="max-w-2xl mx-auto text-base opacity-60 leading-relaxed mb-12"
-            style={{ color: C.ivory }}
+            style={{ color: "#F5F1E8" }}
           >
             The system prioritises students for advisor attention based on data
             patterns. It never automatically decides a student's future, denies
@@ -775,22 +778,23 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
             ].map((c) => (
               <div
                 key={c.title}
-                className="p-6 rounded-lg"
+                className="p-6 rounded-lg border transition-all hover:shadow-2xl hover:scale-105 hover:border-opacity-80 cursor-pointer"
                 style={{
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
                 }}
               >
                 <c.icon size={28} className="mb-3" style={{ color: C.ember }} />
                 <div
                   className="font-mono text-xs tracking-widest mb-2 opacity-60"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {c.title}
                 </div>
                 <p
                   className="text-sm leading-relaxed opacity-70"
-                  style={{ color: C.ivory }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {c.desc}
                 </p>
@@ -818,7 +822,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
               >
                 <div
                   className="font-mono text-xs opacity-40 mb-1"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   WHAT-IF INTERVENTION SIMULATOR
                 </div>
@@ -831,7 +835,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                   className="flex items-center justify-between py-3 px-4 rounded"
                   style={{ background: "rgba(255,255,255,0.04)" }}
                 >
-                  <span className="text-sm font-mono" style={{ color: C.sage }}>
+                  <span className="text-sm font-mono" style={{ color: "#F5F1E8" }}>
                     Current estimate
                   </span>
                   <span
@@ -872,16 +876,16 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                     }}
                   >
                     <div className="flex justify-between items-center">
-                      <span className="text-sm" style={{ color: C.ivory }}>
+                      <span className="text-sm" style={{ color: "#F5F1E8" }}>
                         {item.action}
                       </span>
                       <span
                         className="font-mono text-sm"
-                        style={{ color: item.active ? C.tealLight : C.sage }}
+                        style={{ color: item.active ? C.tealLight : "rgba(245,241,232,0.5)" }}
                       >
                         {item.from}% →{" "}
                         <strong
-                          style={{ color: item.active ? C.tealLight : C.ivory }}
+                          style={{ color: item.active ? C.tealLight : "#F5F1E8" }}
                         >
                           {item.to}%
                         </strong>
@@ -905,7 +909,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                 ))}
                 <p
                   className="text-xs italic opacity-40"
-                  style={{ color: C.sage, fontFamily: "var(--font-mono)" }}
+                  style={{ color: "#F5F1E8", fontFamily: "var(--font-mono)" }}
                 >
                   Estimated scenarios — not causal guarantees.
                 </p>
@@ -914,7 +918,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
             <div>
               <p
                 className="font-mono text-xs tracking-widest mb-4 opacity-50"
-                style={{ color: C.sage }}
+                style={{ color: "#1a1a1a" }}
               >
                 WHAT-IF SIMULATOR
               </p>
@@ -923,14 +927,14 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
                 style={{
                   fontSize: "clamp(24px, 3.5vw, 44px)",
                   lineHeight: 1.08,
-                  color: C.ivory,
+                  color: "#1a1a1a",
                 }}
               >
                 Model the impact of every intervention.
               </h2>
               <p
                 className="text-base leading-relaxed opacity-60 mb-8"
-                style={{ color: C.ivory }}
+                style={{ color: "#1a1a1a" }}
               >
                 Advisors can model estimated changes to a student's
                 employability trajectory by toggling actionable interventions —
@@ -938,8 +942,8 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
               </p>
               <button
                 onClick={() => onNav("login")}
-                className="px-6 py-3 rounded font-display font-semibold text-sm transition-all hover:opacity-90"
-                style={{ background: C.ember, color: C.ivory }}
+                className="px-6 py-3 rounded font-display font-semibold text-sm transition-all hover:shadow-xl hover:scale-105"
+                style={{ background: C.ember, color: "#ffffff" }}
               >
                 Explore the simulator →
               </button>
@@ -957,7 +961,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
         <div className="relative max-w-4xl mx-auto px-6 text-center">
           <p
             className="font-mono text-xs tracking-widest mb-8 opacity-40"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             DON'T WAIT
           </p>
@@ -965,7 +969,7 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
             className="font-display font-black mb-6"
             style={{
               fontSize: "clamp(32px, 5vw, 72px)",
-              color: C.ivory,
+              color: "#F5F1E8",
               lineHeight: 1.02,
             }}
           >
@@ -973,13 +977,13 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
             <br />
             graduate tracer report."
           </h2>
-          <p className="text-lg opacity-60 mb-10" style={{ color: C.ivory }}>
+          <p className="text-lg opacity-60 mb-10" style={{ color: "#F5F1E8" }}>
             Act while there is still time to change the trajectory.
           </p>
           <button
             onClick={() => onNav("login")}
-            className="px-10 py-4 rounded font-display font-bold text-base transition-all hover:opacity-90"
-            style={{ background: C.ember, color: C.ivory }}
+            className="px-10 py-4 rounded font-display font-bold text-base transition-all hover:shadow-xl hover:scale-105"
+            style={{ background: C.ember, color: "#F5F1E8" }}
           >
             Explore the platform →
           </button>
@@ -991,19 +995,19 @@ function LandingPage({ onNav }: { onNav: (v: View) => void }) {
         className="py-8 border-t"
         style={{
           background: C.graphite,
-          borderColor: "rgba(255,255,255,0.06)",
+          borderColor: "rgba(0,0,0,0.08)",
         }}
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <div
-            className="font-mono text-xs opacity-30"
-            style={{ color: C.sage }}
+            className="font-mono text-xs opacity-50"
+            style={{ color: "#1a1a1a" }}
           >
             GEPS · Graduate Employability Prediction System
           </div>
           <div
-            className="font-mono text-xs opacity-30"
-            style={{ color: C.sage }}
+            className="font-mono text-xs opacity-50"
+            style={{ color: "#1a1a1a" }}
           >
             AI supports advisors. Advisors decide.
           </div>
@@ -1071,7 +1075,7 @@ function LoginPage({ onNav, onLogin }: LoginPageProps) {
             />
             <span
               className="font-display font-bold tracking-wide"
-              style={{ color: C.ivory }}
+              style={{ color: "#F5F1E8" }}
             >
               GEPS
             </span>
@@ -1080,13 +1084,13 @@ function LoginPage({ onNav, onLogin }: LoginPageProps) {
         <div className="relative">
           <p
             className="font-mono text-xs tracking-widest mb-4 opacity-40"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             EARLY INTELLIGENCE
           </p>
           <h2
             className="font-display font-black text-4xl leading-tight mb-4"
-            style={{ color: C.ivory }}
+            style={{ color: "#F5F1E8" }}
           >
             Turn student data
             <br />
@@ -1094,7 +1098,7 @@ function LoginPage({ onNav, onLogin }: LoginPageProps) {
           </h2>
           <p
             className="text-sm opacity-50 leading-relaxed"
-            style={{ color: C.ivory }}
+            style={{ color: "#F5F1E8" }}
           >
             A decision-support system for universities that identifies students
             who may need employability support — early enough to make a
@@ -1208,8 +1212,8 @@ function LoginPage({ onNav, onLogin }: LoginPageProps) {
             </div>
             <button
               type="submit"
-              className="w-full py-3.5 rounded font-display font-semibold text-sm transition-all hover:opacity-90"
-              style={{ background: C.navy, color: C.ivory }}
+              className="w-full py-3.5 rounded font-display font-semibold text-sm transition-all hover:shadow-xl hover:scale-105"
+              style={{ background: C.navy, color: "#F5F1E8" }}
             >
               Sign in to GEPS
             </button>
@@ -1218,7 +1222,7 @@ function LoginPage({ onNav, onLogin }: LoginPageProps) {
           <div className="mt-8 flex items-center gap-2 text-xs opacity-40">
             <div
               className="w-4 h-4 rounded-full flex items-center justify-center text-[10px]"
-              style={{ background: C.teal, color: C.ivory }}
+              style={{ background: C.teal, color: "#F5F1E8" }}
             >
               🔒
             </div>
@@ -1310,13 +1314,13 @@ function Sidebar({
         <div>
           <div
             className="font-display font-bold text-sm"
-            style={{ color: C.ivory }}
+            style={{ color: "#F5F1E8" }}
           >
             GEPS
           </div>
           <div
             className="font-mono text-xs opacity-30"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             {user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : "Portal"}
           </div>
@@ -1327,7 +1331,7 @@ function Sidebar({
       <nav className="flex-1 px-3 py-4">
         <p
           className="font-mono text-xs px-2 mb-2 opacity-30"
-          style={{ color: C.sage }}
+          style={{ color: "#F5F1E8" }}
         >
           NAVIGATION
         </p>
@@ -1357,17 +1361,17 @@ function Sidebar({
           <div className="flex items-center gap-3">
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-              style={{ background: C.teal, color: C.ivory }}
+              style={{ background: C.teal, color: "#F5F1E8" }}
             >
               {user.name.slice(0, 2).toUpperCase()}
             </div>
             <div>
-              <div className="text-xs font-medium" style={{ color: C.ivory }}>
+              <div className="text-xs font-medium" style={{ color: "#F5F1E8" }}>
                 {user.name}
               </div>
               <div
                 className="font-mono text-xs opacity-40"
-                style={{ color: C.sage }}
+                style={{ color: "#F5F1E8" }}
               >
                 {user.role === "advisor" && "Career Advisor"}
                 {user.role === "head" && "Academic Head"}
@@ -1394,14 +1398,14 @@ function Topbar({ title, onNav, user }: { title: string; onNav: (v: View) => voi
     >
       <div
         className="font-display font-semibold text-sm"
-        style={{ color: C.ivory }}
+        style={{ color: "#F5F1E8" }}
       >
         {title}
       </div>
       <div className="flex items-center gap-4">
         <div
           className="px-3 py-1.5 rounded flex items-center gap-2 text-xs cursor-pointer hover:bg-opacity-8 transition-all"
-          style={{ background: "rgba(255,255,255,0.04)", color: C.sage }}
+          style={{ background: "rgba(255,255,255,0.04)", color: "#F5F1E8" }}
         >
           <Search size={16} />
           <span style={{ fontFamily: "var(--font-mono)" }}>
@@ -1411,13 +1415,13 @@ function Topbar({ title, onNav, user }: { title: string; onNav: (v: View) => voi
         <div className="relative">
           <button
             className="p-1 cursor-pointer opacity-60 hover:opacity-100 transition-opacity"
-            style={{ color: C.ivory }}
+            style={{ color: "#F5F1E8" }}
           >
             <Bell size={18} />
           </button>
           <span
             className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full text-xs flex items-center justify-center"
-            style={{ background: C.ember, color: C.ivory, fontSize: "9px" }}
+            style={{ background: C.ember, color: "#F5F1E8", fontSize: "9px" }}
           >
             3
           </span>
@@ -1425,7 +1429,7 @@ function Topbar({ title, onNav, user }: { title: string; onNav: (v: View) => voi
         <button
           onClick={() => onNav("landing")}
           className="font-mono text-xs opacity-40 hover:opacity-80 transition-opacity"
-          style={{ color: C.sage }}
+          style={{ color: "#F5F1E8" }}
         >
           ← Site
         </button>
@@ -1456,7 +1460,7 @@ function MetricCard({
     >
       <div
         className="font-mono text-xs tracking-widest opacity-40 mb-2"
-        style={{ color: C.sage }}
+        style={{ color: "#F5F1E8" }}
       >
         {label}
       </div>
@@ -1467,7 +1471,7 @@ function MetricCard({
         {value}
       </div>
       {sub && (
-        <div className="text-xs opacity-50 mt-1" style={{ color: C.sage }}>
+        <div className="text-xs opacity-50 mt-1" style={{ color: "#F5F1E8" }}>
           {sub}
         </div>
       )}
@@ -1508,11 +1512,11 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
         <div>
           <h1
             className="font-display font-black text-3xl mb-1"
-            style={{ color: C.ivory }}
+            style={{ color: "#F5F1E8" }}
           >
             Good morning, {advisorName.split("@")[0]}
           </h1>
-          <p className="font-mono text-xs opacity-40" style={{ color: C.sage }}>
+          <p className="font-mono text-xs opacity-40" style={{ color: "#F5F1E8" }}>
             {user?.department || "Department of Information Systems"} ·{" "}
             {new Date().toLocaleDateString("en-ZA", {
               weekday: "long",
@@ -1525,7 +1529,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
         <div className="text-right">
           <div
             className="font-mono text-xs opacity-40 mb-1"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             YOUR ACTIVE CASES
           </div>
@@ -1545,15 +1549,15 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
       >
         <div className="grid grid-cols-3 gap-4 text-sm">
           <div>
-            <div className="font-mono text-xs opacity-50" style={{ color: C.sage }}>NEW THIS WEEK</div>
+            <div className="font-mono text-xs opacity-50" style={{ color: "#F5F1E8" }}>NEW THIS WEEK</div>
             <div className="font-display font-bold text-lg mt-1" style={{ color: C.tealLight }}>{highPriorityCount} students</div>
           </div>
           <div>
-            <div className="font-mono text-xs opacity-50" style={{ color: C.sage }}>IN PROGRESS</div>
+            <div className="font-mono text-xs opacity-50" style={{ color: "#F5F1E8" }}>IN PROGRESS</div>
             <div className="font-display font-bold text-lg mt-1" style={{ color: C.tealLight }}>{activeCases} cases</div>
           </div>
           <div>
-            <div className="font-mono text-xs opacity-50" style={{ color: C.sage }}>THIS MONTH</div>
+            <div className="font-mono text-xs opacity-50" style={{ color: "#F5F1E8" }}>THIS MONTH</div>
             <div className="font-display font-bold text-lg mt-1" style={{ color: C.tealLight }}>{completedThisMonth} completed</div>
           </div>
         </div>
@@ -1569,11 +1573,11 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
           <div>
             <div
               className="font-display font-bold text-lg mb-1"
-              style={{ color: C.ivory }}
+              style={{ color: "#F5F1E8" }}
             >
               Review your prioritized queue
             </div>
-            <p className="text-sm opacity-60" style={{ color: C.sage }}>
+            <p className="text-sm opacity-60" style={{ color: "#F5F1E8" }}>
               180 students need attention today, sorted by risk. Average review
               time: 2-3 minutes per student.
             </p>
@@ -1623,7 +1627,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-4"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             RISK DISTRIBUTION
           </div>
@@ -1658,7 +1662,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
               <div
                 key={d.name}
                 className="flex items-center gap-1.5 text-xs"
-                style={{ color: C.sage }}
+                style={{ color: "#F5F1E8" }}
               >
                 <span
                   className="w-2 h-2 rounded-full"
@@ -1680,7 +1684,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-4"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             COHORT EMPLOYABILITY TREND (AVG SCORE)
           </div>
@@ -1718,7 +1722,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
                   borderRadius: 4,
                   fontSize: 12,
                 }}
-                labelStyle={{ color: C.sage }}
+                labelStyle={{ color: "#F5F1E8" }}
                 itemStyle={{ color: C.tealLight }}
               />
               <Area
@@ -1747,7 +1751,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
           <div className="flex justify-between items-center mb-4">
             <div
               className="font-mono text-xs tracking-widest opacity-40"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               STUDENTS REQUIRING ATTENTION
             </div>
@@ -1803,7 +1807,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
                   <div className="flex items-center gap-2 mb-1">
                     <span
                       className="font-mono text-sm font-bold"
-                      style={{ color: C.ivory }}
+                      style={{ color: "#F5F1E8" }}
                     >
                       {s.id}
                     </span>
@@ -1820,7 +1824,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
                   </div>
                   <div
                     className="text-xs opacity-50 mb-2"
-                    style={{ color: C.sage }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     {s.prog} · Year {s.year}
                   </div>
@@ -1831,7 +1835,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
                         className="px-2 py-0.5 rounded text-xs"
                         style={{
                           background: "rgba(255,255,255,0.06)",
-                          color: C.sage,
+                          color: "#F5F1E8",
                         }}
                       >
                         {sig}
@@ -1850,7 +1854,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
                   </div>
                   <div
                     className="font-mono text-xs opacity-40"
-                    style={{ color: C.sage }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     est.
                   </div>
@@ -1870,19 +1874,19 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-4"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             INTERVENTION PROGRESS
           </div>
           <div className="space-y-4 mb-6">
             {[
               { label: "Active", count: 214, color: C.tealLight },
-              { label: "Completed", count: 86, color: C.sage },
+              { label: "Completed", count: 86, color: "#F5F1E8" },
               { label: "Follow-up", count: 42, color: "#D4A843" },
             ].map((item) => (
               <div key={item.label}>
                 <div className="flex justify-between text-xs mb-1">
-                  <span style={{ color: C.sage }}>{item.label}</span>
+                  <span style={{ color: "#F5F1E8" }}>{item.label}</span>
                   <span
                     style={{
                       color: item.color,
@@ -1945,7 +1949,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
           >
             <div
               className="font-mono text-xs tracking-widest opacity-30 mb-3"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               RECENT
             </div>
@@ -1957,7 +1961,7 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
               <div
                 key={i}
                 className="text-xs opacity-50 mb-1.5"
-                style={{ color: C.sage }}
+                style={{ color: "#F5F1E8" }}
               >
                 • {a}
               </div>
@@ -1971,76 +1975,36 @@ function AdvisorDashboard({ onNav, user }: { onNav: (v: View) => void; user: Use
 
 /* ─── Student Queue ─── */
 const QUEUE_DATA = [
-  {
-    id: "#4F91A20C",
-    name: "A. Mokoena",
-    prog: "Information Systems",
-    year: 3,
-    score: 34,
-    priority: "HIGH",
-    signal: "No internship",
-    review: "2 days ago",
-  },
-  {
-    id: "#A821C91A",
-    name: "T. Nkosi",
-    prog: "Software Engineering",
-    year: 2,
-    score: 41,
-    priority: "HIGH",
-    signal: "GPA declining",
-    review: "4 days ago",
-  },
-  {
-    id: "#D921F02B",
-    name: "F. Osei",
-    prog: "Business Management",
-    year: 3,
-    score: 52,
-    priority: "MED",
-    signal: "Low engagement",
-    review: "1 week ago",
-  },
-  {
-    id: "#C120A88C",
-    name: "B. Dlamini",
-    prog: "Computer Science",
-    year: 4,
-    score: 67,
-    priority: "MED",
-    signal: "Portfolio gap",
-    review: "3 days ago",
-  },
-  {
-    id: "#E334B11D",
-    name: "C. Abara",
-    prog: "Information Systems",
-    year: 2,
-    score: 71,
-    priority: "LOW",
-    signal: "Credit shortfall",
-    review: "5 days ago",
-  },
-  {
-    id: "#F445C22E",
-    name: "M. Sithole",
-    prog: "Software Engineering",
-    year: 3,
-    score: 44,
-    priority: "HIGH",
-    signal: "No internship · Low GPA",
-    review: "Today",
-  },
-  {
-    id: "#G556D33F",
-    name: "P. Asamoah",
-    prog: "Data Science",
-    year: 2,
-    score: 58,
-    priority: "MED",
-    signal: "Engagement trend ↓",
-    review: "2 days ago",
-  },
+  { id: "#4F91A20C", name: "A. Mokoena", prog: "Information Systems", year: 3, score: 34, priority: "HIGH", signal: "No internship", review: "2 days ago" },
+  { id: "#A821C91A", name: "T. Nkosi", prog: "Software Engineering", year: 2, score: 41, priority: "HIGH", signal: "GPA declining", review: "4 days ago" },
+  { id: "#D921F02B", name: "F. Osei", prog: "Business Management", year: 3, score: 52, priority: "MED", signal: "Low engagement", review: "1 week ago" },
+  { id: "#C120A88C", name: "B. Dlamini", prog: "Computer Science", year: 4, score: 67, priority: "MED", signal: "Portfolio gap", review: "3 days ago" },
+  { id: "#E334B11D", name: "C. Abara", prog: "Information Systems", year: 2, score: 71, priority: "LOW", signal: "Credit shortfall", review: "5 days ago" },
+  { id: "#F445C22E", name: "M. Sithole", prog: "Software Engineering", year: 3, score: 44, priority: "HIGH", signal: "No internship · Low GPA", review: "Today" },
+  { id: "#G556D33F", name: "P. Asamoah", prog: "Data Science", year: 2, score: 58, priority: "MED", signal: "Engagement trend ↓", review: "2 days ago" },
+  { id: "#H667E44G", name: "R. Van Der Merwe", prog: "Information Systems", year: 2, score: 39, priority: "HIGH", signal: "Multiple signals", review: "Yesterday" },
+  { id: "#I778F55H", name: "L. Mthembu", prog: "Software Engineering", year: 4, score: 72, priority: "LOW", signal: "Portfolio weak", review: "1 week ago" },
+  { id: "#J889G66I", name: "S. Visser", prog: "Business Management", year: 3, score: 48, priority: "HIGH", signal: "GPA declining", review: "3 days ago" },
+  { id: "#K990H77J", name: "N. Khumalo", prog: "Computer Science", year: 2, score: 62, priority: "MED", signal: "LMS activity low", review: "4 days ago" },
+  { id: "#L001I88K", name: "E. Botha", prog: "Data Science", year: 1, score: 55, priority: "MED", signal: "First year risk", review: "2 days ago" },
+  { id: "#M112J99L", name: "D. Pieterse", prog: "Information Systems", year: 3, score: 37, priority: "HIGH", signal: "No internship", review: "Today" },
+  { id: "#N223K00M", name: "J. Mbatha", prog: "Software Engineering", year: 1, score: 49, priority: "HIGH", signal: "Engagement ↓", review: "3 days ago" },
+  { id: "#O334L11N", name: "A. Schmidt", prog: "Business Management", year: 4, score: 69, priority: "MED", signal: "Skills gap", review: "1 week ago" },
+  { id: "#P445M22O", name: "T. Molefe", prog: "Computer Science", year: 3, score: 43, priority: "HIGH", signal: "GPA trend ↓", review: "2 days ago" },
+  { id: "#Q556N33P", name: "C. Erasmus", prog: "Data Science", year: 2, score: 54, priority: "MED", signal: "Project portfolio", review: "5 days ago" },
+  { id: "#R667O44Q", name: "K. Jeyaraj", prog: "Information Systems", year: 4, score: 76, priority: "LOW", signal: "Clear", review: "1 week ago" },
+  { id: "#S778P55R", name: "L. Vorster", prog: "Software Engineering", year: 2, score: 35, priority: "HIGH", signal: "Multiple risks", review: "Yesterday" },
+  { id: "#T889Q66S", name: "M. Ndaba", prog: "Business Management", year: 2, score: 56, priority: "MED", signal: "Engagement varies", review: "3 days ago" },
+  { id: "#U990R77T", name: "H. Gopal", prog: "Computer Science", year: 1, score: 51, priority: "MED", signal: "Adjustment period", review: "4 days ago" },
+  { id: "#V001S88U", name: "G. Pretorius", prog: "Data Science", year: 3, score: 38, priority: "HIGH", signal: "No internship", review: "2 days ago" },
+  { id: "#W112T99V", name: "N. Magubane", prog: "Information Systems", year: 1, score: 45, priority: "HIGH", signal: "GPA concerning", review: "Today" },
+  { id: "#X223U00W", name: "R. Coetzee", prog: "Software Engineering", year: 3, score: 68, priority: "MED", signal: "Portfolio building", review: "3 days ago" },
+  { id: "#Y334V11X", name: "S. Reddy", prog: "Business Management", year: 3, score: 59, priority: "MED", signal: "Moderate risk", review: "1 week ago" },
+  { id: "#Z445W22Y", name: "V. Liebenberg", prog: "Computer Science", year: 2, score: 64, priority: "MED", signal: "On track", review: "5 days ago" },
+  { id: "#A556X33Z", name: "P. Dlamini", prog: "Data Science", year: 4, score: 73, priority: "LOW", signal: "Strong performance", review: "2 days ago" },
+  { id: "#B667Y44A", name: "M. Steenkamp", prog: "Information Systems", year: 2, score: 36, priority: "HIGH", signal: "Engagement low", review: "Yesterday" },
+  { id: "#C778Z55B", name: "K. Govender", prog: "Software Engineering", year: 4, score: 74, priority: "LOW", signal: "Ready", review: "1 week ago" },
+  { id: "#D889A66C", name: "J. De Villiers", prog: "Business Management", year: 1, score: 53, priority: "MED", signal: "New student", review: "4 days ago" },
 ]
 
 function StudentQueue({ onNav }: { onNav: (v: View) => void }) {
@@ -2061,11 +2025,11 @@ function StudentQueue({ onNav }: { onNav: (v: View) => void }) {
       <div className="mb-6">
         <h1
           className="font-display font-black text-2xl mb-1"
-          style={{ color: C.ivory }}
+          style={{ color: "#F5F1E8" }}
         >
           Students Requiring Attention
         </h1>
-        <p className="font-mono text-xs opacity-40" style={{ color: C.sage }}>
+        <p className="font-mono text-xs opacity-40" style={{ color: "#F5F1E8" }}>
           {filtered.length} students · sorted by priority
         </p>
       </div>
@@ -2080,7 +2044,7 @@ function StudentQueue({ onNav }: { onNav: (v: View) => void }) {
           style={{
             background: "rgba(255,255,255,0.05)",
             borderColor: "rgba(255,255,255,0.1)",
-            color: C.ivory,
+            color: "#F5F1E8",
             fontFamily: "var(--font-body)",
           }}
         />
@@ -2126,7 +2090,7 @@ function StudentQueue({ onNav }: { onNav: (v: View) => void }) {
                 <th
                   key={h}
                   className="text-left px-4 py-3 font-mono text-xs tracking-widest opacity-40"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {h}
                 </th>
@@ -2144,23 +2108,23 @@ function StudentQueue({ onNav }: { onNav: (v: View) => void }) {
                 <td className="px-4 py-3">
                   <div
                     className="font-mono text-xs font-bold"
-                    style={{ color: C.ivory }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     {s.id}
                   </div>
                   <div
                     className="text-xs opacity-50 mt-0.5"
-                    style={{ color: C.sage }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     {s.name}
                   </div>
                 </td>
-                <td className="px-4 py-3 text-xs" style={{ color: C.sage }}>
+                <td className="px-4 py-3 text-xs" style={{ color: "#F5F1E8" }}>
                   {s.prog}
                 </td>
                 <td
                   className="px-4 py-3 font-mono text-xs"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {s.year}
                 </td>
@@ -2200,19 +2164,19 @@ function StudentQueue({ onNav }: { onNav: (v: View) => void }) {
                     {s.priority}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-xs" style={{ color: C.sage }}>
+                <td className="px-4 py-3 text-xs" style={{ color: "#F5F1E8" }}>
                   {s.signal}
                 </td>
                 <td
                   className="px-4 py-3 font-mono text-xs opacity-50"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {s.review}
                 </td>
                 <td className="px-4 py-3">
                   <button
-                    className="px-3 py-1 rounded text-xs font-medium transition-all hover:opacity-90"
-                    style={{ background: C.navy, color: C.ivory }}
+                    className="px-3 py-1 rounded text-xs font-medium transition-all hover:shadow-xl hover:scale-105"
+                    style={{ background: C.navy, color: "#F5F1E8" }}
                     onClick={(e) => {
                       e.stopPropagation()
                       onNav("profile")
@@ -2274,7 +2238,7 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
             className="w-14 h-14 rounded-full flex items-center justify-center font-display font-bold text-xl flex-shrink-0"
             style={{
               background: `linear-gradient(135deg, ${C.teal}, ${C.navy})`,
-              color: C.ivory,
+              color: "#F5F1E8",
             }}
           >
             AM
@@ -2282,13 +2246,13 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
           <div>
             <h1
               className="font-display font-black text-2xl"
-              style={{ color: C.ivory }}
+              style={{ color: "#F5F1E8" }}
             >
               Alex M.
             </h1>
             <div
               className="font-mono text-xs opacity-40 mt-0.5"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               BSc Information Systems · Year 3 of 4 · ID: #4F91A20C
             </div>
@@ -2298,16 +2262,16 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
           <button
             onClick={() => onNav("explainability")}
             className="px-4 py-2 rounded text-sm font-medium border transition-all hover:border-opacity-60"
-            style={{ borderColor: "rgba(255,255,255,0.12)", color: C.sage }}
+            style={{ borderColor: "rgba(255,255,255,0.12)", color: "#F5F1E8" }}
           >
             Why prioritised? →
           </button>
           <button
             onClick={() => onNav("whatif")}
-            className="px-4 py-2 rounded text-sm font-medium transition-all hover:opacity-90"
+            className="px-4 py-2 rounded text-sm font-medium transition-all hover:shadow-xl hover:scale-105"
             style={{
               background: C.navy,
-              color: C.ivory,
+              color: "#F5F1E8",
               borderColor: "rgba(255,255,255,0.15)",
               border: "1px solid rgba(255,255,255,0.15)",
             }}
@@ -2330,13 +2294,13 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
             <div>
               <div
                 className="font-display font-semibold text-sm"
-                style={{ color: C.ivory }}
+                style={{ color: "#F5F1E8" }}
               >
                 Intervention case created
               </div>
               <div
                 className="font-mono text-xs opacity-50"
-                style={{ color: C.sage }}
+                style={{ color: "#F5F1E8" }}
               >
                 {newCaseId} · Intervention logged
               </div>
@@ -2374,13 +2338,13 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
               </div>
               <div
                 className="font-mono text-xs opacity-40 block"
-                style={{ color: C.sage }}
+                style={{ color: "#F5F1E8" }}
               >
                 EMPLOYABILITY ESTIMATE
               </div>
             </div>
           </div>
-          <p className="font-mono text-xs opacity-30" style={{ color: C.sage }}>
+          <p className="font-mono text-xs opacity-30" style={{ color: "#F5F1E8" }}>
             Estimate — not a guaranteed outcome · CI: 27% – 41%
           </p>
         </div>
@@ -2409,7 +2373,7 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-3"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             ACADEMIC TRAJECTORY
           </div>
@@ -2462,7 +2426,7 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-3"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             LMS ENGAGEMENT (SESSIONS/WEEK)
           </div>
@@ -2573,7 +2537,7 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
               <div>
                 <div
                   className="font-mono text-xs opacity-40 mb-1"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {item.label}
                 </div>
@@ -2608,7 +2572,7 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-4"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             MAJOR RISK DRIVERS
           </div>
@@ -2642,12 +2606,12 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
                 driver: "No co-curricular activity",
                 impact: "Low influence",
                 pct: 30,
-                color: C.sage,
+                color: "#F5F1E8",
               },
             ].map((d) => (
               <div key={d.driver}>
                 <div className="flex justify-between text-xs mb-1">
-                  <span style={{ color: C.ivory }}>{d.driver}</span>
+                  <span style={{ color: "#F5F1E8" }}>{d.driver}</span>
                   <span
                     style={{ color: d.color, fontFamily: "var(--font-mono)" }}
                   >
@@ -2677,7 +2641,7 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-4"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             RECOMMENDED INTERVENTIONS
           </div>
@@ -2710,7 +2674,7 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
               <div className="flex justify-between items-start mb-1">
                 <span
                   className="font-display font-semibold text-sm"
-                  style={{ color: C.ivory }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {rec.action}
                 </span>
@@ -2723,7 +2687,7 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
               </div>
               <p
                 className="text-xs opacity-50 leading-relaxed"
-                style={{ color: C.sage }}
+                style={{ color: "#F5F1E8" }}
               >
                 {rec.desc}
               </p>
@@ -2732,8 +2696,8 @@ function StudentProfile({ onNav, onCreateCase }: { onNav: (v: View) => void; onC
           {!caseCreated && (
             <button
               onClick={() => setShowCaseModal(true)}
-              className="w-full mt-2 py-2.5 rounded font-display font-semibold text-sm transition-all hover:opacity-90"
-              style={{ background: C.ember, color: C.ivory }}
+              className="w-full mt-2 py-2.5 rounded font-display font-semibold text-sm transition-all hover:shadow-xl hover:scale-105"
+              style={{ background: C.ember, color: "#F5F1E8" }}
             >
               Create intervention case
             </button>
@@ -2770,25 +2734,25 @@ function ExplainabilityPanel({ onNav }: { onNav: (v: View) => void }) {
         <button
           onClick={() => onNav("profile")}
           className="text-xs opacity-40 hover:opacity-80 transition-opacity"
-          style={{ color: C.sage }}
+          style={{ color: "#F5F1E8" }}
         >
           ← Back to profile
         </button>
         <div className="w-px h-4 opacity-20" style={{ background: C.sage }} />
-        <div className="font-mono text-xs opacity-40" style={{ color: C.sage }}>
+        <div className="font-mono text-xs opacity-40" style={{ color: "#F5F1E8" }}>
           Alex M. · #4F91A20C
         </div>
       </div>
 
       <h1
         className="font-display font-black text-2xl mb-2"
-        style={{ color: C.ivory }}
+        style={{ color: "#F5F1E8" }}
       >
         Why is this student prioritised?
       </h1>
       <p
         className="text-sm opacity-60 mb-8 max-w-2xl leading-relaxed"
-        style={{ color: C.ivory }}
+        style={{ color: "#F5F1E8" }}
       >
         The factors below contributed to Alex's employability estimate. Bars
         show the relative influence of each signal — positive factors support
@@ -2806,7 +2770,7 @@ function ExplainabilityPanel({ onNav }: { onNav: (v: View) => void }) {
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-4"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             FACTOR CONTRIBUTION (SHAP VALUES)
           </div>
@@ -2815,7 +2779,7 @@ function ExplainabilityPanel({ onNav }: { onNav: (v: View) => void }) {
               <div key={d.factor} className="flex items-center gap-3">
                 <div
                   className="w-36 text-xs text-right flex-shrink-0"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {d.factor}
                 </div>
@@ -2858,7 +2822,7 @@ function ExplainabilityPanel({ onNav }: { onNav: (v: View) => void }) {
           </div>
           <div
             className="flex justify-between mt-4 text-xs opacity-30"
-            style={{ color: C.sage, fontFamily: "var(--font-mono)" }}
+            style={{ color: "#F5F1E8", fontFamily: "var(--font-mono)" }}
           >
             <span>← Increases risk</span>
             <span>Reduces risk →</span>
@@ -2876,11 +2840,11 @@ function ExplainabilityPanel({ onNav }: { onNav: (v: View) => void }) {
           >
             <div
               className="font-mono text-xs tracking-widest opacity-40 mb-3"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               PLAIN LANGUAGE EXPLANATION
             </div>
-            <p className="text-sm leading-relaxed" style={{ color: C.ivory }}>
+            <p className="text-sm leading-relaxed" style={{ color: "#F5F1E8" }}>
               Alex's current trajectory shows{" "}
               <strong style={{ color: C.ember }}>
                 declining academic performance
@@ -2905,7 +2869,7 @@ function ExplainabilityPanel({ onNav }: { onNav: (v: View) => void }) {
           >
             <div
               className="font-mono text-xs tracking-widest opacity-40 mb-3"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               POSITIVE SIGNALS
             </div>
@@ -2925,11 +2889,11 @@ function ExplainabilityPanel({ onNav }: { onNav: (v: View) => void }) {
                 <div>
                   <div
                     className="text-sm font-medium"
-                    style={{ color: C.ivory }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     {item.label}
                   </div>
-                  <div className="text-xs opacity-50" style={{ color: C.sage }}>
+                  <div className="text-xs opacity-50" style={{ color: "#F5F1E8" }}>
                     {item.detail}
                   </div>
                 </div>
@@ -2946,27 +2910,27 @@ function ExplainabilityPanel({ onNav }: { onNav: (v: View) => void }) {
           >
             <div
               className="font-mono text-xs tracking-widest opacity-40 mb-3"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               RECOMMENDED NEXT STEP
             </div>
             <div
               className="font-display font-semibold"
-              style={{ color: C.ivory }}
+              style={{ color: "#F5F1E8" }}
             >
               Internship Placement Support
             </div>
             <p
               className="text-sm opacity-60 mt-1 mb-3"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               Internship completion is the highest-impact actionable
               intervention for this student.
             </p>
             <button
               onClick={() => onNav("cases")}
-              className="px-4 py-2 rounded text-sm font-medium transition-all hover:opacity-90"
-              style={{ background: C.ember, color: C.ivory }}
+              className="px-4 py-2 rounded text-sm font-medium transition-all hover:shadow-xl hover:scale-105"
+              style={{ background: C.ember, color: "#F5F1E8" }}
             >
               Assign intervention
             </button>
@@ -2974,7 +2938,7 @@ function ExplainabilityPanel({ onNav }: { onNav: (v: View) => void }) {
 
           <p
             className="text-xs italic opacity-30 leading-relaxed"
-            style={{ color: C.sage, fontFamily: "var(--font-mono)" }}
+            style={{ color: "#F5F1E8", fontFamily: "var(--font-mono)" }}
           >
             This explanation reflects the model's trained patterns and should be
             used as a starting point for advisor judgment — not as a definitive
@@ -3040,13 +3004,13 @@ function WhatIfSimulator() {
     <div className="flex-1 overflow-y-auto p-6 hide-scroll">
       <h1
         className="font-display font-black text-2xl mb-2"
-        style={{ color: C.ivory }}
+        style={{ color: "#F5F1E8" }}
       >
         What-If Intervention Simulator
       </h1>
       <p
         className="text-sm opacity-60 mb-8 max-w-2xl"
-        style={{ color: C.ivory }}
+        style={{ color: "#F5F1E8" }}
       >
         Toggle potential interventions to see estimated changes to Alex's
         employability score. Use this to prioritise where support will have most
@@ -3065,7 +3029,7 @@ function WhatIfSimulator() {
           >
             <div
               className="font-mono text-xs tracking-widest opacity-40 mb-2"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               CURRENT ESTIMATE
             </div>
@@ -3077,7 +3041,7 @@ function WhatIfSimulator() {
             </div>
             <p
               className="font-mono text-xs opacity-30 mt-2"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               Alex M. · #4F91A20C · BSc Information Systems
             </p>
@@ -3096,11 +3060,11 @@ function WhatIfSimulator() {
                 <div className="flex-1">
                   <div
                     className="font-display font-semibold text-sm mb-0.5"
-                    style={{ color: C.ivory }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     {t.label}
                   </div>
-                  <div className="text-xs opacity-50" style={{ color: C.sage }}>
+                  <div className="text-xs opacity-50" style={{ color: "#F5F1E8" }}>
                     {t.desc}
                   </div>
                 </div>
@@ -3142,7 +3106,7 @@ function WhatIfSimulator() {
           >
             <div
               className="font-mono text-xs tracking-widest opacity-40 mb-3"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               ESTIMATED SCENARIO
             </div>
@@ -3156,12 +3120,12 @@ function WhatIfSimulator() {
                 </div>
                 <div
                   className="font-mono text-xs opacity-40 mt-1"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   CURRENT
                 </div>
               </div>
-              <div className="text-2xl opacity-40" style={{ color: C.sage }}>
+              <div className="text-2xl opacity-40" style={{ color: "#F5F1E8" }}>
                 →
               </div>
               <div className="text-center">
@@ -3173,7 +3137,7 @@ function WhatIfSimulator() {
                 </div>
                 <div
                   className="font-mono text-xs opacity-40 mt-1"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   ESTIMATED
                 </div>
@@ -3194,13 +3158,13 @@ function WhatIfSimulator() {
             </div>
             <div
               className="font-display font-semibold text-lg"
-              style={{ color: C.ivory }}
+              style={{ color: "#F5F1E8" }}
             >
               +{capped - base}% improvement estimated
             </div>
             <p
               className="font-mono text-xs opacity-30 mt-3"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               Estimated scenario — not a causal guarantee. Individual outcomes
               may vary.
@@ -3217,7 +3181,7 @@ function WhatIfSimulator() {
           >
             <div
               className="font-mono text-xs tracking-widest opacity-40 mb-4"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               TRAJECTORY COMPARISON
             </div>
@@ -3272,7 +3236,7 @@ function WhatIfSimulator() {
           >
             <p
               className="leading-relaxed opacity-70"
-              style={{ color: C.ivory }}
+              style={{ color: "#F5F1E8" }}
             >
               <strong style={{ color: C.tealLight }}>
                 Internship completion
@@ -3344,17 +3308,17 @@ function CaseCreationModal({
         {/* Header */}
         <div className="sticky top-0 px-6 py-4 border-b bg-graphite" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
           <div className="flex items-center justify-between">
-            <h2 className="font-display font-bold text-lg" style={{ color: C.ivory }}>Create Intervention Case</h2>
-            <button onClick={onClose} className="text-xl opacity-50 hover:opacity-100" style={{ color: C.sage }}>×</button>
+            <h2 className="font-display font-bold text-lg" style={{ color: "#F5F1E8" }}>Create Intervention Case</h2>
+            <button onClick={onClose} className="text-xl opacity-50 hover:opacity-100" style={{ color: "#F5F1E8" }}>×</button>
           </div>
-          <p className="text-xs mt-1 opacity-50" style={{ color: C.sage }}>{studentName} · {studentId}</p>
+          <p className="text-xs mt-1 opacity-50" style={{ color: "#F5F1E8" }}>{studentName} · {studentId}</p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {/* Intervention Type */}
           <div>
-            <label className="block font-mono text-xs tracking-widest mb-2 opacity-60" style={{ color: C.sage }}>INTERVENTION TYPE</label>
+            <label className="block font-mono text-xs tracking-widest mb-2 opacity-60" style={{ color: "#F5F1E8" }}>INTERVENTION TYPE</label>
             <div className="space-y-2">
               {interventionTypes.map((type) => (
                 <label key={type.id} className="flex items-start gap-3 p-3 rounded border cursor-pointer transition-all" style={{ borderColor: form.interventionType === type.id ? C.ember + "44" : "rgba(255,255,255,0.07)", background: form.interventionType === type.id ? C.ember + "08" : "transparent" }}>
@@ -3367,8 +3331,8 @@ function CaseCreationModal({
                     className="mt-0.5"
                   />
                   <div className="flex-1">
-                    <div className="font-display font-semibold text-sm" style={{ color: C.ivory }}>{type.label}</div>
-                    <div className="text-xs opacity-50 mt-0.5" style={{ color: C.sage }}>{type.desc}</div>
+                    <div className="font-display font-semibold text-sm" style={{ color: "#F5F1E8" }}>{type.label}</div>
+                    <div className="text-xs opacity-50 mt-0.5" style={{ color: "#F5F1E8" }}>{type.desc}</div>
                   </div>
                 </label>
               ))}
@@ -3378,7 +3342,7 @@ function CaseCreationModal({
 
           {/* Priority */}
           <div>
-            <label className="block font-mono text-xs tracking-widest mb-2 opacity-60" style={{ color: C.sage }}>PRIORITY</label>
+            <label className="block font-mono text-xs tracking-widest mb-2 opacity-60" style={{ color: "#F5F1E8" }}>PRIORITY</label>
             <div className="flex gap-2">
               {["high", "medium", "low"].map((p) => (
                 <button
@@ -3399,7 +3363,7 @@ function CaseCreationModal({
 
           {/* Notes */}
           <div>
-            <label className="block font-mono text-xs tracking-widest mb-2 opacity-60" style={{ color: C.sage }}>NOTES ({form.notes.length}/500)</label>
+            <label className="block font-mono text-xs tracking-widest mb-2 opacity-60" style={{ color: "#F5F1E8" }}>NOTES ({form.notes.length}/500)</label>
             <textarea
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value.slice(0, 500) })}
@@ -3409,7 +3373,7 @@ function CaseCreationModal({
               style={{
                 background: "rgba(255,255,255,0.05)",
                 borderColor: errors.notes ? C.ember + "66" : "rgba(255,255,255,0.15)",
-                color: C.ivory,
+                color: "#F5F1E8",
                 fontFamily: "var(--font-body)"
               }}
             />
@@ -3422,12 +3386,12 @@ function CaseCreationModal({
               type="button"
               onClick={onClose}
               className="flex-1 py-2 rounded border text-sm font-medium transition-all"
-              style={{ borderColor: "rgba(255,255,255,0.15)", color: C.sage }}
+              style={{ borderColor: "rgba(255,255,255,0.15)", color: "#F5F1E8" }}
             >Cancel</button>
             <button
               type="submit"
-              className="flex-1 py-2 rounded text-sm font-medium transition-all hover:opacity-90"
-              style={{ background: C.ember, color: C.ivory }}
+              className="flex-1 py-2 rounded text-sm font-medium transition-all hover:shadow-xl hover:scale-105"
+              style={{ background: C.ember, color: "#F5F1E8" }}
             >Create Case</button>
           </div>
         </form>
@@ -3499,17 +3463,17 @@ function CaseManagement({ onNav, cases }: { onNav: (v: View) => void; cases: typ
         <div>
           <h1
             className="font-display font-black text-2xl mb-1"
-            style={{ color: C.ivory }}
+            style={{ color: "#F5F1E8" }}
           >
             Intervention Cases
           </h1>
-          <p className="font-mono text-xs opacity-40" style={{ color: C.sage }}>
+          <p className="font-mono text-xs opacity-40" style={{ color: "#F5F1E8" }}>
             Total cases: {cases.length} · Active: {cases.filter(c => c.status === "In Progress").length}
           </p>
         </div>
         <button
-          className="px-4 py-2 rounded text-sm font-medium transition-all hover:opacity-90"
-          style={{ background: C.ember, color: C.ivory }}
+          className="px-4 py-2 rounded text-sm font-medium transition-all hover:shadow-xl hover:scale-105"
+          style={{ background: C.ember, color: "#F5F1E8" }}
         >
           + New case
         </button>
@@ -3521,7 +3485,7 @@ function CaseManagement({ onNav, cases }: { onNav: (v: View) => void; cases: typ
           { label: "OPEN", count: 38, color: C.ember },
           { label: "IN PROGRESS", count: 24, color: C.tealLight },
           { label: "FOLLOW-UP", count: 16, color: "#D4A843" },
-          { label: "RESOLVED", count: 86, color: C.sage },
+          { label: "RESOLVED", count: 86, color: "#F5F1E8" },
         ].map((s) => (
           <div
             key={s.label}
@@ -3536,7 +3500,7 @@ function CaseManagement({ onNav, cases }: { onNav: (v: View) => void; cases: typ
             </div>
             <div
               className="font-mono text-xs tracking-widest opacity-60"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               {s.label}
             </div>
@@ -3570,7 +3534,7 @@ function CaseManagement({ onNav, cases }: { onNav: (v: View) => void; cases: typ
                 <th
                   key={h}
                   className="text-left px-4 py-3 font-mono text-xs tracking-widest opacity-40"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {h}
                 </th>
@@ -3586,23 +3550,23 @@ function CaseManagement({ onNav, cases }: { onNav: (v: View) => void; cases: typ
               >
                 <td
                   className="px-4 py-3 font-mono text-xs font-bold"
-                  style={{ color: C.ivory }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {c.id}
                 </td>
                 <td
                   className="px-4 py-3 font-mono text-xs"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {c.student}
                 </td>
-                <td className="px-4 py-3 text-xs" style={{ color: C.sage }}>
+                <td className="px-4 py-3 text-xs" style={{ color: "#F5F1E8" }}>
                   {c.issue}
                 </td>
-                <td className="px-4 py-3 text-xs" style={{ color: C.ivory }}>
+                <td className="px-4 py-3 text-xs" style={{ color: "#F5F1E8" }}>
                   {c.intervention}
                 </td>
-                <td className="px-4 py-3 text-xs" style={{ color: C.sage }}>
+                <td className="px-4 py-3 text-xs" style={{ color: "#F5F1E8" }}>
                   {c.advisor}
                 </td>
                 <td className="px-4 py-3">
@@ -3618,7 +3582,7 @@ function CaseManagement({ onNav, cases }: { onNav: (v: View) => void; cases: typ
                 </td>
                 <td
                   className="px-4 py-3 font-mono text-xs"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {c.next}
                 </td>
@@ -3646,7 +3610,7 @@ function CaseManagement({ onNav, cases }: { onNav: (v: View) => void; cases: typ
       >
         <div
           className="font-mono text-xs tracking-widest opacity-40 mb-4"
-          style={{ color: C.sage }}
+          style={{ color: "#F5F1E8" }}
         >
           CASE-001 TIMELINE · #4F91A20C
         </div>
@@ -3702,7 +3666,7 @@ function CaseManagement({ onNav, cases }: { onNav: (v: View) => void; cases: typ
               <div className="pb-4">
                 <div
                   className="font-mono text-xs opacity-40 mb-0.5"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {t.date}
                 </div>
@@ -3744,13 +3708,13 @@ function ProgramAnalytics() {
     <div className="flex-1 overflow-y-auto p-6 hide-scroll">
       <h1
         className="font-display font-black text-2xl mb-1"
-        style={{ color: C.ivory }}
+        style={{ color: "#F5F1E8" }}
       >
         Program Employability Analytics
       </h1>
       <p
         className="font-mono text-xs opacity-40 mb-6"
-        style={{ color: C.sage }}
+        style={{ color: "#F5F1E8" }}
       >
         2026 Cohort · All Programmes · As of September 2026
       </p>
@@ -3789,7 +3753,7 @@ function ProgramAnalytics() {
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-4"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             RISK DISTRIBUTION BY PROGRAMME (%)
           </div>
@@ -3840,7 +3804,7 @@ function ProgramAnalytics() {
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-4"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             INTERNSHIP COMPLETION BY PROGRAMME (%)
           </div>
@@ -3898,7 +3862,7 @@ function ProgramAnalytics() {
       >
         <div
           className="font-mono text-xs tracking-widest opacity-40 mb-4"
-          style={{ color: C.sage }}
+          style={{ color: "#F5F1E8" }}
         >
           PROGRAMME COMPARISON SUMMARY
         </div>
@@ -3917,7 +3881,7 @@ function ProgramAnalytics() {
                   <th
                     key={h}
                     className="text-left pb-3 pr-6 font-mono text-xs tracking-widest opacity-40"
-                    style={{ color: C.sage }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     {h}
                   </th>
@@ -3972,12 +3936,12 @@ function ProgramAnalytics() {
                   className="border-b"
                   style={{ borderColor: "rgba(255,255,255,0.04)" }}
                 >
-                  <td className="py-3 pr-6 text-sm" style={{ color: C.ivory }}>
+                  <td className="py-3 pr-6 text-sm" style={{ color: "#F5F1E8" }}>
                     {row.prog}
                   </td>
                   <td
                     className="py-3 pr-6 font-mono text-xs"
-                    style={{ color: C.sage }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     {row.n}
                   </td>
@@ -3995,13 +3959,13 @@ function ProgramAnalytics() {
                   </td>
                   <td
                     className="py-3 pr-6 font-mono text-xs"
-                    style={{ color: C.sage }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     {row.intern}
                   </td>
                   <td
                     className="py-3 pr-6 font-mono text-xs"
-                    style={{ color: C.sage }}
+                    style={{ color: "#F5F1E8" }}
                   >
                     {row.intv}
                   </td>
@@ -4069,13 +4033,13 @@ function FairnessMonitor() {
     <div className="flex-1 overflow-y-auto p-6 hide-scroll">
       <h1
         className="font-display font-black text-2xl mb-2"
-        style={{ color: C.ivory }}
+        style={{ color: "#F5F1E8" }}
       >
         Fairness & Equity
       </h1>
       <p
         className="text-sm opacity-60 mb-6 max-w-2xl"
-        style={{ color: C.ivory }}
+        style={{ color: "#F5F1E8" }}
       >
         Continuous monitoring of model behaviour across student groups. A model
         version that exceeds disparity thresholds cannot be promoted to active
@@ -4098,13 +4062,13 @@ function FairnessMonitor() {
           <div>
             <div
               className="font-display font-semibold"
-              style={{ color: C.ivory }}
+              style={{ color: "#F5F1E8" }}
             >
               Fairness Monitoring — Within Threshold
             </div>
             <div
               className="font-mono text-xs opacity-50 mt-0.5"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               EMP-Model v1.3 · Last evaluated September 2026 · No critical
               alerts
@@ -4155,7 +4119,7 @@ function FairnessMonitor() {
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             GROUP-WISE ANALYSIS
           </div>
@@ -4180,7 +4144,7 @@ function FairnessMonitor() {
                 <th
                   key={h}
                   className="text-left px-4 py-3 font-mono text-xs tracking-widest opacity-40"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {h}
                 </th>
@@ -4196,13 +4160,13 @@ function FairnessMonitor() {
               >
                 <td
                   className="px-4 py-3 text-sm font-medium"
-                  style={{ color: C.ivory }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {g.group}
                 </td>
                 <td
                   className="px-4 py-3 font-mono text-xs"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {g.n}
                 </td>
@@ -4214,19 +4178,19 @@ function FairnessMonitor() {
                 </td>
                 <td
                   className="px-4 py-3 font-mono text-xs"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {g.errorRate}
                 </td>
                 <td
                   className="px-4 py-3 font-mono text-xs"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {g.fpRate}
                 </td>
                 <td
                   className="px-4 py-3 font-mono text-xs"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {g.fnRate}
                 </td>
@@ -4264,13 +4228,13 @@ function FairnessMonitor() {
           </div>
           <div
             className="font-display font-semibold mb-2"
-            style={{ color: C.ivory }}
+            style={{ color: "#F5F1E8" }}
           >
             Scholarship holders showing higher error rates
           </div>
           <p
             className="text-sm opacity-60 leading-relaxed"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             The scholarship holder subgroup (N=210) shows slightly elevated
             false negative rates (19%). This group should be monitored more
@@ -4287,7 +4251,7 @@ function FairnessMonitor() {
         >
           <div
             className="font-mono text-xs tracking-widest opacity-40 mb-3"
-            style={{ color: C.sage }}
+            style={{ color: "#F5F1E8" }}
           >
             MODEL INFORMATION
           </div>
@@ -4305,12 +4269,12 @@ function FairnessMonitor() {
                 className="flex justify-between items-center py-1.5 border-b"
                 style={{ borderColor: "rgba(255,255,255,0.05)" }}
               >
-                <span className="opacity-50" style={{ color: C.sage }}>
+                <span className="opacity-50" style={{ color: "#F5F1E8" }}>
                   {item.label}
                 </span>
                 <span
                   style={{
-                    color: C.ivory,
+                    color: "#F5F1E8",
                     fontFamily: "var(--font-mono)",
                     fontSize: 12,
                   }}
@@ -4334,11 +4298,11 @@ function Reports() {
         <div>
           <h1
             className="font-display font-black text-2xl mb-1"
-            style={{ color: C.ivory }}
+            style={{ color: "#F5F1E8" }}
           >
             Institutional Reports
           </h1>
-          <p className="font-mono text-xs opacity-40" style={{ color: C.sage }}>
+          <p className="font-mono text-xs opacity-40" style={{ color: "#F5F1E8" }}>
             Information Systems · Academic year 2025–2026
           </p>
         </div>
@@ -4347,7 +4311,7 @@ function Reports() {
             <button
               key={fmt}
               className="px-3 py-1.5 rounded border text-xs font-mono transition-all hover:opacity-80"
-              style={{ borderColor: "rgba(255,255,255,0.12)", color: C.sage }}
+              style={{ borderColor: "rgba(255,255,255,0.12)", color: "#F5F1E8" }}
             >
               {fmt}
             </button>
@@ -4367,7 +4331,7 @@ function Reports() {
             className="px-4 py-2 rounded border text-sm"
             style={{
               borderColor: "rgba(255,255,255,0.1)",
-              color: C.sage,
+              color: "#F5F1E8",
               background: "rgba(255,255,255,0.03)",
             }}
           >
@@ -4398,7 +4362,7 @@ function Reports() {
             title: "Programme Performance",
             desc: "By department",
             date: "Last generated: 1 week ago",
-            color: C.sage,
+            color: "#F5F1E8",
           },
         ].map((r) => (
           <div
@@ -4417,16 +4381,16 @@ function Reports() {
             </div>
             <div
               className="font-display font-bold mb-1"
-              style={{ color: C.ivory }}
+              style={{ color: "#F5F1E8" }}
             >
               {r.title}
             </div>
-            <div className="text-xs opacity-60 mb-4" style={{ color: C.sage }}>
+            <div className="text-xs opacity-60 mb-4" style={{ color: "#F5F1E8" }}>
               {r.desc}
             </div>
             <div
               className="font-mono text-xs opacity-30 mb-4"
-              style={{ color: C.sage }}
+              style={{ color: "#F5F1E8" }}
             >
               {r.date}
             </div>
@@ -4450,7 +4414,7 @@ function Reports() {
       >
         <div
           className="font-mono text-xs tracking-widest opacity-40 mb-4"
-          style={{ color: C.sage }}
+          style={{ color: "#F5F1E8" }}
         >
           SCHEDULED REPORTS
         </div>
@@ -4481,12 +4445,12 @@ function Reports() {
               style={{ borderColor: "rgba(255,255,255,0.05)" }}
             >
               <div>
-                <div className="text-sm font-medium" style={{ color: C.ivory }}>
+                <div className="text-sm font-medium" style={{ color: "#F5F1E8" }}>
                   {s.title}
                 </div>
                 <div
                   className="font-mono text-xs opacity-40 mt-0.5"
-                  style={{ color: C.sage }}
+                  style={{ color: "#F5F1E8" }}
                 >
                   {s.freq} · Next: {s.next}
                 </div>
